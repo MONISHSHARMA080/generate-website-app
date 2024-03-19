@@ -1,6 +1,7 @@
-import { View, Text, Alert } from 'react-native'
+import { View, Text, Alert, Pressable } from 'react-native'
 import React, { useState } from 'react'
 import { GoogleSignin, GoogleSigninButton, statusCodes } from '@react-native-google-signin/google-signin';
+import GoogleSignInPillShaped from './GoogleSignInPillShaped';
 
 GoogleSignin.configure({
   scopes: ['email'],
@@ -20,7 +21,6 @@ const SigninButton = () => {
         try {
           await GoogleSignin.hasPlayServices();
           const { idToken, user}= await GoogleSignin.signIn();
-          console.log(user,"-------user");
           setUSerInfo(user);
         } 
          catch (error) {
@@ -67,14 +67,11 @@ const SigninButton = () => {
       };
 
   return (
-    <View  >
-    <GoogleSigninButton
-        size={GoogleSigninButton.Size.Wide}
-        color={GoogleSigninButton.Color.Dark}
-        onPress={signUserIn}
-        disabled={false}
-    />
-    </View>
+   
+    <Pressable onTouchStart={signUserIn} >
+      <GoogleSignInPillShaped />
+    </Pressable>
+    
   )
 }
 

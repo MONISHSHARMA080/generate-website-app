@@ -2,14 +2,15 @@ import {  StyleSheet } from 'react-native';
 import { Text, View } from '@/components/Themed';
 import SigninButton from '@/components/auth/SignInButton';
 import signOut from '@/components/auth/utils/signout';
+import SignOutButton from '@/components/auth/SignOutButton';
 
 export default function ModalScreen() {
   return (
     <View style={styles.container}>
       <SigninButton />
-      <View>
-        <Text onPress={signOut}>Sign out</Text>
-      </View>
+      {/* <View className='m-4'>
+        <SignOutButton />
+      </View> */}
     </View>
   );
 }
@@ -19,6 +20,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    margin:10,
   },
   title: {
     fontSize: 20,
