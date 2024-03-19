@@ -1,22 +1,22 @@
-import { View, Text, Alert, Pressable } from 'react-native'
+import { Alert, Pressable } from 'react-native'
 import React, { useState } from 'react'
-import { GoogleSignin, GoogleSigninButton, statusCodes } from '@react-native-google-signin/google-signin';
-import GoogleSignInPillShaped from './GoogleSignInPillShaped';
+import { GoogleSignin,  statusCodes } from '@react-native-google-signin/google-signin';
+import PillShapeButton from './PillShapeButton';
 
 GoogleSignin.configure({
   scopes: ['email'],
       webClientId: process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID, // client ID of type WEB for your server. Required to get the idToken on the user object, and for offline access.
-      iosClientId: 'iosClientId for iOS, nothing special here',
+      // iosClientId: 'iosClientId for iOS, nothing special here',
       offlineAccess: true,
       forceCodeForRefreshToken: true,
       profileImageSize: 120
  });
 
 
-const SigninButton = () => {
+const GoogleSigninButton = () => {
  
   const [userInfo, setUSerInfo] = useState(null)
-//  set this variable in some sort of state  or encrypted storage 
+  //  set this variable in some sort of state  or encrypted storage 
     const signUserIn  = async () => {
         try {
           await GoogleSignin.hasPlayServices();
@@ -69,10 +69,10 @@ const SigninButton = () => {
   return (
    
     <Pressable onTouchStart={signUserIn} >
-      <GoogleSignInPillShaped />
+      <PillShapeButton textToBeDisplayed={"Google"} imageLocationOfLogo={require('../../assets/images/Spotify_Icon.png')} />
     </Pressable>
     
   )
 }
 
-export default SigninButton
+export default GoogleSigninButton

@@ -1,16 +1,18 @@
 import {  StyleSheet } from 'react-native';
 import { Text, View } from '@/components/Themed';
-import SigninButton from '@/components/auth/SignInButton';
-import signOut from '@/components/auth/utils/signout';
 import SignOutButton from '@/components/auth/SignOutButton';
+import React from 'react';
+import SpotifyAuth from '@/components/auth/SpotifyAuthButton';
+import GoogleSigninButton from '@/components/auth/GoogleSignInButton';
 
 export default function ModalScreen() {
   return (
     <View style={styles.container}>
-      <SigninButton />
-      {/* <View className='m-4'>
+      <View className='m-4'>
+      <GoogleSigninButton />
         <SignOutButton />
-      </View> */}
+        <SpotifyAuth />
+      </View>
     </View>
   );
 }
