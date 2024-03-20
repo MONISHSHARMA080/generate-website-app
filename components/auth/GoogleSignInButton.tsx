@@ -18,6 +18,8 @@ const GoogleSigninButton = () => {
   const [userInfo, setUSerInfo] = useState(null)
   //  set this variable in some sort of state  or encrypted storage 
     const signUserIn  = async () => {
+      console.log("clicked on google button");
+      
         try {
           await GoogleSignin.hasPlayServices();
           const { idToken, user}= await GoogleSignin.signIn();
@@ -57,19 +59,22 @@ const GoogleSigninButton = () => {
                     Alert.alert("Error occuers", "Google Play service is not availeble or outdated")
                 }
           } 
+          else if (error.code === "12502"){
+              // user probally click outside when  asked foe account so do nothing
+          }
             else {
             // some other error happened
             // display the erro to user 
             Alert.alert("Error occured", "We are sorry for the error , try restating the app ")
-            
+            console.log(error.code === "12502");
           }
         }
       };
 
   return (
    
-    <Pressable onTouchStart={signUserIn} >
-      <PillShapeButton textToBeDisplayed={"Google"} imageLocationOfLogo={require('../../assets/images/Spotify_Icon.png')} />
+    <Pressable onTouchStart={signUserIn} onTouchEnd={signUserIn} >
+      <PillShapeButton textToBeDisplayed={"Google"} imageLocationOfLogo={require('../../assets/images/google_logo_round.png')} />
     </Pressable>
     
   )

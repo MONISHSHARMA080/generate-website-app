@@ -35,7 +35,7 @@ export default function SpotifyAuthButton() {
 
   return (
    <View onTouchStart={()=>promptAsync} >
-     <PillShapeButton textToBeDisplayed={"Spotify"} imageLocationOfLogo={require('../../assets/images/google_logo_round.png')} />
+     <PillShapeButton textToBeDisplayed={"Spotify"} imageLocationOfLogo={require('../../assets/images/Spotify_Icon.png')} />
    </View>
   );
 }
