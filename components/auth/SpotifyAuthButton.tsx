@@ -15,7 +15,7 @@ const discovery = {
 export default function SpotifyAuthButton() {
   const [request, response, promptAsync] = useAuthRequest(
     {
-      clientId: 'CLIENT_ID',
+      clientId: process.env.EXPO_PUBLIC_Spotify_CLIENT_ID0,
       scopes: ['user-read-email', 'playlist-modify-public'],
       // To follow the "Authorization Code Flow" to fetch token after authorizationEndpoint
       // this must be set to false
@@ -31,6 +31,8 @@ export default function SpotifyAuthButton() {
     if (response?.type === 'success') {
       const { code } = response.params;
     }
+    console.log("spotifycode ",response);
+    
   }, [response]);
 
   return (

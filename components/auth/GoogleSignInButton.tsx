@@ -1,5 +1,5 @@
 import { Alert, Pressable } from 'react-native'
-import React, { useState } from 'react'
+import * as React from 'react';
 import { GoogleSignin,  statusCodes } from '@react-native-google-signin/google-signin';
 import PillShapeButton from './PillShapeButton';
 
@@ -15,15 +15,16 @@ GoogleSignin.configure({
 
 const GoogleSigninButton = () => {
  
-  const [userInfo, setUSerInfo] = useState(null)
+  const [userInfo, setUSerInfo] = React.useState(null)
   //  set this variable in some sort of state  or encrypted storage 
     const signUserIn  = async () => {
-      console.log("clicked on google button");
-      
+     
         try {
           await GoogleSignin.hasPlayServices();
           const { idToken, user}= await GoogleSignin.signIn();
           setUSerInfo(user);
+          setTimeout(()=>console.log(userInfo), 8000)
+          
         } 
          catch (error) {
           

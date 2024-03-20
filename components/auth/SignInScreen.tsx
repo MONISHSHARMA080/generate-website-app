@@ -1,8 +1,9 @@
 import { View, Text, TouchableOpacity, Animated,TextInput, KeyboardAvoidingView, Platform, Button } from 'react-native';
-
-import CheckBox from '@react-native-community/checkbox';
+import { Checkbox } from 'expo-checkbox';
 import { useState } from 'react';
-import React = require('react');
+import * as React from 'react';
+import GoogleSigninButton from './GoogleSignInButton';
+import SpotifyAuthButton from './SpotifyAuthButton';
 
 const SignInScreen = () => {
 
@@ -40,14 +41,16 @@ function login(){
             <TextInput className=' relative h-12 top-12 m-3 p-3 w-11/12 rounded-2xl  border-2' 
              placeholder='your passowrd' secureTextEntry={showpassword}
             />
-             <CheckBox
-               className='m-4'
-                disabled={false}
-                value={showpassword}
-                onValueChange={() => setShowPassword(!showpassword)}
-            />
-
+            <View className='top-12 left-56 flex-row' >
+                <Text> Show Password </Text>
+                <Checkbox className=" ml-3  "  value={showpassword} onValueChange={setShowPassword} />
+            </View>
             <Text className=' relative h-12 top-12 m-3 p-3 mt-6 w-11/12 rounded-full text-center  border-2 bg-green-700 ' >Login</Text>
+            <Text className='top-12 mt-6 self-center' >-------------------Or login with-------------------</Text>
+            <View className=' flex-row top-12  mt-5 pl-3' >
+                <GoogleSigninButton   />
+                <SpotifyAuthButton />
+            </View>
         </View>
       </View>
     </KeyboardAvoidingView>
@@ -55,32 +58,3 @@ function login(){
 };
 
 export default SignInScreen;
-
-// return (
-//     <View style={styles.container}>
-//       <View style={[styles.topContainer, { height: topHeight }]} />
-//       <View style={styles.bottomContainer}>
-//         <View style={styles.squareBox} />
-//       </View>
-//     </View>
-//   );
-// };
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//   },
-//   topContainer: {
-//     backgroundColor: 'purple',
-//   },
-//   bottomContainer: {
-//     flex: 1,
-//     backgroundColor: 'white',
-//   },
-//   squareBox: {
-//     borderTopLeftRadius: 48,
-//     borderTopRightRadius: 48,
-//     backgroundColor: 'white',
-//     flex: 1,
-//   },
-// });
