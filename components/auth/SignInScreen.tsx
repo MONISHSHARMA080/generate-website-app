@@ -1,14 +1,17 @@
-import { View, Text, TouchableOpacity, Animated,TextInput, KeyboardAvoidingView, Platform, Button } from 'react-native';
+import { View, Text, TouchableOpacity, Animated,TextInput, KeyboardAvoidingView, Platform, Button, Vibration, Linking } from 'react-native';
 import { Checkbox } from 'expo-checkbox';
 import { useState } from 'react';
 import * as React from 'react';
 import GoogleSigninButton from './GoogleSignInButton';
 import SpotifyAuthButton from './SpotifyAuthButton';
+import * as WebBrowser from 'expo-web-browser';
 
 const SignInScreen = () => {
 
     const [showpassword , setShowPassword] = useState(false)
 
+
+ 
 function login(){
 
 }
@@ -17,7 +20,7 @@ function login(){
     <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : -60} // Adjust this value as needed
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : -62} // Adjust this value as needed
     >
       <View className="flex-1">
         <View className=" flex-1 h-1/4 bg-black ">
@@ -36,17 +39,20 @@ function login(){
         >
             
             <TextInput className=' relative h-12 top-12 m-3 p-3 w-11/12 rounded-2xl border-2' 
-             placeholder='your@email.com'
+             placeholder='your@email.com' textContentType="emailAddress"
             />
             <TextInput className=' relative h-12 top-12 m-3 p-3 w-11/12 rounded-2xl  border-2' 
-             placeholder='your passowrd' secureTextEntry={showpassword}
+             placeholder='your passowrd' secureTextEntry={showpassword} textContentType="password"
             />
             <View className='top-12 left-56 flex-row' >
                 <Text> Show Password </Text>
                 <Checkbox className=" ml-3  "  value={showpassword} onValueChange={setShowPassword} />
             </View>
-            <Text className=' relative h-12 top-12 m-3 p-3 mt-6 w-11/12 rounded-full text-center  border-2 bg-green-700 ' >Login</Text>
-            <Text className='top-12 mt-6 self-center' >-------------------Or login with-------------------</Text>
+            <Text onPress={()=>Vibration.vibrate([1,200,300,300],false)}  
+            className=' relative h-12 top-12 m-3 p-3 mt-6 w-11/12 rounded-full text-center  border-2 bg-green-700 ' >
+                Login
+            </Text>
+            <Text className='top-12 mt-6 self-center' >--------------------------Or login with--------------------------</Text>
             <View className=' flex-row top-12  mt-5 pl-3' >
                 <GoogleSigninButton   />
                 <SpotifyAuthButton />
