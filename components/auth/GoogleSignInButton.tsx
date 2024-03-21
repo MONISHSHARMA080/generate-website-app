@@ -18,8 +18,10 @@ const GoogleSigninButton = () => {
   const [userInfo, setUSerInfo] = React.useState(null)
   //  set this variable in some sort of state  or encrypted storage 
     const signUserIn  = async () => {
+     console.log("inside google function");
      
         try {
+
           await GoogleSignin.hasPlayServices();
           const { idToken, user}= await GoogleSignin.signIn();
           setUSerInfo(user);
@@ -74,7 +76,7 @@ const GoogleSigninButton = () => {
 
   return (
    
-    <Pressable onTouchStart={()=>{signUserIn;}}   className='    '  > 
+    <Pressable onTouchStart={signUserIn}   className='    '  > 
       <PillShapeButton textToBeDisplayed={"Google"} imageLocationOfLogo={require('../../assets/images/google_logo_round.png')} />
     </Pressable>
     

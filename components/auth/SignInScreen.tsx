@@ -48,7 +48,7 @@ function login(){
                 <Text> Show Password </Text>
                 <Checkbox className=" ml-3  "  value={showpassword} onValueChange={setShowPassword} />
             </View>
-            <Text onPress={()=>Vibration.vibrate([1,200,300,300],false)}  
+            <Text   
             className=' relative h-12 top-12 m-3 p-3 mt-6 w-11/12 rounded-full text-center  border-2 bg-green-700 ' >
                 Login
             </Text>
