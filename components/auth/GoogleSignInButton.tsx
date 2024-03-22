@@ -1,4 +1,4 @@
-import { Alert, Pressable, Vibration } from 'react-native'
+import { Alert, Pressable} from 'react-native'
 import * as React from 'react';
 import { GoogleSignin,  statusCodes } from '@react-native-google-signin/google-signin';
 import PillShapeButton from './PillShapeButton';
@@ -76,7 +76,7 @@ const GoogleSigninButton = () => {
 
   return (
    
-    <Pressable onTouchStart={signUserIn}   className='    '  > 
+    <Pressable onTouchStart={signUserIn}  > 
       <PillShapeButton textToBeDisplayed={"Google"} imageLocationOfLogo={require('../../assets/images/google_logo_round.png')} />
     </Pressable>
     
