@@ -4,28 +4,29 @@ import { GoogleSignin,  statusCodes } from '@react-native-google-signin/google-s
 import PillShapeButton from './PillShapeButton';
 
 GoogleSignin.configure({
-  scopes: ['email'],
-      webClientId: process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID, // client ID of type WEB for your server. Required to get the idToken on the user object, and for offline access.
-      // iosClientId: 'iosClientId for iOS, nothing special here',
-      offlineAccess: true,
-      forceCodeForRefreshToken: true,
-      profileImageSize: 120
- });
-
+  scopes: ['email', 'profile', ],
+  webClientId: process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID, 
+  // iosClientId: 
+  offlineAccess: true,
+  forceCodeForRefreshToken: true,
+  profileImageSize: 120
+});
 
 const GoogleSigninButton = () => {
  
-  const [userInfo, setUSerInfo] = React.useState(null)
+  const [userInfo, setUserInfo] = React.useState(null)
   //  set this variable in some sort of state  or encrypted storage 
     const signUserIn  = async () => {
-     console.log("inside google function");
-     
         try {
 
           await GoogleSignin.hasPlayServices();
-          const { idToken, user}= await GoogleSignin.signIn();
-          setUSerInfo(user);
-          setTimeout(()=>console.log(userInfo), 8000)
+          const b = await GoogleSignin.signIn();
+          // setUSerInfo(user);
+          // console.log(user ,"===========", idToken);
+          console.log(b ,"===========" );
+          
+
+          
           
         } 
          catch (error) {
@@ -69,7 +70,7 @@ const GoogleSigninButton = () => {
             // some other error happened
             // display the erro to user 
             Alert.alert("Error occured", "We are sorry for the error , try restating the app ")
-            console.log(error.code === "12502");
+            console.log(error);
           }
         }
       };

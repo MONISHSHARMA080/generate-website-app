@@ -2,9 +2,10 @@ import * as AuthSession from 'expo-auth-session';
 import { makeRedirectUri, useAuthRequest } from 'expo-auth-session';
 import { Redirect } from 'expo-router';
 import * as WebBrowser from 'expo-web-browser';
-import React = require('react');
+import React, { useEffect } from 'react';
 import { Alert, Button, Pressable } from 'react-native';
 import PillShapeButton from './PillShapeButton';
+import * as Linking from 'expo-linking';
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -14,16 +15,21 @@ export default function AuthScreen() {
   const [request, response, promptAsync] = useAuthRequest(
     {
       clientId: SPOTIFY_CLIENT_ID,
-      scopes: ['user-read-email', 'playlist-modify-public'],
-      redirectUri: 'magicalfirstwebsite://redirect',
+      scopes: ['user-read-email', ],
+      // To follow the "Authorization Code Flow" to fetch token after authorizationEndpoint
+      // this must be set to false
+      usePKCE: false,
+      // redirectUri: 'magicalfirstwebsite://redirect',
+      redirectUri: `magicalfirstwebsite://`,
     },
     { authorizationEndpoint: 'https://accounts.spotify.com/authorize' }
   );
 
-  React.useEffect(() => {
+  
+  useEffect(() => {
     if (response?.type === 'success') {
       const { code } = response.params;
-      console.log("success ==>>", code);
+      console.log("\n\nsuccess ==>>", code,"\n\n\n\n",response, "\n\n\n\n\n\n",Linking.createURL('/tabs/index'));
       
        
       // Exchange the code with Spotify for an access token
