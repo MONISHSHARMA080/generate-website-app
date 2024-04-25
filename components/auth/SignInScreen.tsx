@@ -97,6 +97,9 @@ const SignInScreen = () => {
             <TextInput className=' relative h-12 top-12 m-3 p-3 w-11/12 rounded-2xl border-2' 
              placeholder='your@email.com' textContentType="emailAddress"
             />
+            <TextInput className=' relative h-12 top-12 m-3 p-3 w-11/12 rounded-2xl border-2' 
+             placeholder='User name' textContentType="givenName"
+            />
             <TextInput className=' relative h-12 top-12 m-3 p-3 w-11/12 rounded-2xl  border-2' 
              placeholder='your passowrd' secureTextEntry={showpassword} textContentType="password"
             />
