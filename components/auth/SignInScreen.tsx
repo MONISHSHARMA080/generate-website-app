@@ -1,20 +1,76 @@
 import { View, Text, TouchableOpacity, Animated,TextInput, KeyboardAvoidingView, Platform, Button, Vibration, Linking } from 'react-native';
 import { Checkbox } from 'expo-checkbox';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import * as React from 'react';
 import GoogleSigninButton from './GoogleSignInButton';
 import SpotifyAuthButton from './SpotifyAuthButton';
 import * as WebBrowser from 'expo-web-browser';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import axios from 'axios';
 
 const SignInScreen = () => {
 
     const [showpassword , setShowPassword] = useState(false)
+    const [tokenToSignInFromGoogle, setTokenToSignInFromGoogle ] = useState(null)
+    const [tokenToSignInFromSpotify, setTokenToSignInFromSpotify ] = useState(null)
+    
+    const mutation = useMutation({
+      mutationFn: (id_token) => {
+        // console.log("from the mutation function ",id_token);
+        
+        // return axios.post(`${process.env.EXPO_PUBLIC_BACKEND_URL}/${path}`, id_token)
+        return axios.post(`${process.env.EXPO_PUBLIC_BACKEND_URL}/signup/spotify`, {id_token})
+      },
+    })
+
+    const response_form_google_login_api = useMutation({
+      mutationFn: (id_token) => {
+        // console.log("from the mutation function ",id_token);
+        
+        // return axios.post(`${process.env.EXPO_PUBLIC_BACKEND_URL}/${path}`, id_token)
+        return axios.post(`${process.env.EXPO_PUBLIC_BACKEND_URL}/signup/google`, {id_token}) 
+      },
+    })    
 
 
- 
-function login(){
 
-}
+    //  follow the example in the docs of react query ; make 2 mutation function just for the learning sake 
+    useEffect(()=>{
+
+      if (tokenToSignInFromSpotify){
+
+        console.log("\n\n", tokenToSignInFromSpotify, "\n\n ", "----", "tokenToSignInFromSpotify \n\n");
+        mutation.mutate(tokenToSignInFromSpotify); 
+    // console.log("Mutation =>",mutation.failureReason,"\n\n",mutation.isSuccess,"\n\n" , mutation.data);
+    
+
+      }
+      else if (tokenToSignInFromGoogle){
+        
+        // console.log(tokenToSignInFromGoogle,"\n\n\n -----tokenToSignInFromGoogle");
+        response_form_google_login_api.mutate(tokenToSignInFromGoogle)
+        
+
+      }
+
+    },[tokenToSignInFromGoogle,tokenToSignInFromSpotify])
+
+    useEffect(()=>{
+      
+      if (mutation.isSuccess) {
+        console.log("Response body from spotify:", mutation.data.data); // Access the response body here
+      }
+      if (response_form_google_login_api.isSuccess) {
+        console.log("Response body of google login :", response_form_google_login_api.data.data); // Access the response body here
+      }
+      if (response_form_google_login_api.error) {
+        console.log("response in google",response_form_google_login_api.failureReason);
+        console.log("error in google",response_form_google_login_api.error); 
+      }
+
+    },[mutation.isSuccess,response_form_google_login_api.isSuccess,response_form_google_login_api.error])
+  
+
 
   return (
     <KeyboardAvoidingView
@@ -45,7 +101,7 @@ function login(){
              placeholder='your passowrd' secureTextEntry={showpassword} textContentType="password"
             />
             <View className='top-12 left-56 flex-row' >
-                <Text> Show Password </Text>
+                <Text> Hide Password </Text>
                 <Checkbox className=" ml-3  "  value={showpassword} onValueChange={setShowPassword} />
             </View>
             <Text   
@@ -54,8 +110,8 @@ function login(){
             </Text>
             <Text className='top-12 mt-6 self-center' >--------------------------Or login with--------------------------</Text>
             <View className=' flex-row top-12  mt-5 pl-3' >
-                <GoogleSigninButton   />
-                <SpotifyAuthButton />
+                <GoogleSigninButton setTokenToSignInFromGoogle={setTokenToSignInFromGoogle}  />
+                <SpotifyAuthButton setTokenToSignInFromSpotify={setTokenToSignInFromSpotify} />
             </View>
         </View>
       </View>

@@ -11,7 +11,7 @@ WebBrowser.maybeCompleteAuthSession();
 
 const SPOTIFY_CLIENT_ID = process.env.EXPO_PUBLIC_Spotify_CLIENT_ID;
 
-export default function AuthScreen() {
+export default function AuthScreen({setTokenToSignInFromSpotify}) {
   const [request, response, promptAsync] = useAuthRequest(
     {
       clientId: SPOTIFY_CLIENT_ID,
@@ -29,8 +29,8 @@ export default function AuthScreen() {
   useEffect(() => {
     if (response?.type === 'success') {
       const { code } = response.params;
-      console.log("\n\nsuccess ==>>", code,"\n\n\n\n",response, "\n\n\n\n\n\n",Linking.createURL('/tabs/index'));
-      
+      // console.log("\n\nsuccess ==>>", code,"\n\n\n\n",response, "\n\n\n\n\n\n");
+      setTokenToSignInFromSpotify(code)      
        
       // Exchange the code with Spotify for an access token
       // You can use fetch or any other networking library to send a POST request to Spotify's token endpoint

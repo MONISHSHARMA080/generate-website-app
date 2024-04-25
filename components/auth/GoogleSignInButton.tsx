@@ -12,21 +12,16 @@ GoogleSignin.configure({
   profileImageSize: 120
 });
 
-const GoogleSigninButton = () => {
- 
-  const [userInfo, setUserInfo] = React.useState(null)
+export default function GoogleSigninButton  ({setTokenToSignInFromGoogle})  {
   //  set this variable in some sort of state  or encrypted storage 
     const signUserIn  = async () => {
         try {
 
           await GoogleSignin.hasPlayServices();
-          const b = await GoogleSignin.signIn();
-          // setUSerInfo(user);
-          // console.log(user ,"===========", idToken);
-          console.log(b ,"===========" );
+          const {idToken} = await GoogleSignin.signIn();
+          // console.log(idToken,"\n\n\n\n\n ++++ from google auth component++++ \n\n\n\n\n");
           
-
-          
+          setTokenToSignInFromGoogle(idToken)
           
         } 
          catch (error) {
@@ -83,5 +78,3 @@ const GoogleSigninButton = () => {
     
   )
 }
-
-export default GoogleSigninButton
