@@ -1,12 +1,12 @@
 import { View, Text, TouchableOpacity, Animated,TextInput, KeyboardAvoidingView, Platform, Button, Vibration, Linking } from 'react-native';
 import { Checkbox } from 'expo-checkbox';
 import { useEffect, useState } from 'react';
-import * as React from 'react';
+import  React from 'react';
 import GoogleSigninButton from './GoogleSignInButton';
 import SpotifyAuthButton from './SpotifyAuthButton';
-import * as WebBrowser from 'expo-web-browser';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import axios from 'axios';
+import * as SecureStore from 'expo-secure-store';
 
 const SignInScreen = () => {
 
@@ -15,9 +15,9 @@ const SignInScreen = () => {
     const [tokenToSignInFromSpotify, setTokenToSignInFromSpotify ] = useState(null)
     
     const mutation = useMutation({
+      
       mutationFn: (id_token) => {
-        // console.log("from the mutation function ",id_token);
-        
+        // console.log("from the mutation function ",id_token);        
         // return axios.post(`${process.env.EXPO_PUBLIC_BACKEND_URL}/${path}`, id_token)
         return axios.post(`${process.env.EXPO_PUBLIC_BACKEND_URL}/signup/spotify`, {id_token})
       },
@@ -25,14 +25,11 @@ const SignInScreen = () => {
 
     const response_form_google_login_api = useMutation({
       mutationFn: (id_token) => {
-        // console.log("from the mutation function ",id_token);
-        
+        // console.log("from the mutation function ",id_token); 
         // return axios.post(`${process.env.EXPO_PUBLIC_BACKEND_URL}/${path}`, id_token)
         return axios.post(`${process.env.EXPO_PUBLIC_BACKEND_URL}/signup/google`, {id_token}) 
       },
     })    
-
-
 
     //  follow the example in the docs of react query ; make 2 mutation function just for the learning sake 
     useEffect(()=>{
@@ -42,14 +39,12 @@ const SignInScreen = () => {
         console.log("\n\n", tokenToSignInFromSpotify, "\n\n ", "----", "tokenToSignInFromSpotify \n\n");
         mutation.mutate(tokenToSignInFromSpotify); 
     // console.log("Mutation =>",mutation.failureReason,"\n\n",mutation.isSuccess,"\n\n" , mutation.data);
-    
 
       }
       else if (tokenToSignInFromGoogle){
         
-        // console.log(tokenToSignInFromGoogle,"\n\n\n -----tokenToSignInFromGoogle");
+        console.log(tokenToSignInFromGoogle,"\n\n\n -----tokenToSignInFromGoogle");
         response_form_google_login_api.mutate(tokenToSignInFromGoogle)
-        
 
       }
 
@@ -62,21 +57,34 @@ const SignInScreen = () => {
       }
       if (response_form_google_login_api.isSuccess) {
         console.log("Response body of google login :", response_form_google_login_api.data.data); // Access the response body here
+        if (response_form_google_login_api.data.data.status ==200 || response_form_google_login_api.data.data.status ==200 ){
+          
+        
+          const tokensString = JSON.stringify(response_form_google_login_api.data.data.tokens);
+          SecureStore.setItemAsync("JWT_tokens", tokensString)
+            .then(() => {
+              console.log("JWT tokens stored successfully!");
+            })
+            .catch(error => {
+              console.error("Error storing JWT tokens:", error);
+            });
+          console.log("Setting thing in the seq. storeage =-=-=---=-=-==---=-==--=-=-");
+               
+        }
       }
       if (response_form_google_login_api.error) {
         console.log("response in google",response_form_google_login_api.failureReason);
         console.log("error in google",response_form_google_login_api.error); 
       }
 
-    },[mutation.isSuccess,response_form_google_login_api.isSuccess,response_form_google_login_api.error])
+    },[mutation.isSuccess,response_form_google_login_api.isSuccess,response_form_google_login_api.error,response_form_google_login_api.data])
   
-
 
   return (
     <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : -200} // Adjust this value as needed
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : -190} // Adjust this value as needed
     >
       <View className="flex-1">
         <View className=" flex-1 h-1/4 bg-black ">

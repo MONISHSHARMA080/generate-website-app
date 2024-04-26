@@ -2,6 +2,8 @@ import { View, TextInput, Text, Button } from 'react-native'
 import * as React from 'react'
 import { FlashList } from "@shopify/flash-list";
 import { useState } from 'react';
+import signOut from '../auth/utils/SignOutBy_ONLY_RemovingJwtFromStorage';
+import signOut_BY_ONLY_REMOVING_JWT_NOT_CALLING_SIGNOUT_FROM_AUTH_PROVIDERS from '../auth/utils/SignOutBy_ONLY_RemovingJwtFromStorage';
 
 
 export default function HomeScreen() {
@@ -19,6 +21,7 @@ export default function HomeScreen() {
 
   return (
     <View style={{ flex: 1, backgroundColor: '#1F2937', paddingTop: 150 }}>
+      <Button title='gg' onPress={()=>signOut_BY_ONLY_REMOVING_JWT_NOT_CALLING_SIGNOUT_FROM_AUTH_PROVIDERS("JWT_tokens")}/>
 
       <View style={{ flex: 1, backgroundColor: '#718096', borderTopLeftRadius: 32, borderTopRightRadius:32, paddingBottom:24 }}>
       <FlashList

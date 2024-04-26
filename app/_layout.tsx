@@ -6,14 +6,13 @@ export default function HomeLayout() {
 
   const queryClient = new QueryClient()
 
-  
-
   return (
     <>
 
-     <QueryClientProvider client={queryClient}>      
+      <QueryClientProvider client={queryClient}>      
         <Slot />
-     </QueryClientProvider>
+      </QueryClientProvider>
+    
      
     </>
   );
