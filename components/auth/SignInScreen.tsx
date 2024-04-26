@@ -76,13 +76,13 @@ const SignInScreen = () => {
     <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : -62} // Adjust this value as needed
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : -200} // Adjust this value as needed
     >
       <View className="flex-1">
         <View className=" flex-1 h-1/4 bg-black ">
-          <View className=" mt-8">
+          <View className=" mt-14 ">
             <Text className=" text-3xl text-white font-semibold mb-3">
-              Go ahead and set up your account
+              Alright let's set up your account
             </Text>
             <Text className=" text-lg text-gray-500">
               You are just steps away to reach the world
