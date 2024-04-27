@@ -99,7 +99,7 @@ const SignInScreen = () => {
         console.log("error in google",response_form_google_login_api.error); 
       }
       if (mutation.error) {
-        console.log("response in google",response_form_google_login_api.failureReason);
+        console.log("response in spotify",response_form_google_login_api.failureReason);
         console.log("error in google",response_form_google_login_api.error); 
       }
 
@@ -111,7 +111,7 @@ const SignInScreen = () => {
     <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : -200} // Adjust this value as needed
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : -190} // Adjust this value as neede
     >
       <View className="flex-1">
         <View className=" flex-1 h-1/4 bg-black ">
