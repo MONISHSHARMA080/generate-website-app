@@ -2,6 +2,7 @@ import { View, TextInput, Text, Button } from 'react-native'
 import * as React from 'react'
 import { FlashList } from "@shopify/flash-list";
 import { useState } from 'react';
+import { deleteItemAsync } from 'expo-secure-store';
 
 
 export default function HomeScreen() {
@@ -19,6 +20,7 @@ export default function HomeScreen() {
 
   return (
     <View style={{ flex: 1, backgroundColor: '#1F2937', paddingTop: 150 }}>
+      <Button title='remove' onPress={()=>{deleteItemAsync("JWT")}} />
 
       <View style={{ flex: 1, backgroundColor: '#718096', borderTopLeftRadius: 32, borderTopRightRadius:32, paddingBottom:24 }}>
       <FlashList
