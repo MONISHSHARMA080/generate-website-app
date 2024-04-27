@@ -1,23 +1,31 @@
-import { View, Text, TouchableOpacity, Animated,TextInput, KeyboardAvoidingView, Platform, Button, Vibration, Linking, Alert } from 'react-native';
+
+import { View, Text,TextInput, KeyboardAvoidingView, Platform } from 'react-native';
 import { Checkbox } from 'expo-checkbox';
 import { useEffect, useState } from 'react';
-import * as React from 'react';
+import  React from 'react';
 import GoogleSigninButton from './GoogleSignInButton';
 import SpotifyAuthButton from './SpotifyAuthButton';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import axios from 'axios';
-import {getItem, setItem} from 'expo-secure-store'
+import * as SecureStore from 'expo-secure-store';
+import { router } from 'expo-router';
+import { getItem } from 'expo-secure-store';
+import JWTStore from '@/app/store';
+
 
 const SignInScreen = () => {
+  const setJWT = JWTStore((state) => state.setJWT)
+  console.log("\n\n JWT-->> ",getItem("JWT"));
+  
 
-    const [showpassword , setShowPassword] = useState(true)
+    const [showpassword , setShowPassword] = useState(false)
     const [tokenToSignInFromGoogle, setTokenToSignInFromGoogle ] = useState(null)
     const [tokenToSignInFromSpotify, setTokenToSignInFromSpotify ] = useState(null)
     
     const mutation = useMutation({
+      
       mutationFn: (id_token) => {
-        // console.log("from the mutation function ",id_token);
-        
+        // console.log("from the mutation function ",id_token);        
         // return axios.post(`${process.env.EXPO_PUBLIC_BACKEND_URL}/${path}`, id_token)
         return axios.post(`${process.env.EXPO_PUBLIC_BACKEND_URL}/signup/spotify`, {id_token})
       },
@@ -25,14 +33,12 @@ const SignInScreen = () => {
 
     const response_form_google_login_api = useMutation({
       mutationFn: (id_token) => {
-        // console.log("from the mutation function ",id_token);
-        
+        // console.log("from the mutation function ",id_token); 
         // return axios.post(`${process.env.EXPO_PUBLIC_BACKEND_URL}/${path}`, id_token)
         return axios.post(`${process.env.EXPO_PUBLIC_BACKEND_URL}/signup/google`, {id_token}) 
+      
       },
     })    
-
-
 
     //  follow the example in the docs of react query ; make 2 mutation function just for the learning sake 
     useEffect(()=>{
@@ -42,14 +48,12 @@ const SignInScreen = () => {
         console.log("\n\n", tokenToSignInFromSpotify, "\n\n ", "----", "tokenToSignInFromSpotify \n\n");
         mutation.mutate(tokenToSignInFromSpotify); 
     // console.log("Mutation =>",mutation.failureReason,"\n\n",mutation.isSuccess,"\n\n" , mutation.data);
-    
 
       }
       else if (tokenToSignInFromGoogle){
         
-        // console.log(tokenToSignInFromGoogle,"\n\n\n -----tokenToSignInFromGoogle");
+        console.log(tokenToSignInFromGoogle,"\n\n\n -----tokenToSignInFromGoogle");
         response_form_google_login_api.mutate(tokenToSignInFromGoogle)
-        
 
       }
 
@@ -59,59 +63,57 @@ const SignInScreen = () => {
       
       if (mutation.isSuccess) {
         console.log("Response body from spotify:", mutation.data.data); // Access the response body here
-        if (mutation.data.data.user){
-          setItem("JWT",JSON.stringify(mutation.data.data.tokens))
-          setItem("User_object",JSON.stringify(mutation.data.data.user))
-        }
-        else if (mutation.data.data.status != 200 || mutation.data.data != 200){
-          if(mutation.data.data.message_to_display_user){
-            Alert.alert(mutation.data.data.message_to_display_user)
-          }
+        if (mutation.data.data.status ==200 || mutation.data.data.status ==201 ){
 
-          else{
-            Alert.alert("Couldn't authenticated you")
-          }
+          const tokensString = JSON.stringify(mutation.data.data);
+          SecureStore.setItem("JWT", tokensString)
+            
+          console.log("Setting thing in the seq. storeage =-=-=---=-=-==---=-==--=-=-");
+          // updating the state to render the main page 
+          router.replace('/(main_app)/root_app/');
+               
         }
-        else{
-          Alert.alert("Couldn't authenticated you")
-        }
+
       }
       if (response_form_google_login_api.isSuccess) {
         console.log("Response body of google login :", response_form_google_login_api.data.data); // Access the response body here
-        if (response_form_google_login_api.data.data.user){
-          setItem("JWT",JSON.stringify(response_form_google_login_api.data.data.tokens))
-          setItem("User_object",JSON.stringify(response_form_google_login_api.data.data.user))
-        }
-        else if (response_form_google_login_api.data.data.status != 200 || response_form_google_login_api.data.data != 200){
-          if(response_form_google_login_api.data.data.message_to_display_user){
-            Alert.alert(response_form_google_login_api.data.data.message_to_display_user)
-          }
-          else{
-            Alert.alert("Couldn't authenticated you")
-          }
-        }
-        else{
-          Alert.alert("Couldn't authenticated you")
+        if (response_form_google_login_api.data.data.status ==201 || response_form_google_login_api.data.data.status ==200 ){
+          
+        
+          const tokensString = JSON.stringify(response_form_google_login_api.data.data.tokens);
+          console.log("about to set JWT");
+          
+          setJWT(tokensString)
+          SecureStore.setItemAsync("JWT", tokensString) 
+            .then(() => {
+              console.log("JWT tokens stored successfully!");
+            })
+            .catch(error => {
+              console.error("Error storing JWT tokens:", error);
+            });
+          console.log("Setting thing in the seq. storeage =-=-=---=-=-==---=-==--=-=-");
+
+          // updating the state to render the main page 
+          // ------or ----
+          // just use the router .push()
+          router.replace('/(main_app)/root_app/');
+
+               
         }
       }
       if (response_form_google_login_api.error) {
         console.log("response in google",response_form_google_login_api.failureReason);
         console.log("error in google",response_form_google_login_api.error); 
       }
-      if (mutation.error) {
-        console.log("response in spotify",response_form_google_login_api.failureReason);
-        console.log("error in google",response_form_google_login_api.error); 
-      }
 
-    },[mutation.isSuccess,response_form_google_login_api.isSuccess,response_form_google_login_api.error])
+    },[mutation.isSuccess,mutation.data,response_form_google_login_api.isSuccess,response_form_google_login_api.error,response_form_google_login_api.data])
   
-
 
   return (
     <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : -190} // Adjust this value as neede
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : -190} // Adjust this value as needed
     >
       <View className="flex-1">
         <View className=" flex-1 h-1/4 bg-black ">
@@ -130,13 +132,13 @@ const SignInScreen = () => {
         >
             
             <TextInput className=' relative h-12 top-12 m-3 p-3 w-11/12 rounded-2xl border-2' 
-             placeholder='your@gmail.com' textContentType="emailAddress"
+             placeholder='your@email.com' textContentType="emailAddress"
             />
             <TextInput className=' relative h-12 top-12 m-3 p-3 w-11/12 rounded-2xl border-2' 
-             placeholder='Your  name' textContentType="givenName"
+             placeholder='User name' textContentType="givenName"
             />
             <TextInput className=' relative h-12 top-12 m-3 p-3 w-11/12 rounded-2xl  border-2' 
-             placeholder='A secure passowrd' secureTextEntry={showpassword} textContentType="password"
+             placeholder='your passowrd' secureTextEntry={showpassword} textContentType="password"
             />
             <View className='top-12 left-56 flex-row' >
                 <Text> Hide Password </Text>

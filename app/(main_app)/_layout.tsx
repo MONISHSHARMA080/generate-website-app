@@ -1,22 +1,6 @@
-import { Slot , Redirect, Stack  } from 'expo-router';
-import { getItem } from 'expo-secure-store';
+import { Slot } from 'expo-router';
 import React from 'react';
 
-export default function HomeLayout() {
-
-  if (getItem("JWT")){
-
-    return (
-      <>
-  
-          <Slot />
-       
-      </>
-    )
-  }
-  else{
-    return <Redirect href={'/auth'} />
-  }
-
-  
+export default function RootLayout() {
+  return <Slot />;
 }

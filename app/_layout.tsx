@@ -3,11 +3,12 @@ import { Slot , Redirect, Stack  } from 'expo-router';
 import { getItem } from 'expo-secure-store';
 import React from 'react';
 
+{/* <script src="http://localhost:8097"></script> */}
+
 export default function HomeLayout() {
 
   const queryClient = new QueryClient()
 
-  if(getItem("JWT")){
     return (
       <>
   
@@ -17,10 +18,7 @@ export default function HomeLayout() {
        
       </>
     )
-  }
-  else{
-    return <Redirect href={'/(main_app)/'} />
-  }
+ 
 
   
 }
