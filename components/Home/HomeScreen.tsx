@@ -21,7 +21,7 @@ export default function HomeScreen() {
 
   return (
     <View style={{ flex: 1, backgroundColor: '#1F2937', paddingTop: 150 }}>
-      <Button title='gg' onPress={()=>signOut_BY_ONLY_REMOVING_JWT_NOT_CALLING_SIGNOUT_FROM_AUTH_PROVIDERS("JWT_tokens")}/>
+      <Button title='gg' onPress={()=>signOut_BY_ONLY_REMOVING_JWT_NOT_CALLING_SIGNOUT_FROM_AUTH_PROVIDERS("JWT")}/>
 
       <View style={{ flex: 1, backgroundColor: '#718096', borderTopLeftRadius: 32, borderTopRightRadius:32, paddingBottom:24 }}>
       <FlashList

@@ -1,24 +1,27 @@
 import { Slot , Redirect, Stack  } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import { getItem } from 'expo-secure-store';
+import { useStore } from 'zustand';
+import store from '../store';
 
 export default function AppLayout() {
-  const[a , seta] = useState(getItem("JWT"))
-
-
+  const { JWT } = useStore(store);    
+  console.log("JWT form zustand ",JWT);
   
-  if (a){
-    console.log("WE have JWT",a);
+  // useEffect for that using zustand's value as dependecy
+  
+ 
+
+  if (JWT){
     return (
       <>
-  
           <Slot />
-       
       </>
     );
   }
-  else if (!a){
-    console.log("we dont have JWT");
+  else if (!JWT){
+
+    
     return( <Redirect href="/sign-in" /> )
   }
 }

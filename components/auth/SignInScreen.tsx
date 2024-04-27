@@ -7,8 +7,12 @@ import SpotifyAuthButton from './SpotifyAuthButton';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import * as SecureStore from 'expo-secure-store';
+import JWTStore from '@/app/store';
+import { router } from 'expo-router';
+
 
 const SignInScreen = () => {
+  const setJWT = JWTStore((state) => state.setJWT)
 
     const [showpassword , setShowPassword] = useState(false)
     const [tokenToSignInFromGoogle, setTokenToSignInFromGoogle ] = useState(null)
@@ -54,14 +58,10 @@ const SignInScreen = () => {
       
       if (mutation.isSuccess) {
         console.log("Response body from spotify:", mutation.data.data); // Access the response body here
-      }
-      if (response_form_google_login_api.isSuccess) {
-        console.log("Response body of google login :", response_form_google_login_api.data.data); // Access the response body here
-        if (response_form_google_login_api.data.data.status ==200 || response_form_google_login_api.data.data.status ==200 ){
-          
-        
-          const tokensString = JSON.stringify(response_form_google_login_api.data.data.tokens);
-          SecureStore.setItemAsync("JWT_tokens", tokensString)
+        if (mutation.data.data.status ==200 || mutation.data.data.status ==201 ){
+
+          const tokensString = JSON.stringify(mutation.data.data);
+          SecureStore.setItemAsync("JWT", tokensString)
             .then(() => {
               console.log("JWT tokens stored successfully!");
             })
@@ -69,6 +69,34 @@ const SignInScreen = () => {
               console.error("Error storing JWT tokens:", error);
             });
           console.log("Setting thing in the seq. storeage =-=-=---=-=-==---=-==--=-=-");
+          // updating the state to render the main page 
+               
+        }
+
+      }
+      if (response_form_google_login_api.isSuccess) {
+        console.log("Response body of google login :", response_form_google_login_api.data.data); // Access the response body here
+        if (response_form_google_login_api.data.data.status ==201 || response_form_google_login_api.data.data.status ==200 ){
+          
+        
+          const tokensString = JSON.stringify(response_form_google_login_api.data.data.tokens);
+          console.log("about to set JWT");
+          
+          setJWT(tokensString)
+          SecureStore.setItemAsync("JWT", tokensString) 
+            .then(() => {
+              console.log("JWT tokens stored successfully!");
+            })
+            .catch(error => {
+              console.error("Error storing JWT tokens:", error);
+            });
+          console.log("Setting thing in the seq. storeage =-=-=---=-=-==---=-==--=-=-");
+
+          // updating the state to render the main page 
+          // ------or ----
+          // just use the router .push()
+          router.replace('/(app)/');
+
                
         }
       }
@@ -77,7 +105,7 @@ const SignInScreen = () => {
         console.log("error in google",response_form_google_login_api.error); 
       }
 
-    },[mutation.isSuccess,response_form_google_login_api.isSuccess,response_form_google_login_api.error,response_form_google_login_api.data])
+    },[mutation.isSuccess,mutation.data,response_form_google_login_api.isSuccess,response_form_google_login_api.error,response_form_google_login_api.data])
   
 
   return (
