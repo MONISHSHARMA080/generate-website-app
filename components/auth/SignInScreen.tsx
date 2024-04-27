@@ -1,16 +1,16 @@
-import { View, Text, TouchableOpacity, Animated,TextInput, KeyboardAvoidingView, Platform, Button, Vibration, Linking } from 'react-native';
+import { View, Text, TouchableOpacity, Animated,TextInput, KeyboardAvoidingView, Platform, Button, Vibration, Linking, Alert } from 'react-native';
 import { Checkbox } from 'expo-checkbox';
 import { useEffect, useState } from 'react';
 import * as React from 'react';
 import GoogleSigninButton from './GoogleSignInButton';
 import SpotifyAuthButton from './SpotifyAuthButton';
-import * as WebBrowser from 'expo-web-browser';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import axios from 'axios';
+import {getItem, setItem} from 'expo-secure-store'
 
 const SignInScreen = () => {
 
-    const [showpassword , setShowPassword] = useState(false)
+    const [showpassword , setShowPassword] = useState(true)
     const [tokenToSignInFromGoogle, setTokenToSignInFromGoogle ] = useState(null)
     const [tokenToSignInFromSpotify, setTokenToSignInFromSpotify ] = useState(null)
     
@@ -59,11 +59,46 @@ const SignInScreen = () => {
       
       if (mutation.isSuccess) {
         console.log("Response body from spotify:", mutation.data.data); // Access the response body here
+        if (mutation.data.data.user){
+          setItem("JWT",JSON.stringify(mutation.data.data.tokens))
+          setItem("User_object",JSON.stringify(mutation.data.data.user))
+        }
+        else if (mutation.data.data.status != 200 || mutation.data.data != 200){
+          if(mutation.data.data.message_to_display_user){
+            Alert.alert(mutation.data.data.message_to_display_user)
+          }
+
+          else{
+            Alert.alert("Couldn't authenticated you")
+          }
+        }
+        else{
+          Alert.alert("Couldn't authenticated you")
+        }
       }
       if (response_form_google_login_api.isSuccess) {
         console.log("Response body of google login :", response_form_google_login_api.data.data); // Access the response body here
+        if (response_form_google_login_api.data.data.user){
+          setItem("JWT",JSON.stringify(response_form_google_login_api.data.data.tokens))
+          setItem("User_object",JSON.stringify(response_form_google_login_api.data.data.user))
+        }
+        else if (response_form_google_login_api.data.data.status != 200 || response_form_google_login_api.data.data != 200){
+          if(response_form_google_login_api.data.data.message_to_display_user){
+            Alert.alert(response_form_google_login_api.data.data.message_to_display_user)
+          }
+          else{
+            Alert.alert("Couldn't authenticated you")
+          }
+        }
+        else{
+          Alert.alert("Couldn't authenticated you")
+        }
       }
       if (response_form_google_login_api.error) {
+        console.log("response in google",response_form_google_login_api.failureReason);
+        console.log("error in google",response_form_google_login_api.error); 
+      }
+      if (mutation.error) {
         console.log("response in google",response_form_google_login_api.failureReason);
         console.log("error in google",response_form_google_login_api.error); 
       }
@@ -95,13 +130,13 @@ const SignInScreen = () => {
         >
             
             <TextInput className=' relative h-12 top-12 m-3 p-3 w-11/12 rounded-2xl border-2' 
-             placeholder='your@email.com' textContentType="emailAddress"
+             placeholder='your@gmail.com' textContentType="emailAddress"
             />
             <TextInput className=' relative h-12 top-12 m-3 p-3 w-11/12 rounded-2xl border-2' 
-             placeholder='User name' textContentType="givenName"
+             placeholder='Your  name' textContentType="givenName"
             />
             <TextInput className=' relative h-12 top-12 m-3 p-3 w-11/12 rounded-2xl  border-2' 
-             placeholder='your passowrd' secureTextEntry={showpassword} textContentType="password"
+             placeholder='A secure passowrd' secureTextEntry={showpassword} textContentType="password"
             />
             <View className='top-12 left-56 flex-row' >
                 <Text> Hide Password </Text>
