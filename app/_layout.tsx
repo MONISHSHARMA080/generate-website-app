@@ -1,15 +1,15 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { Slot , Redirect, Stack,usePathname, useGlobalSearchParams,  } from 'expo-router';
+import { Slot , Redirect, Stack,usePathname, useGlobalSearchParams, SplashScreen,  } from 'expo-router';
 import { getItem } from 'expo-secure-store';
 import React, { useEffect } from 'react';
 import JWTStore from './store';
 import { vexo } from 'vexo-analytics';
 
+
 export default function HomeLayout() {
   const pathname = usePathname();
   const params = useGlobalSearchParams();
   const {JWT} = JWTStore()
-
   // Track the location in your analytics provider here.
   if (!__DEV__) {
     vexo(process.env.EXPO_PUBLIC_VEXO_API_KEY);
