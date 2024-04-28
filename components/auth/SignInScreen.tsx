@@ -15,7 +15,7 @@ import JWTStore from '@/app/store';
 
 const SignInScreen = () => {
   const setJWT = JWTStore((state) => state.setJWT)
-  console.log("\n\n JWT-->> ",getItem("JWT"));
+  console.log("url ->",process.env.EXPO_PUBLIC_BACKEND_URL); 
   
 
     const [showpassword , setShowPassword] = useState(false)
@@ -33,8 +33,8 @@ const SignInScreen = () => {
 
     const response_form_google_login_api = useMutation({
       mutationFn: (id_token) => {
-        // console.log("from the mutation function ",id_token); 
-        // return axios.post(`${process.env.EXPO_PUBLIC_BACKEND_URL}/${path}`, id_token)
+        console.log("from the mutation function ",id_token , "\n\n",process.env.EXPO_PUBLIC_BACKEND_URL); 
+        // return axios.post(`${process.env.EXPO_PUBLIC_BACKEND_URL}/`, id_token)
         return axios.post(`${process.env.EXPO_PUBLIC_BACKEND_URL}/signup/google`, {id_token}) 
       
       },
@@ -47,7 +47,7 @@ const SignInScreen = () => {
 
         console.log("\n\n", tokenToSignInFromSpotify, "\n\n ", "----", "tokenToSignInFromSpotify \n\n");
         mutation.mutate(tokenToSignInFromSpotify); 
-    // console.log("Mutation =>",mutation.failureReason,"\n\n",mutation.isSuccess,"\n\n" , mutation.data);
+    console.log("Mutation =>",mutation.failureReason,"\n\n",mutation.isSuccess,"\n\n" , mutation.data);
 
       }
       else if (tokenToSignInFromGoogle){
@@ -113,7 +113,7 @@ const SignInScreen = () => {
     <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : -190} // Adjust this value as needed
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : -170} // Adjust this value as needed
     >
       <View className="flex-1">
         <View className=" flex-1 h-1/4 bg-black ">

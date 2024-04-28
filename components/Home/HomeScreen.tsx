@@ -3,9 +3,13 @@ import * as React from 'react'
 import { FlashList } from "@shopify/flash-list";
 import { useState } from 'react';
 import { deleteItemAsync } from 'expo-secure-store';
+import JWTStore from '@/app/store';
+import { Redirect, useFocusEffect, useRouter } from 'expo-router';
 
 
 export default function HomeScreen() {
+
+  const { setJWT } = JWTStore();
 
   const [messages, setMessages] = useState([
     { id: '1', sender: 'user', text: 'Hello!' },
@@ -16,11 +20,14 @@ export default function HomeScreen() {
 
   ]);
 
-  
-
+ 
+  const router = useRouter();
   return (
     <View style={{ flex: 1, backgroundColor: '#1F2937', paddingTop: 150 }}>
-      <Button title='remove' onPress={()=>{deleteItemAsync("JWT")}} />
+      <Button title='remove' onPress={()=>{deleteItemAsync("JWT") , setJWT(null)
+ 
+ router.replace('/(main_app)/');
+      }} />
 
       <View style={{ flex: 1, backgroundColor: '#718096', borderTopLeftRadius: 32, borderTopRightRadius:32, paddingBottom:24 }}>
       <FlashList
