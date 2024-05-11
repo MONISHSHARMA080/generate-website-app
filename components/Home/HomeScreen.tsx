@@ -6,6 +6,7 @@ import { deleteItemAsync } from 'expo-secure-store';
 import JWTStore from '@/app/store';
 import { Redirect, useFocusEffect, useRouter } from 'expo-router';
 import PillShapeButtonForHomeScreen from './buttons/pillShapeButtonForHomeScreen';
+import axios from 'axios';
 
 
 export default function HomeScreen() {
@@ -18,12 +19,41 @@ export default function HomeScreen() {
  
   return (
     <View style={{ flex: 1, backgroundColor: '#010c1c', paddingTop: 150 }}>
-      {/* <Button title='remove' onPress={()=>{
-        deleteItemAsync("JWT") , setJWT(null)
+      <Button title='remove' onPress={()=>{
+  //        deleteItemAsync("JWT") , setJWT(null)
  
- router.replace('/(main_app)/');
-console.log(inputText)
-      }} /> */}
+  // router.replace('/(main_app)/');
+// console.log(inputText)
+
+// const instance = axios.create({
+//   baseURL: 'https://4b75-1-22-230-81.ngrok-free.app',
+//   // You can set other default configurations here
+// });
+
+// Set JWT token in the request headers
+
+
+  // instance.defaults.headers.common['Authorization'] = ``;
+
+
+  axios.post(`${process.env.EXPO_PUBLIC_BACKEND_URL}/temp_website`, {
+    prompt :"Create website with many pages for a GYM that is on the way to create a revolution  ; give us a very  dope looking website that has too many colors as i ma trying to target the younger generation that like colors and photos and futuristic and modernly colorful, with animations"
+  }
+  , {
+    // headers: {
+    //   'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE0NTYwNjEzLCJpYXQiOjE3MTQ1NTgyMTMsImp0aSI6IjRmNjk1ZGJhNDY0NzQyOTBiYWM4YTkxMDMzNjJkOThhIiwidXNlcl9pZCI6NH0.TEbCABoiSOJJsc9AwwVc3tWdC4W_e7mPKcq2x17pu1E`,
+    //   'Content-Type': 'application/json',
+    // }
+  })
+  .then(response => {
+    console.log(response.status, "response from the axios");
+  })
+  .catch(error => {
+    console.error(error);
+  });
+  
+
+      }} />
 
       <View style={{ flex: 1, backgroundColor: '#5a7ead', borderTopLeftRadius: 32, borderTopRightRadius:32, paddingBottom:24 }}>
       

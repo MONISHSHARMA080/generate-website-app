@@ -1,5 +1,5 @@
 import { create, createStore } from 'zustand';
-import { getItem, setItem } from 'expo-secure-store';
+import * as SecureStore from 'expo-secure-store';
 
 interface JWTState {
   JWT: string | null;
@@ -7,8 +7,8 @@ interface JWTState {
 }
 
 const JWTStore = create<JWTState>()((set) => ({
-  JWT: getItem('JWT') || null,
-  // setJWT: (jwt) => {
+  JWT: SecureStore.getItem('JWT') || null,
+    // setJWT: (jwt) => {
   //   set({ JWT: jwt });
   //   setItem('JWT', jwt);
   // },

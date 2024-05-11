@@ -19,7 +19,9 @@ export default function HomeLayout() {
     // analytics.track({ pathname, params });
     console.log(`a change occured in the ${pathname}  ---- ${ params} `);
     
-  }, [pathname, params]);
+  }, [pathname, params
+    // ,JWT
+  ]);
   const queryClient = new QueryClient()
 
     return (
