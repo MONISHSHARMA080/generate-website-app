@@ -17,7 +17,7 @@ export default function HomeLayout() {
 
   useEffect(() => {
     // analytics.track({ pathname, params });
-    console.log(`a change occured in the ${pathname}  ---- ${ params} `);
+    console.log(`a change occured in the ${pathname}   `);
     
   }, [pathname, params
     // ,JWT

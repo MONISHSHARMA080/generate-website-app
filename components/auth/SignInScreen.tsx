@@ -67,7 +67,7 @@ const SignInScreen = () => {
 
           const tokensString = JSON.stringify(mutation.data.data);
           SecureStore.setItem("JWT", tokensString)
-            
+          setJWT(tokensString)
           console.log("Setting thing in the seq. storeage =-=-=---=-=-==---=-==--=-=-");
           // updating the state to render the main page 
           router.replace('/(main_app)/root_app/');
