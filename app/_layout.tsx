@@ -4,12 +4,13 @@ import { getItem } from 'expo-secure-store';
 import React, { useEffect } from 'react';
 import JWTStore from './store';
 import { vexo } from 'vexo-analytics';
+import axios from 'axios';
 
 
 export default function HomeLayout() {
   const pathname = usePathname();
   const params = useGlobalSearchParams();
-  const {JWT} = JWTStore()
+  const {JWT,setJWT} = JWTStore()
   // Track the location in your analytics provider here.
   if (!__DEV__) {
     vexo(process.env.EXPO_PUBLIC_VEXO_API_KEY);
@@ -22,7 +23,21 @@ export default function HomeLayout() {
   }, [pathname, params
     // ,JWT
   ]);
-  const queryClient = new QueryClient()
+  const queryClient = new QueryClient({});
+
+  // const api = axios.create({
+  //   baseURL: process.env.EXPO_PUBLIC_BACKEND_URL,
+  // });
+  
+  // api.interceptors.response.use(
+  //   response => response,
+  //   error => {
+  //     if (error.response.status === 401) {
+        
+  //     }
+  //     return Promise.reject(error);
+  //   },
+  // );
 
     return (
       <>

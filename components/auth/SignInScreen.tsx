@@ -7,7 +7,7 @@ import GoogleSigninButton from './GoogleSignInButton';
 import SpotifyAuthButton from './SpotifyAuthButton';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import axios from 'axios';
-import * as SecureStore from 'expo-secure-store';
+import * as SecureStore from 'expo-secure-store';  // ----------------
 import { router } from 'expo-router';
 import { getItem } from 'expo-secure-store';
 import JWTStore from '@/app/store';
@@ -29,6 +29,9 @@ const SignInScreen = () => {
         // return axios.post(`${process.env.EXPO_PUBLIC_BACKEND_URL}/${path}`, id_token)
         return axios.post(`${process.env.EXPO_PUBLIC_BACKEND_URL}/signup/spotify`, {id_token})
       },
+      // onError(error, variables, context) {
+      //     error
+      // },
     })
 
     const response_form_google_login_api = useMutation({
@@ -65,7 +68,7 @@ const SignInScreen = () => {
         console.log("Response body from spotify:", mutation.data.data); // Access the response body here
         if (mutation.data.data.status ==200 || mutation.data.data.status ==201 ){
 
-          const tokensString = JSON.stringify(mutation.data.data);
+          const tokensString = JSON.stringify(mutation.data.data.tokens);
           SecureStore.setItem("JWT", tokensString)
           setJWT(tokensString)
           console.log("Setting thing in the seq. storeage =-=-=---=-=-==---=-==--=-=-");
