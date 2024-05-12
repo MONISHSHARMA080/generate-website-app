@@ -33,20 +33,22 @@ import axiosInstance from "../auth/utils/new_tokens_auth";
     return (
       <View style={{ flex: 1, backgroundColor: '#010c1c', paddingTop: 150 }}>
         <Button title='remove' onPress={()=>{
-    bb()
+    // bb()
     let token = JSON.parse(getItem("JWT")).access
     
     fetch(`${process.env.EXPO_PUBLIC_BACKEND_URL}/temp_website`,{
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        'Authorization': 'Bearer '+token,
+
       },
       body: JSON.stringify({
         prompt :"Create website with many pages for a GYM that is on the way to create a revolution  ; give us a very  dope looking website that has too many colors as i ma trying to target the younger generation that like colors and photos and futuristic and modernly colorful, with animations"
       }
     ),
     })
-    .then(response => {response.json(),console.log("\n response from the first -->>",response.json(),"\n\n")})
+    .then(response => {response.json(),console.log("\n response from the first -->>",response,"\n\n")})
   .then(data => {
     // Handle the response data here
     console.log("\ndata retiurned -->>",data);
@@ -58,9 +60,9 @@ import axiosInstance from "../auth/utils/new_tokens_auth";
   });
           
             
-          let access = "access__"
-          let refresh = "refresh__"
-          console.log("\n\n ---MMMMM",JSON.stringify({access,refresh}))
+          // let access = "access__"
+          // let refresh = "refresh__"
+          // console.log("\n\n ---MMMMM",JSON.stringify({access,refresh}))
 
 
           
