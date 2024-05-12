@@ -24,7 +24,7 @@ import axiosInstance from "../auth/utils/new_tokens_auth";
       async function bb (){
         let a = await axiosInstance.post("/temp_website",{
           prompt :"Create website with many pages for a GYM that is on the way to create a revolution  ; give us a very  dope looking website that has too many colors as i ma trying to target the younger generation that like colors and photos and futuristic and modernly colorful, with animations"
-        })
+        },{headers:{Authorization: 'Bearer '+JSON.parse(getItem("JWT")).access}})
         console.log("from the async function", await a);
         
       }
@@ -33,31 +33,31 @@ import axiosInstance from "../auth/utils/new_tokens_auth";
     return (
       <View style={{ flex: 1, backgroundColor: '#010c1c', paddingTop: 150 }}>
         <Button title='remove' onPress={()=>{
-    // bb()
-    let token = JSON.parse(getItem("JWT")).access
+    bb()
+  //   let token = JSON.parse(getItem("JWT")).access
     
-    fetch(`${process.env.EXPO_PUBLIC_BACKEND_URL}/temp_website`,{
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer '+token,
+  //   fetch(`${process.env.EXPO_PUBLIC_BACKEND_URL}/temp_website`,{
+  //     method: 'POST',
+  //     headers: {
+  //       'Content-Type': 'application/json',
+  //       'Authorization': 'Bearer '+token,
 
-      },
-      body: JSON.stringify({
-        prompt :"Create website with many pages for a GYM that is on the way to create a revolution  ; give us a very  dope looking website that has too many colors as i ma trying to target the younger generation that like colors and photos and futuristic and modernly colorful, with animations"
-      }
-    ),
-    })
-    .then(response => {response.json(),console.log("\n response from the first -->>",response,"\n\n")})
-  .then(data => {
-    // Handle the response data here
-    console.log("\ndata retiurned -->>",data);
+  //     },
+  //     body: JSON.stringify({
+  //       prompt :"Create website with many pages for a GYM that is on the way to create a revolution  ; give us a very  dope looking website that has too many colors as i ma trying to target the younger generation that like colors and photos and futuristic and modernly colorful, with animations"
+  //     }
+  //   ),
+  //   })
+  //   .then(response => {response.json(),console.log("\n response from the first -->>",response,"\n\n")})
+  // .then(data => {
+  //   // Handle the response data here
+  //   console.log("\ndata retiurned -->>",data);
     
-  })
-  .catch(error => {
-    console.log("\n err -->>",error);
-    // Handle any errors
-  });
+  // })
+  // .catch(error => {
+  //   console.log("\n err -->>",error);
+  //   // Handle any errors
+  // });
           
             
           // let access = "access__"
