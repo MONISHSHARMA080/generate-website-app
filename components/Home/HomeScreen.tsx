@@ -8,30 +8,32 @@
   import PillShapeButtonForHomeScreen from './buttons/pillShapeButtonForHomeScreen';
   import axios, { AxiosError } from 'axios';
 import axiosInstance from "../auth/utils/new_tokens_auth";
+import { useQuery } from "@tanstack/react-query";
   
 
 
-  export default function HomeScreen() {
-    
+  export default function HomeScreen() {    
     const router = useRouter();
     const { setJWT,JWT } = JWTStore();
     const [IsFirstRequest , setIsFirstRequest] = useState(true)
     const [inputText , setInputText] = useState(null)
+    const [makeARequest , setMakeARequest] = useState(false)
     useEffect(()=>{
-        console.log("input text from the home screen -- ",inputText, "\n jwt tokens in zustand state -->>",JWT)
-      },[JWT])
+        console.log("input text from the home screen -- ",inputText, "\n jwt tokens in zustand state -->>",JWT,"\n ====>make a request -->",makeARequest)
+      },[JWT,makeARequest])
 
 
-      async function bb (){
-        let a = await axiosInstance.post("/temp_website",{
-          prompt :"Create website with many pages for a GYM that is on the way to create a revolution  ; give us a very  dope looking website that has too many colors as i ma trying to target the younger generation that like colors and photos and futuristic and modernly colorful, with animations"
-        },{headers:{Authorization: 'Bearer '+JSON.parse(getItem("JWT")).access}})
-        console.log("from the async function", await a);
-        
-      }
+    async function bb (){
+      let a = await axiosInstance.post("/temp_website",{
+        prompt :"Create website with many pages for a GYM that is on the way to create a revolution  ; give us a very  dope looking website that has too many colors as i ma trying to target the younger generation that like colors and photos and futuristic and modernly colorful, with animations"
+      },{headers:{Authorization: 'Bearer '+JSON.parse(getItem("JWT")).access}})
+      console.log("from the async function", await a);
+      
+    }
+
     
     
-      async function UpdateJWT (){
+      async function UpdateJWT (setJWTTokens ){
         const Jwt_string = getItem('JWT')
        try {
          console.log("in the update func --->>, my tokens -->>",JSON.parse(Jwt_string).refresh );
@@ -50,10 +52,11 @@ import axiosInstance from "../auth/utils/new_tokens_auth";
           // eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTcxODI3NDQwNywiaWF0IjoxNzE1NTA5NjA3LCJqdGkiOiI3ZmI3ZGM0MzQ5Mjk0Zjk2ODk1ZWFhNGZkYjVkMGNiOCIsInVzZXJfaWQiOjR9.L_hqCl9ddWUuUnO2LcAwlFFLASbaEi2P8DyFlXcBols 
           // access ----- eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE1NTA5NjMyLCJpYXQiOjE3MTU1MDk1NjIsImp0aSI6Ijc1OTE1NmZlNWFjMTQ5MWM4ODRkM2NlYWVmMWViNjI5IiwidXNlcl9pZCI6NH0.h75SIL0z9vWXNmkmz2-07gmuJn2MgPkHA8PIJkLy1S4
           setItem("JWT",JSON.stringify({access,refresh}))
+          setJWTTokens(JSON.stringify({access,refresh}))
           
         })
         console.log("\n\n checking both the jwt tokens -->", Jwt_string,JSON.stringify({access,refresh}), "\n\n\n are both of these same -->>", JSON.stringify({access,refresh}) === Jwt_string );
-        
+        refetch()
       
        } catch (error) {
         console.log("\n -- in the error in updateJWT");
@@ -62,14 +65,9 @@ import axiosInstance from "../auth/utils/new_tokens_auth";
        }
       }
 
-      
 
-
-    return (
-      <View style={{ flex: 1, backgroundColor: '#010c1c', paddingTop: 150 }}>
-        <Button title='remove' onPress={()=>{
-    // bb()
-    let token = JSON.parse(getItem("JWT")).access
+async function temp_website() {
+  let token = JSON.parse(getItem("JWT")).access
     
     fetch(`${process.env.EXPO_PUBLIC_BACKEND_URL}/temp_website`,{
       method: 'POST',
@@ -93,15 +91,82 @@ import axiosInstance from "../auth/utils/new_tokens_auth";
     console.log("\n in the data one ");
     
     if (data.status===401){
-  console.log("\n in the data two---");
-  UpdateJWT() 
-}
+      console.log("\n in the data two---");
+      UpdateJWT(setJWT)
+    }
+
+    setMakeARequest(false)
+    return data
     
   })
   .catch(error => {
     console.log("\n err -->>",error);
     // Handle any errors
+    console.log("\n\n error form thequery func / temp-->website ");
+    
+
   });
+
+}
+      
+      
+
+  // ------------------------------- react query ------------------------------
+  
+const { isSuccess, refetch, status,data}= useQuery({
+  queryKey:['fetch-the-temp-website'],
+  queryFn: temp_website,
+  enabled:makeARequest,
+  // pass the refetch and uspade state func in it 
+})
+
+
+
+
+  
+  // ------------------------------- react query ------------------------------
+
+      
+
+
+    return (
+      <View style={{ flex: 1, backgroundColor: '#010c1c', paddingTop: 150 }}>
+        <Button title='remove' onPress={()=>{
+          setMakeARequest(true)
+    // bb()
+//     let token = JSON.parse(getItem("JWT")).access
+    
+//     fetch(`${process.env.EXPO_PUBLIC_BACKEND_URL}/temp_website`,{
+//       method: 'POST',
+//       headers: {
+//         'Content-Type': 'application/json',
+//         'Authorization': 'Bearer '+token,
+
+//       },
+//       body: JSON.stringify({
+//         prompt :"Create website with many pages for a GYM that is on the way to create a revolution  ; give us a very  dope looking website that has too many colors as i ma trying to target the younger generation that like colors and photos and futuristic and modernly colorful, with animations"
+//       }
+//     ),
+//     })
+//     .then(response => {response.json(),console.log("\n response from the first -->>",response,"\n\n")
+
+//     ; return response
+      
+//     })
+//   .then(data => {
+//     // Handle the response data here
+//     console.log("\n in the data one ");
+    
+//     if (data.status===401){
+//   console.log("\n in the data two---");
+//   UpdateJWT() 
+// }
+    
+//   })
+//   .catch(error => {
+//     console.log("\n err -->>",error);
+//     // Handle any errors
+//   });
   
           
             

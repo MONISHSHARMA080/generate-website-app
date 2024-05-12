@@ -8,6 +8,7 @@ import axios from 'axios';
 
 
 export default function HomeLayout() {
+  
   const pathname = usePathname();
   const params = useGlobalSearchParams();
   const {JWT,setJWT} = JWTStore()

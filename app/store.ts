@@ -16,5 +16,4 @@ setJWT :(jwt) => set((state) => ({ JWT:  jwt }))
   // increase: (by) => set((state) => ({ bears: state.bears + by })),
 }));
 
-
 export default JWTStore;
