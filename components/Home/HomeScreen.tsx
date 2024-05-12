@@ -18,6 +18,7 @@ import { useQuery } from "@tanstack/react-query";
     const [IsFirstRequest , setIsFirstRequest] = useState(true)
     const [inputText , setInputText] = useState(null)
     const [makeARequest , setMakeARequest] = useState(false)
+    const [responnseJSON , setResponnseJSON] = useState(null)
     useEffect(()=>{
         console.log("input text from the home screen -- ",inputText, "\n jwt tokens in zustand state -->>",JWT,"\n ====>make a request -->",makeARequest)
       },[JWT,makeARequest])
@@ -70,52 +71,44 @@ import { useQuery } from "@tanstack/react-query";
 
 async function temp_website() {
   let token = JSON.parse(getItem("JWT")).access
-    
-  const data_to_return_to_react_query =  await  fetch(`${process.env.EXPO_PUBLIC_BACKEND_URL}/temp_website`,{
+
+    try {
+    const response = await fetch(`${process.env.EXPO_PUBLIC_BACKEND_URL}/temp_website`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer '+token,
-
+        'Authorization': 'Bearer ' + token,
       },
       body: JSON.stringify({
-        prompt :"Create website with many pages for a GYM that is on the way to create a revolution  ; give us a very  dope looking website that has too many colors as i ma trying to target the younger generation that like colors and photos and futuristic and modernly colorful, with animations"
-      }
-    ),
-    })
-    .then(response => {console.log("\n response from the first -->>", response,"\n\n","=-=-=-=-=-=-=-=--=-==--=-====response data----PP--*(*09900-->>>)) ",response)
-    ; return response
-    })
-  .then(data => {
-    // Handle the response data here probally  alert the user and tell them to respond to the backend 
-    console.log("\n in the data one ",data.json());
-    
-    if (data.status===401){
-      console.log("\n in the data two---");
-      UpdateJWT(setJWT)
-      // don't need to retuern form here as it already re runs the function
-    }
-    
-    setMakeARequest(false)
-    console.log("\n hopefully here ---",data.json());
-    return data
-  })
-  .catch(error => {
-    console.log("\n err -->>",error);
-    // Handle any errors
-    console.log("\n\n error form thequery func / temp-->website ");
-    
+        prompt: "Create website with many pages for a GYM that is on the way to create a revolution  ; give us a very  dope looking website that has too many colors as i ma trying to target the younger generation that like colors and photos and futuristic and modernly colorful, with animations"
+      })
+    });
 
-  
-  });
+    const data = await response.json();
+    // const text = await response.text();
+    console.log("Response data from temp_website:", data, "\n\nresponse -->",response, "\n\n --t--ex--t",);
+    setResponnseJSON(response)
+    return {data,response};
+
+  } catch (error) {
+
+    
+  }
   // -------------------------------------- now make sure i also return the response from the 2 try after refresh token ------------------
   // ----------------------------------------------------------
   // ------------------------------------------  or maybe don't need to as Refetch works --- try an example to see  -->> yup I think it works 
   // -------------------------------------------- lets make a abstract function
   // --------------------------------------2.> setMakeARequest() .........3.> UpdateJWT()
     // data_to_return_to_react_query 
-      
-  return data_to_return_to_react_query
+        
+    // if (data.status===401){
+    //   console.log("\n in the data two---");
+    //   UpdateJWT(setJWT)
+    //   // don't need to retuern form here as it already re runs the function
+    // }
+    
+    // setMakeARequest(false)
+
   // -------------------------------------- now make sure i also return the response from the 2 try after refresh token ------------------
 
 
@@ -133,8 +126,8 @@ const { isSuccess, refetch, status, data}= useQuery({
 })
 
 
-useEffect(()=>{console.log("\n\n ============================||----||data from the query fucntion============================||------||",data);
-},[data])
+useEffect(()=>{console.log("\n\n ============================||----||data from the query fucntion============================||------||",data , "\n\n-->>",responnseJSON );
+},[data,responnseJSON])
 
   
   // ------------------------------- react query ------------------------------
