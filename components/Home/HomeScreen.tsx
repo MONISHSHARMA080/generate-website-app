@@ -1,5 +1,5 @@
   import { FlashList } from "@shopify/flash-list";
-  import { deleteItemAsync, getItem } from 'expo-secure-store';
+  import { deleteItemAsync, getItem, setItem } from 'expo-secure-store';
   import { View, TextInput, Text, Button } from 'react-native'
   import * as React from 'react'
   import { useEffect, useState } from 'react';
@@ -17,10 +17,11 @@ import axiosInstance from "../auth/utils/new_tokens_auth";
     const { setJWT,JWT } = JWTStore();
     const [IsFirstRequest , setIsFirstRequest] = useState(true)
     const [inputText , setInputText] = useState(null)
+    useEffect(()=>{
+        console.log("input text from the home screen -- ",inputText, "\n jwt tokens in zustand state -->>",JWT)
+      },[JWT])
 
-    // useEffect(()=>{
-    //     console.log("input text from the home screen -- ",inputText, "\n jwt tokens in zustand state -->>",JWT)
-    //   },[JWT])
+
       async function bb (){
         let a = await axiosInstance.post("/temp_website",{
           prompt :"Create website with many pages for a GYM that is on the way to create a revolution  ; give us a very  dope looking website that has too many colors as i ma trying to target the younger generation that like colors and photos and futuristic and modernly colorful, with animations"
@@ -28,36 +29,80 @@ import axiosInstance from "../auth/utils/new_tokens_auth";
         console.log("from the async function", await a);
         
       }
+    
+    
+      async function UpdateJWT (){
+        const Jwt_string = getItem('JWT')
+       try {
+         console.log("in the update func --->>, my tokens -->>",JSON.parse(Jwt_string).refresh );
+         
+         const response = await axios.post(
+           `${process.env.EXPO_PUBLIC_BACKEND_URL}/api/token/refresh/`,
+           { refresh: JSON.parse(getItem('JWT')).refresh }
+         );
+         const { access, refresh } = response.data;
+         console.log("-------above the response ------");
+         
+         console.log("\n response data ----",response.headers);
+         
+         console.log("\n\n ================================8888888888888888-===========response and access(jsut to be sure ) -->>",refresh,"\n access -----", access);
+         deleteItemAsync("JWT").then(()=>{
+          // eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTcxODI3NDQwNywiaWF0IjoxNzE1NTA5NjA3LCJqdGkiOiI3ZmI3ZGM0MzQ5Mjk0Zjk2ODk1ZWFhNGZkYjVkMGNiOCIsInVzZXJfaWQiOjR9.L_hqCl9ddWUuUnO2LcAwlFFLASbaEi2P8DyFlXcBols 
+          // access ----- eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE1NTA5NjMyLCJpYXQiOjE3MTU1MDk1NjIsImp0aSI6Ijc1OTE1NmZlNWFjMTQ5MWM4ODRkM2NlYWVmMWViNjI5IiwidXNlcl9pZCI6NH0.h75SIL0z9vWXNmkmz2-07gmuJn2MgPkHA8PIJkLy1S4
+          setItem("JWT",JSON.stringify({access,refresh}))
+          
+        })
+        console.log("\n\n checking both the jwt tokens -->", Jwt_string,JSON.stringify({access,refresh}), "\n\n\n are both of these same -->>", JSON.stringify({access,refresh}) === Jwt_string );
+        
+      
+       } catch (error) {
+        console.log("\n -- in the error in updateJWT");
+        
+        console.error(error)
+       }
+      }
+
+      
 
 
     return (
       <View style={{ flex: 1, backgroundColor: '#010c1c', paddingTop: 150 }}>
         <Button title='remove' onPress={()=>{
-    bb()
-  //   let token = JSON.parse(getItem("JWT")).access
+    // bb()
+    let token = JSON.parse(getItem("JWT")).access
     
-  //   fetch(`${process.env.EXPO_PUBLIC_BACKEND_URL}/temp_website`,{
-  //     method: 'POST',
-  //     headers: {
-  //       'Content-Type': 'application/json',
-  //       'Authorization': 'Bearer '+token,
+    fetch(`${process.env.EXPO_PUBLIC_BACKEND_URL}/temp_website`,{
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer '+token,
 
-  //     },
-  //     body: JSON.stringify({
-  //       prompt :"Create website with many pages for a GYM that is on the way to create a revolution  ; give us a very  dope looking website that has too many colors as i ma trying to target the younger generation that like colors and photos and futuristic and modernly colorful, with animations"
-  //     }
-  //   ),
-  //   })
-  //   .then(response => {response.json(),console.log("\n response from the first -->>",response,"\n\n")})
-  // .then(data => {
-  //   // Handle the response data here
-  //   console.log("\ndata retiurned -->>",data);
+      },
+      body: JSON.stringify({
+        prompt :"Create website with many pages for a GYM that is on the way to create a revolution  ; give us a very  dope looking website that has too many colors as i ma trying to target the younger generation that like colors and photos and futuristic and modernly colorful, with animations"
+      }
+    ),
+    })
+    .then(response => {response.json(),console.log("\n response from the first -->>",response,"\n\n")
+
+    ; return response
+      
+    })
+  .then(data => {
+    // Handle the response data here
+    console.log("\n in the data one ");
     
-  // })
-  // .catch(error => {
-  //   console.log("\n err -->>",error);
-  //   // Handle any errors
-  // });
+    if (data.status===401){
+  console.log("\n in the data two---");
+  UpdateJWT() 
+}
+    
+  })
+  .catch(error => {
+    console.log("\n err -->>",error);
+    // Handle any errors
+  });
+  
           
             
           // let access = "access__"
@@ -66,12 +111,7 @@ import axiosInstance from "../auth/utils/new_tokens_auth";
 
 
           
-    //        deleteItemAsync("JWT") ;
-          
-    //        console.log("input text from the home screen -- ",inputText, "\n jwt tokens in zustand state -->>",JWT)
-    //        setJWT(null)
-          
-    // router.replace('/(main_app)/');
+   
 
   // const instance = axios.create({
   //   baseURL: 'https://4b75-1-22-230-81.ngrok-free.app',
@@ -106,6 +146,15 @@ import axiosInstance from "../auth/utils/new_tokens_auth";
     // });
     
 
+        }} />
+        <Button title="delete jwt"
+        onPress={()=>{
+                  deleteItemAsync("JWT") ;
+          
+           console.log("input text from the home screen -- ",inputText, "\n jwt tokens in zustand state -->>",JWT)
+           setJWT(null)
+          
+    router.replace('/(main_app)/');
         }} />
 
         <View style={{ flex: 1, backgroundColor: '#5a7ead', borderTopLeftRadius: 32, borderTopRightRadius:32, paddingBottom:24 }}>
