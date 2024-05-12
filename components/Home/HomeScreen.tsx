@@ -60,7 +60,9 @@ import { useQuery } from "@tanstack/react-query";
       
        } catch (error) {
         console.log("\n -- in the error in updateJWT");
-        
+        // ------------------------------------------ Alert -----------------------------------------------------
+        // alert the user and respond to the backend --or may be retry 
+        // ------------------------------------------ Alert -----------------------------------------------------
         console.error(error)
        }
       }
@@ -68,8 +70,9 @@ import { useQuery } from "@tanstack/react-query";
 
 async function temp_website() {
   let token = JSON.parse(getItem("JWT")).access
+  let alt_data_from_updateJWT
     
-    fetch(`${process.env.EXPO_PUBLIC_BACKEND_URL}/temp_website`,{
+  const data_to_return_to_react_query = fetch(`${process.env.EXPO_PUBLIC_BACKEND_URL}/temp_website`,{
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -88,15 +91,17 @@ async function temp_website() {
     })
   .then(data => {
     // Handle the response data here probally  alert the user and tell them to respond to the backend 
-    console.log("\n in the data one ");
+    console.log("\n in the data one ",data.json());
     
     if (data.status===401){
       console.log("\n in the data two---");
       UpdateJWT(setJWT)
+      // don't need to retuern form here as it already re runs the function
     }
 
     setMakeARequest(false)
     return data
+    // log
     
   })
   .catch(error => {
@@ -105,7 +110,17 @@ async function temp_website() {
     console.log("\n\n error form thequery func / temp-->website ");
     
 
+  
   });
+  // -------------------------------------- now make sure i also return the response from the 2 try after refresh token ------------------
+  // ----------------------------------------------------------
+  // ------------------------------------------  or maybe don't need to as Refetch works --- try an example to see  -->> yup I think it works 
+  // -------------------------------------------- lets make a abstract function
+  // --------------------------------------2.> setMakeARequest() .........3.> UpdateJWT()
+    data_to_return_to_react_query   
+      return data_to_return_to_react_query
+  // -------------------------------------- now make sure i also return the response from the 2 try after refresh token ------------------
+
 
 }
       
@@ -113,7 +128,7 @@ async function temp_website() {
 
   // ------------------------------- react query ------------------------------
   
-const { isSuccess, refetch, status,data}= useQuery({
+const { isSuccess, refetch, status, data}= useQuery({
   queryKey:['fetch-the-temp-website'],
   queryFn: temp_website,
   enabled:makeARequest,
@@ -121,7 +136,8 @@ const { isSuccess, refetch, status,data}= useQuery({
 })
 
 
-
+useEffect(()=>{console.log("\n\n ============================||----||data from the query fucntion============================||------||",data);
+},[data])
 
   
   // ------------------------------- react query ------------------------------
