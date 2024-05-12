@@ -70,9 +70,8 @@ import { useQuery } from "@tanstack/react-query";
 
 async function temp_website() {
   let token = JSON.parse(getItem("JWT")).access
-  let alt_data_from_updateJWT
     
-  const data_to_return_to_react_query = fetch(`${process.env.EXPO_PUBLIC_BACKEND_URL}/temp_website`,{
+  const data_to_return_to_react_query =  await  fetch(`${process.env.EXPO_PUBLIC_BACKEND_URL}/temp_website`,{
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -84,10 +83,8 @@ async function temp_website() {
       }
     ),
     })
-    .then(response => {response.json(),console.log("\n response from the first -->>",response,"\n\n")
-
+    .then(response => {console.log("\n response from the first -->>", response,"\n\n","=-=-=-=-=-=-=-=--=-==--=-====response data----PP--*(*09900-->>>)) ",response)
     ; return response
-      
     })
   .then(data => {
     // Handle the response data here probally  alert the user and tell them to respond to the backend 
@@ -98,11 +95,10 @@ async function temp_website() {
       UpdateJWT(setJWT)
       // don't need to retuern form here as it already re runs the function
     }
-
-    setMakeARequest(false)
-    return data
-    // log
     
+    setMakeARequest(false)
+    console.log("\n hopefully here ---",data.json());
+    return data
   })
   .catch(error => {
     console.log("\n err -->>",error);
@@ -117,8 +113,9 @@ async function temp_website() {
   // ------------------------------------------  or maybe don't need to as Refetch works --- try an example to see  -->> yup I think it works 
   // -------------------------------------------- lets make a abstract function
   // --------------------------------------2.> setMakeARequest() .........3.> UpdateJWT()
-    data_to_return_to_react_query   
-      return data_to_return_to_react_query
+    // data_to_return_to_react_query 
+      
+  return data_to_return_to_react_query
   // -------------------------------------- now make sure i also return the response from the 2 try after refresh token ------------------
 
 
@@ -147,9 +144,114 @@ useEffect(()=>{console.log("\n\n ============================||----||data from t
 
     return (
       <View style={{ flex: 1, backgroundColor: '#010c1c', paddingTop: 150 }}>
-        <Button title='remove' onPress={()=>{
+        <Button title='remove' onPress={async ()=>{
           setMakeARequest(true)
-    // bb()
+          // const token = JSON.parse(getItem("JWT")).access;
+          // const prompt =
+          //   "Create website with many pages for a GYM that is on the way to create a revolution  ; give us a very  dope looking website that has too many colors as i ma trying to target the younger generation that like colors and photos and futuristic and modernly colorful, with animations";
+      
+          // try {
+          //   const response = await fetch(`${process.env.EXPO_PUBLIC_BACKEND_URL}/temp_website`, {
+          //     method: "POST",
+          //     headers: {
+          //       "Content-Type": "application/json",
+          //       Authorization: `Bearer ${token}`,
+          //     },
+          //     body: JSON.stringify({ prompt }),
+          //   });
+      
+          //   const data = await response.json();
+          //   console.log("Response from fetch---->>>>>:", data,"\n\n");
+      
+          //   // Handle the response data as needed
+          // } catch (error) {
+          //   console.error("Error:", error);
+          //   // Handle the error
+          // }
+          
+// ------------------------------------------------------------------------------------------
+//  let a = axios.get(`${process.env.EXPO_PUBLIC_BACKEND_URL}/temp_website`)
+//  setTimeout(()=>{console.log(a.data,"\n ---==-00----=---")
+//  },4000)
+// fetch(`${process.env.EXPO_PUBLIC_BACKEND_URL}/temp_website`,{
+//   // method: 'GET',
+//   headers: {
+//     'Content-Type': 'application/json',
+//     // 'Authorization': 'Bearer '+token,
+
+//   },
+//   body: JSON.stringify({
+//     prompt :"Create website with many pages for a GYM that is on the way to create a revolution  ; give us a very  dope looking website that has too many colors as i ma trying to target the younger generation that like colors and photos and futuristic and modernly colorful, with animations"
+//   }
+// ),
+// })
+// .then(response => {response.json(),console.log("\n response from the first -->>",response,"\n\n")
+
+// ; return response
+  
+// })
+// .then(data => {
+// // Handle the response data here probally  alert the user and tell them to respond to the backend 
+// console.log("\n in the data one ",data.json());
+
+// if (data.status===401){
+//   console.log("\n in the data two---");
+//   // UpdateJWT(setJWT)
+//   // don't need to retuern form here as it already re runs the function
+// }
+
+// // setMakeARequest(false)
+// return data
+// // log
+
+// })
+// .catch(error => {
+// console.log("\n err||| -->>",error);
+// // Handle any errors
+// console.log("\n\n |||error form thequery func / temp-->website ");
+
+
+
+// });
+// -------------------------------------- now make sure i also return the response from the 2 try after refresh token ------------------
+// ----------------------------------------------------------
+// ------------------------------------------  or maybe don't need to as Refetch works --- try an example to see  -->> yup I think it works 
+// -------------------------------------------- lets make a abstract function
+// --------------------------------------2.> setMakeARequest() .........3.> UpdateJWT()
+// data_to_return_to_react_query   
+//   return data_to_return_to_react_query
+// -------------------------------------- now make sure i also return the response from the 2 try after refresh token ------------------
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ------------------------------------------------------------------------------------------
+// bb()
 //     let token = JSON.parse(getItem("JWT")).access
     
 //     fetch(`${process.env.EXPO_PUBLIC_BACKEND_URL}/temp_website`,{
@@ -175,7 +277,7 @@ useEffect(()=>{console.log("\n\n ============================||----||data from t
     
 //     if (data.status===401){
 //   console.log("\n in the data two---");
-//   UpdateJWT() 
+//   // UpdateJWT() 
 // }
     
 //   })
