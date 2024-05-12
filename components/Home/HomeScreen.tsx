@@ -1,6 +1,6 @@
   import { FlashList } from "@shopify/flash-list";
   import { deleteItemAsync, getItem, setItem } from 'expo-secure-store';
-  import { View, TextInput, Text, Button } from 'react-native'
+  import { View, TextInput, Text, Button, Alert } from 'react-native'
   import * as React from 'react'
   import { useEffect, useState } from 'react';
   import JWTStore from '@/app/store';
@@ -83,14 +83,27 @@ async function temp_website() {
         prompt: "Create website with many pages for a GYM that is on the way to create a revolution  ; give us a very  dope looking website that has too many colors as i ma trying to target the younger generation that like colors and photos and futuristic and modernly colorful, with animations"
       })
     });
+    if(response.status === 401){
+      UpdateJWT(setJWT)
+      refetch()
+    }
 
-    const data = await response.json();
+    const body = await response.json();
     // const text = await response.text();
-    console.log("Response data from temp_website:", data, "\n\nresponse -->",response, "\n\n --t--ex--t",);
+    console.log("Response data from temp_website:", body, "\n\nresponse -->",response, "\n\n --t--ex--t",);
     setResponnseJSON(response)
-    return {data,response};
+    setMakeARequest(false)
+    return {body,"headers":response};
 
   } catch (error) {
+// 
+setMakeARequest(false)
+  if (String(error).includes("Network request failed")){
+  // ------- network error on client side 
+  Alert.alert("Network  error ", "Oops ! we are having trouble cause of your internet connection"  )
+}
+console.log("error form fetching --",String(error));
+
 
     
   }
@@ -118,10 +131,11 @@ async function temp_website() {
 
   // ------------------------------- react query ------------------------------
   
-const { isSuccess, refetch, status, data}= useQuery({
+const { isSuccess ,refetch, status, data}= useQuery({
   queryKey:['fetch-the-temp-website'],
   queryFn: temp_website,
   enabled:makeARequest,
+  // retry:2
   // pass the refetch and uspade state func in it 
 })
 
