@@ -87,7 +87,7 @@ async function temp_website() {
       
     })
   .then(data => {
-    // Handle the response data here
+    // Handle the response data here probally  alert the user and tell them to respond to the backend 
     console.log("\n in the data one ");
     
     if (data.status===401){
