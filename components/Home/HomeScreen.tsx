@@ -9,7 +9,8 @@
 //   import axios, { AxiosError } from 'axios';
 // import axiosInstance from "../auth/utils/new_tokens_auth";
 import { useQuery } from "@tanstack/react-query";
-import UpdateJWT, { temp_website } from "../auth/utils/functions_for_updating_tokens";
+import UpdateJWT, { QueryFunction } from "../auth/utils/functions_for_updating_tokens";
+import { alert_user_for_common__errors_from_backend_given_by_Rquery } from "../auth/utils/func_to_alert_user_for_common_querystatus_and_message_to_displa";
   
 
 
@@ -19,7 +20,9 @@ import UpdateJWT, { temp_website } from "../auth/utils/functions_for_updating_to
     const [IsFirstRequest , setIsFirstRequest] = useState(true)
     const [inputText , setInputText] = useState(null)
     const [makeARequest , setMakeARequest] = useState(false)
+    const [makeARequestFormTempToProject , setMakeARequestFormTempToProject] = useState(false)
     const [responnseJSON , setResponnseJSON] = useState(null)
+    const [project_name , setProject_name] = useState("trial-from-button")
     useEffect(()=>{
         console.log("input text from the home screen -- ",inputText, "\n jwt tokens in zustand state -->>",JWT,"\n ====>make a request -->",makeARequest)
       },[JWT,makeARequest])
@@ -41,16 +44,32 @@ import UpdateJWT, { temp_website } from "../auth/utils/functions_for_updating_to
 
   // ------------------------------- react query ------------------------------
   
+// const { isSuccess ,refetch, status, data}= useQuery({
+//   queryKey:['fetch-the-temp-website'],
+//   queryFn: ()=>QueryFunction("temp_website",setJWT,refetch,setMakeARequest,setResponnseJSON),
+//   enabled:makeARequest,
+//   // retry:2
+//   // pass the body from the outside
+// })
+// ------- this one is specifically for the set the project name func
+
 const { isSuccess ,refetch, status, data}= useQuery({
   queryKey:['fetch-the-temp-website'],
-  queryFn: ()=>temp_website("temp_website",setJWT,refetch,setMakeARequest,setResponnseJSON),
-  enabled:makeARequest,
+  queryFn: ()=>QueryFunction(`temp_website_to_production?project_name=${project_name}`,setJWT,refetch,setMakeARequestFormTempToProject,setResponnseJSON),
+  enabled:makeARequestFormTempToProject,
   // retry:2
-  // pass the refetch and uspade state func in it 
+  // pass the body from the outside
 })
 
+// -------make a function that takes in the data from react query amd alerts all teh function of the  common errors 400 , 500 , message to display to the userrs
 
-useEffect(()=>{console.log("\n\n ============================||----||data from the query fucntion============================||------||",data , "\n\n-->>",responnseJSON );
+
+useEffect(()=>{console.log("\n\n ============================||----||data from the query fucntion============================||------||" , "\n\n-->>",responnseJSON );
+if (data){
+  alert_user_for_common__errors_from_backend_given_by_Rquery(data)
+}
+
+
 },[data,responnseJSON])
 
   
@@ -63,6 +82,15 @@ useEffect(()=>{console.log("\n\n ============================||----||data from t
       <View style={{ flex: 1, backgroundColor: '#010c1c', paddingTop: 150 }}>
         <Button title='remove' onPress={async ()=>{
           setMakeARequest(true)
+
+          setProject_name(()=>"trial-from-button")
+          if (project_name != null){
+            setMakeARequestFormTempToProject(true)
+          }
+          else{
+            Alert.alert("","Project name can't be empty")
+          }
+
           // const token = JSON.parse(getItem("JWT")).access;
           // const prompt =
           //   "Create website with many pages for a GYM that is on the way to create a revolution  ; give us a very  dope looking website that has too many colors as i ma trying to target the younger generation that like colors and photos and futuristic and modernly colorful, with animations";
@@ -247,6 +275,7 @@ useEffect(()=>{console.log("\n\n ============================||----||data from t
     
 
         }} />
+        <View className="mt-3">
         <Button title="delete jwt"
         onPress={()=>{
                   deleteItemAsync("JWT") ;
@@ -256,6 +285,7 @@ useEffect(()=>{console.log("\n\n ============================||----||data from t
           
     router.replace('/(main_app)/');
         }} />
+        </View>
 
         <View style={{ flex: 1, backgroundColor: '#5a7ead', borderTopLeftRadius: 32, borderTopRightRadius:32, paddingBottom:24 }}>
         

@@ -13,9 +13,9 @@ export default async function UpdateJWT (setJWTTokens, refetch ){
        { refresh: JSON.parse(getItem('JWT')).refresh }
      );
      const { access, refresh } = response.data;
-    //  console.log("-------above the response ------");
+     console.log("-------above the response ------");
      
-    //  console.log("\n response data ----",response.headers);
+     console.log("\n response data ----",response.headers);
      
     //  console.log("\n\n ================================8888888888888888-===========response and access(jsut to be sure ) -->>",refresh,"\n access -----", access);
      deleteItemAsync("JWT").then(()=>{
@@ -39,11 +39,11 @@ export default async function UpdateJWT (setJWTTokens, refetch ){
 
 
 
-  export async function temp_website(URLPathDoNoTIncludeBackSlash,setJWTTokensInState_Zustand_here,refetch,setMakeARequestWithReactQuery,setResponseOrHeadersFromAUseStateFunc) {
+  export async function QueryFunction(URLPath_DoNoT_Include_BackSlash,setJWTTokensInState_Zustand_here,refetch,setMakeARequestWithReactQuery,setResponseOrHeadersFromAUseStateFunc) {
     let token = JSON.parse(getItem("JWT")).access
   
       try {
-      const response = await fetch(`${process.env.EXPO_PUBLIC_BACKEND_URL}/${URLPathDoNoTIncludeBackSlash}`, {
+      const response = await fetch(`${process.env.EXPO_PUBLIC_BACKEND_URL}/${URLPath_DoNoT_Include_BackSlash}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -63,6 +63,8 @@ export default async function UpdateJWT (setJWTTokens, refetch ){
     //   console.log("Response data from temp_website:", body, "\n\nresponse -->",response, "\n\n --t--ex--t",);
       setResponseOrHeadersFromAUseStateFunc(response)
       setMakeARequestWithReactQuery(false)
+    //   console.log("\n\n =======8888888======= lets see what is getting out -->>",{body,"headers":response},"===888888===\n\n");
+      
       return {body,"headers":response};
   
     } catch (error) {
@@ -72,7 +74,7 @@ export default async function UpdateJWT (setJWTTokens, refetch ){
         // ------- network error on client side 
           Alert.alert("Network  error ", "Oops ! we are having trouble cause of your internet connection"  )
         }
-        Alert.alert("Error", "Oops ! an error occured"  )
+        Alert.alert("Error", "Oops ! an error occured" , )
         // ------------------ alert message here (above)
         
         console.log("error form fetching --",String(error));
