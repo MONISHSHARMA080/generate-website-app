@@ -6,7 +6,7 @@ import { Alert } from "react-native";
 export default async function UpdateJWT (setJWTTokens, refetch ){
     const Jwt_string = getItem('JWT')
    try {
-     console.log("in the update func --->>, my tokens -->>",JSON.parse(Jwt_string).refresh );
+    //  console.log("in the update func --->>, my tokens -->>",JSON.parse(Jwt_string).refresh );
      
      const response = await axios.post(
        `${process.env.EXPO_PUBLIC_BACKEND_URL}/api/token/refresh/`,
@@ -50,7 +50,7 @@ export default async function UpdateJWT (setJWTTokens, refetch ){
           'Authorization': 'Bearer ' + token,
         },
         body: JSON.stringify({
-          prompt: "Create website with many pages for a GYM that is on the way to create a revolution  ; give us a very  dope looking website that has too many colors as i ma trying to target the younger generation that like colors and photos and futuristic and modernly colorful, with animations"
+          prompt: "Create website with many pages for a GYM that is on the way to create a revolution  ; give us a very  dope looking website that has too/as  many colors as i am trying to target the younger generation that like colors and photos and futuristic and modernly colorful, with animations. I also need my ui to be rounder like google's material ui (overly rounded ui) and have flashy color and clean (meaning space in between elements)"
         })
       });
       if(response.status === 401){
@@ -60,7 +60,7 @@ export default async function UpdateJWT (setJWTTokens, refetch ){
   
       const body = await response.json();
       // const text = await response.text();
-      console.log("Response data from temp_website:", body, "\n\nresponse -->",response, "\n\n --t--ex--t",);
+    //   console.log("Response data from temp_website:", body, "\n\nresponse -->",response, "\n\n --t--ex--t",);
       setResponseOrHeadersFromAUseStateFunc(response)
       setMakeARequestWithReactQuery(false)
       return {body,"headers":response};
@@ -72,7 +72,11 @@ export default async function UpdateJWT (setJWTTokens, refetch ){
         // ------- network error on client side 
           Alert.alert("Network  error ", "Oops ! we are having trouble cause of your internet connection"  )
         }
+        Alert.alert("Error", "Oops ! an error occured"  )
+        // ------------------ alert message here (above)
+        
         console.log("error form fetching --",String(error));
+        return error
   
       // ----------------------------------- got a error  -- respond to the user -------------------------
       // Alert.alert("","")
