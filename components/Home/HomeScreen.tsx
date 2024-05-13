@@ -55,7 +55,7 @@ import { alert_user_for_common__errors_from_backend_given_by_Rquery } from "../a
 
 const { isSuccess ,refetch, status, data}= useQuery({
   queryKey:['fetch-the-temp-website'],
-  queryFn: ()=>QueryFunction(`temp_website_to_production?project_name=${project_name}`,setJWT,refetch,setMakeARequestFormTempToProject,setResponnseJSON),
+  queryFn: ()=>QueryFunction(`delete_a_project_or_temp?project_name=${project_name}`,setJWT,refetch,setMakeARequestFormTempToProject,setResponnseJSON),
   enabled:makeARequestFormTempToProject,
   // retry:2
   // pass the body from the outside
@@ -65,7 +65,7 @@ const { isSuccess ,refetch, status, data}= useQuery({
 
 
 useEffect(()=>{console.log("\n\n ============================||----||data from the query fucntion============================||------||" , "\n\n-->>",responnseJSON );
-if (data){
+if (data!=null || data!= undefined){
   alert_user_for_common__errors_from_backend_given_by_Rquery(data)
 }
 

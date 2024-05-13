@@ -1,6 +1,7 @@
 import { Alert } from "react-native";
 
 export  function alert_user_for_common__errors_from_backend_given_by_Rquery(data) {
+    console.log(data);
     
     if (data.body.status_code ===200 || data.body.status_code ===201 ){
         return
