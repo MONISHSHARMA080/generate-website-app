@@ -57,6 +57,8 @@ export default async function UpdateJWT (setJWTTokens, refetch ){
         UpdateJWT(setJWTTokensInState_Zustand_here,refetch)
         refetch()
       }
+      console.log(response.status, "---");
+      
   
       const body = await response.json();
       // const text = await response.text();

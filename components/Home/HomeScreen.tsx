@@ -23,9 +23,9 @@ import { alert_user_for_common__errors_from_backend_given_by_Rquery } from "../a
     const [makeARequestFormTempToProject , setMakeARequestFormTempToProject] = useState(false)
     const [responnseJSON , setResponnseJSON] = useState(null)
     const [project_name , setProject_name] = useState("trial-from-button")
-    useEffect(()=>{
-        console.log("input text from the home screen -- ",inputText, "\n jwt tokens in zustand state -->>",JWT,"\n ====>make a request -->",makeARequest)
-      },[JWT,makeARequest])
+    // useEffect(()=>{
+    //     console.log("input text from the home screen -- ",inputText, "\n jwt tokens in zustand state -->>",JWT,"\n ====>make a request -->",makeARequest)
+    //   },[JWT,makeARequest])
 
 
     // async function bb (){
@@ -55,7 +55,7 @@ import { alert_user_for_common__errors_from_backend_given_by_Rquery } from "../a
 
 const { isSuccess ,refetch, status, data}= useQuery({
   queryKey:['fetch-the-temp-website'],
-  queryFn: ()=>QueryFunction(`delete_a_project_or_temp?project_name=${project_name}`,setJWT,refetch,setMakeARequestFormTempToProject,setResponnseJSON),
+  queryFn: ()=>QueryFunction(`get_all_the_projects_of_the_user?project_name=${project_name}`,setJWT,refetch,setMakeARequestFormTempToProject,setResponnseJSON),
   enabled:makeARequestFormTempToProject,
   // retry:2
   // pass the body from the outside
@@ -64,13 +64,16 @@ const { isSuccess ,refetch, status, data}= useQuery({
 // -------make a function that takes in the data from react query amd alerts all teh function of the  common errors 400 , 500 , message to display to the userrs
 
 
-useEffect(()=>{console.log("\n\n ============================||----||data from the query fucntion============================||------||" , "\n\n-->>",responnseJSON );
+useEffect(()=>{console.log("\n\n ============================||----||data from the query fucntion============================||------||" , "\n\n-->>",(responnseJSON?responnseJSON:"") );
 if (data!=null || data!= undefined){
+  console.log("\n data in the isSuccess -->>",isSuccess,"\n\n ",);
+  console.log("\n data in the useeffect -->>",data);
+  
   alert_user_for_common__errors_from_backend_given_by_Rquery(data)
 }
 
 
-},[data,responnseJSON])
+},[data,responnseJSON,isSuccess,status])
 
   
   // ------------------------------- react query ------------------------------
@@ -293,7 +296,7 @@ if (data!=null || data!= undefined){
           {IsFirstRequest? ( 
             <>
               <Text className=" text-xl font-sans font-bold text-slate-900">Hi! Let's make your website</Text>
-              <PillShapeButtonForHomeScreen textToBeDisplayed={'Generate'} colorOnTheBorderAndInTheText={'#000000'} />
+              <PillShapeButtonForHomeScreen textToBeDisplayed={'Generate'} colorOnTheBorderAndInTheText={'#000000'}  />
             </>
           )
           :
