@@ -39,11 +39,13 @@ export default async function UpdateJWT (setJWTTokens, refetch ){
 
 
 
-  export async function QueryFunction(URLPath_DoNoT_Include_BackSlash,setJWTTokensInState_Zustand_here,refetch,setMakeARequestWithReactQuery,setResponseOrHeadersFromAUseStateFunc, prompt_for_the_body_do_Not_JSON_stringify) {
+  export async function QueryFunction(URLPath_DoNoT_Include_BackSlash,setJWTTokensInState_Zustand_here,refetch,setMakeARequestWithReactQuery,setResponseOrHeadersFromAUseStateFunc, prompt_for_the_body_do_Not_JSON_stringify, ) {
     let token = JSON.parse(getItem("JWT")).access
-  console.log(" \n //==in it --/// \n");
-  
+  console.log(" \n //==in it --/// \n",JSON.stringify(prompt_for_the_body_do_Not_JSON_stringify));
+ 
       try {
+       
+      
       const response = await fetch(`${process.env.EXPO_PUBLIC_BACKEND_URL}/${URLPath_DoNoT_Include_BackSlash}`, {
         method: 'POST',
         headers: {

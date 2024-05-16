@@ -1,6 +1,6 @@
 import { FlashList } from "@shopify/flash-list";
 import { deleteItemAsync, getItem, setItem } from 'expo-secure-store';
-import { View, TextInput, Text, Button, Alert } from 'react-native'
+import { View, TextInput, Text, Button, Alert, Modal } from 'react-native'
 import * as React from 'react'
 import { useEffect, useState } from 'react';
 import JWTStore from '@/app/store';
@@ -12,7 +12,6 @@ import { useQuery } from "@tanstack/react-query";
 import UpdateJWT, { QueryFunction } from "../auth/utils/functions_for_updating_tokens";
 import { alert_user_for_common__errors_from_backend_given_by_Rquery } from "../auth/utils/func_to_alert_user_for_common_querystatus_and_message_to_displa";
 import function_to_make_react_query_request from "../auth/utils/function_to_make_react_query_request";
-  
 
 
   export default function HomeScreen() {    
@@ -24,11 +23,19 @@ import function_to_make_react_query_request from "../auth/utils/function_to_make
     const [makeARequestFormTempToProject , setMakeARequestFormTempToProject] = useState(false)
     const [makeARequestForDeleteAProjectOrTemp , setMakeARequestForDeleteAProjectOrTemp] = useState(false)
     const [makeARequestForGetAllUserProject , setMakeARequestForGetAllUserProject] = useState(false)
+    const [makeARequestForGetNameForTheProject , setMakeARequestForGetNameForTheProject] = useState(false)
+
+
+    const [responnseJSONForGetNameForTheProject , setResponnseJSONForGetNameForTheProject] = useState(null)
     const [responnseJSONForTempSite , setResponnseJSONForTempSite] = useState(null)
     const [responnseJSONForTempToProduction , setResponnseJSONForTempToProduction] = useState(null)
     const [responnseJSONForDeleteAProjectOrTemp , setResponnseJSONForDeleteAProjectOrTemp] = useState(null)
     const [responnseJSONForGetAllUserProject , setResponnseJSONForGetAllUserProject] = useState(null)
     const [project_name , setProject_name] = useState("1")
+
+    // -----modal ----
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    
     // useEffect(()=>{
     //     console.log("input text from the home screen -- ",inputText, "\n jwt tokens in zustand state -->>",JWT,"\n ====>make a request -->",makeARequest)
     //   },[JWT,makeARequest])
@@ -149,6 +156,30 @@ if (get_all_the_projects_of_the_user.data!=null || get_all_the_projects_of_the_u
 
 
 
+// -----------------------------------__XXXXXXXXXXX__XX-
+
+
+// ---------------some problem/wromg with this method this is not sending requests----------------------
+const get_the_name_for_the_project = useQuery({
+  queryKey:['push-the-temp-website-to-prod'],
+  queryFn: ()=>QueryFunction(`get_the_name_for_the_project`,setJWT,get_the_name_for_the_project.refetch,setMakeARequestForGetNameForTheProject,setResponnseJSONForGetNameForTheProject, {"prompt":inputText}),
+  enabled:makeARequestForGetNameForTheProject,
+  // retry:2
+  // ------------ decide on the project name  ----------------
+})
+
+useEffect(()=>{console.log("\n\n ============================||----||data from the query fucntion============================||------||" , "\n\n-->>",(responnseJSONForGetNameForTheProject?responnseJSONForGetNameForTheProject:"") );
+if (get_the_name_for_the_project.data!=null || get_the_name_for_the_project.data!= undefined){
+  console.log("\n data in the isSuccess -->>",get_the_name_for_the_project.isSuccess,"\n\n ",);
+  console.log("\n data in the useeffect -->>",get_the_name_for_the_project.data);
+  
+  alert_user_for_common__errors_from_backend_given_by_Rquery(get_the_name_for_the_project.data)
+}
+},[get_the_name_for_the_project.data, responnseJSONForGetNameForTheProject, get_the_name_for_the_project.isSuccess, get_the_name_for_the_project.status])
+
+
+
+
 
 
 // -------make a function that takes in the data from react query amd alerts all teh function of the  common errors 400 , 500 , message to display to the userrs
@@ -159,11 +190,37 @@ if (get_all_the_projects_of_the_user.data!=null || get_all_the_projects_of_the_u
   
   // ------------------------------- react query ------------------------------
 
-      
+  
 
  
     return (
       <View style={{ flex: 1, backgroundColor: '#010c1c', paddingTop: 150 }}>
+         <Modal
+      visible={isModalVisible}
+      transparent={true}
+      onRequestClose={()=>setIsModalVisible(false)}
+      animationType="slide"
+    >
+<View className=" bg-orange-500 text-white flex rounded-3xl mt-40 border-black border-2 ">
+<Text>uneriovnornvrev</Text>      
+<Text>uneriovnornvrev</Text>      
+<Text>uneriovnornvrev</Text>      
+<Text>uneriovnornvrev</Text>      
+<Text>uneriovnornvrev</Text>      
+<Text>uneriovnornvrev</Text>   
+<Text>uneriovnornvrev</Text>      
+<Text>uneriovnornvrev</Text>      
+<Text>uneriovnornvrev</Text>      
+<Text>uneriovnornvrev</Text>      
+<Text>uneriovnornvrev</Text>      
+<Text>uneriovnornvrev</Text>      
+<Text>uneriovnornvrev</Text>      
+<Text>uneriovnornvrev</Text>     
+
+  </View>    
+    </Modal>
+   
+       
         {/* <Button title='remove' onPress={async ()=>{
           setMakeARequest(true)
 
@@ -182,19 +239,21 @@ if (get_all_the_projects_of_the_user.data!=null || get_all_the_projects_of_the_u
         </View> */}
 
         <View style={{ flex: 1, backgroundColor: '#5a7ead', borderTopLeftRadius: 32, borderTopRightRadius:32, paddingBottom:24 }}>
+
         
         <View className="flex-1 items-center justify-center">
           {IsFirstRequest? ( 
             <>
               <Text className=" text-xl font-sans font-bold text-slate-900">Hi! Let's make you a website</Text>
               <PillShapeButtonForHomeScreen textToBeDisplayed={'Generate'} colorOnTheBorderAndInTheText={'#000000'} function_to_run_on_touch={()=>{setMakeARequestForTempProject(true)}} />
+              <PillShapeButtonForHomeScreen textToBeDisplayed={'Deploy'} colorOnTheBorderAndInTheText={'#0ce80c'} function_to_run_on_touch={()=>{setMakeARequestForGetNameForTheProject(true);console.log("\n ---||||| \n ");
+              } }  />
             </>
           )
           :
           (
             <>
               <PillShapeButtonForHomeScreen textToBeDisplayed={'Fix It'} colorOnTheBorderAndInTheText={'#f20a77'} />
-              <PillShapeButtonForHomeScreen textToBeDisplayed={'Deploy'} colorOnTheBorderAndInTheText={'#0ce80c'} function_to_run_on_touch={()=>setMakeARequestFormTempToProject(true)}  />
             </>
           )}
 
