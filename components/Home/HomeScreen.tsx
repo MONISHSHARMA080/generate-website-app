@@ -246,7 +246,13 @@ if (get_the_name_for_the_project.data!=null || get_the_name_for_the_project.data
             <>
               <Text className=" text-xl font-sans font-bold text-slate-900">Hi! Let's make you a website</Text>
               <PillShapeButtonForHomeScreen textToBeDisplayed={'Generate'} colorOnTheBorderAndInTheText={'#000000'} function_to_run_on_touch={()=>{setMakeARequestForTempProject(true)}} />
-              <PillShapeButtonForHomeScreen textToBeDisplayed={'Deploy'} colorOnTheBorderAndInTheText={'#0ce80c'} function_to_run_on_touch={()=>{setMakeARequestForGetNameForTheProject(true);console.log("\n ---||||| \n ");
+              <PillShapeButtonForHomeScreen textToBeDisplayed={'Deploy'} colorOnTheBorderAndInTheText={'#0ce80c'} function_to_run_on_touch={()=>{
+                if(inputText.length >2 || inputText != null || inputText != undefined ){
+                  setMakeARequestForGetNameForTheProject(true);
+                }
+                else{
+                  Alert.alert("can't be empty", "Input can't be empty , please describe somethign about your website")
+                }
               } }  />
             </>
           )
