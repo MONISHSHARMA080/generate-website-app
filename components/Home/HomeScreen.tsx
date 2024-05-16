@@ -1,16 +1,17 @@
-  import { FlashList } from "@shopify/flash-list";
-  import { deleteItemAsync, getItem, setItem } from 'expo-secure-store';
-  import { View, TextInput, Text, Button, Alert } from 'react-native'
-  import * as React from 'react'
-  import { useEffect, useState } from 'react';
-  import JWTStore from '@/app/store';
-  import { Redirect, useFocusEffect, useRouter } from 'expo-router';
-  import PillShapeButtonForHomeScreen from './buttons/pillShapeButtonForHomeScreen';
+import { FlashList } from "@shopify/flash-list";
+import { deleteItemAsync, getItem, setItem } from 'expo-secure-store';
+import { View, TextInput, Text, Button, Alert } from 'react-native'
+import * as React from 'react'
+import { useEffect, useState } from 'react';
+import JWTStore from '@/app/store';
+import { Redirect, useFocusEffect, useRouter } from 'expo-router';
+import PillShapeButtonForHomeScreen from './buttons/pillShapeButtonForHomeScreen';
 //   import axios, { AxiosError } from 'axios';
 // import axiosInstance from "../auth/utils/new_tokens_auth";
 import { useQuery } from "@tanstack/react-query";
 import UpdateJWT, { QueryFunction } from "../auth/utils/functions_for_updating_tokens";
 import { alert_user_for_common__errors_from_backend_given_by_Rquery } from "../auth/utils/func_to_alert_user_for_common_querystatus_and_message_to_displa";
+import function_to_make_react_query_request from "../auth/utils/function_to_make_react_query_request";
   
 
 
@@ -32,14 +33,19 @@ import { alert_user_for_common__errors_from_backend_given_by_Rquery } from "../a
     //     console.log("input text from the home screen -- ",inputText, "\n jwt tokens in zustand state -->>",JWT,"\n ====>make a request -->",makeARequest)
     //   },[JWT,makeARequest])
 
-      
 
-const { isSuccess ,refetch, status, data} = useQuery({
-  queryKey:['fetch-the-temp-website'],
-  queryFn: ()=>QueryFunction(`temp_website?project_name=${project_name}`,setJWT,refetch,setMakeARequestForTempProject,setResponnseJSONForTempSite),
+// let a 
+// a = function_to_make_react_query_request("temp_website",setJWT,setResponnseJSONForTempSite, setMakeARequestForTempProject, makeARequestForTempProject)
+
+const {data, isSuccess, status, refetch} = useQuery({
+  queryKey:['temp_website'],
+  queryFn: ()=>QueryFunction('temp_website', setJWT, refetch, setMakeARequestForTempProject, setResponnseJSONForTempSite, 
+    {
+      prompt: "Give me a website for a shop owner that that sells jwellery , but make it  material design with extreme curves that has its own personality  and make the colors(bg and all) as posh as possible (meaning play with  golds silver(these were examples , make your own combination for sure) with unique buttons ,bg and animations that aims to sell it to 1% (wealth wise) ) , we will be selling it to a luxury brand "
+    }),
   enabled:makeARequestForTempProject,
   // retry:2
-  // ------------ pass the body from the outside ----------------
+  // ------------ decide on the project name  ----------------
 })
 
 useEffect(()=>{console.log("\n\n ============================||----||data from the query fucntion============================||------||" , "\n\n-->>",(responnseJSONForTempSite?responnseJSONForTempSite:"") );
@@ -48,6 +54,11 @@ if (data!=null || data!= undefined){
   console.log("\n data in the useeffect -->>",data);
   
   alert_user_for_common__errors_from_backend_given_by_Rquery(data)
+  if (data.body.status_code){
+    if (data.body.status_code === 200 || data.body.status_code === 201){
+      setIsFirstRequest(false)
+    }
+  }
 }
 },[data, responnseJSONForTempSite, isSuccess, status])
 
@@ -68,7 +79,7 @@ if (data!=null || data!= undefined){
 
 const temp_website_to_production_RQ = useQuery({
   queryKey:['push-the-temp-website-to-prod'],
-  queryFn: ()=>QueryFunction(`temp_website_to_production?project_name=${project_name}`,setJWT,refetch,setMakeARequestFormTempToProject,setResponnseJSONForTempToProduction),
+  queryFn: ()=>QueryFunction(`temp_website_to_production?project_name=${project_name}`,setJWT,temp_website_to_production_RQ.refetch,setMakeARequestFormTempToProject,setResponnseJSONForTempToProduction, {}),
   enabled:makeARequestFormTempToProject,
   // retry:2
   // ------------ decide on the project name  ----------------
@@ -93,7 +104,7 @@ if (temp_website_to_production_RQ.data!=null || temp_website_to_production_RQ.da
 
 const delete_a_project_or_temp = useQuery({
   queryKey:['push-the-temp-website-to-prod'],
-  queryFn: ()=>QueryFunction(`delete_a_project_or_temp?project_name=${project_name}`,setJWT,refetch,setMakeARequestForDeleteAProjectOrTemp,setResponnseJSONForDeleteAProjectOrTemp),
+  queryFn: ()=>QueryFunction(`delete_a_project_or_temp?project_name=${project_name}`, setJWT, delete_a_project_or_temp.refetch,setMakeARequestForDeleteAProjectOrTemp,setResponnseJSONForDeleteAProjectOrTemp, {}),
   enabled:makeARequestForDeleteAProjectOrTemp,
   // retry:2
   // ------------ decide on the project name  ----------------
@@ -120,7 +131,7 @@ if (delete_a_project_or_temp.data!=null || delete_a_project_or_temp.data!= undef
 
 const get_all_the_projects_of_the_user = useQuery({
   queryKey:['push-the-temp-website-to-prod'],
-  queryFn: ()=>QueryFunction(`get_all_the_projects_of_the_user`,setJWT,refetch,setMakeARequestForGetAllUserProject,setResponnseJSONForGetAllUserProject),
+  queryFn: ()=>QueryFunction(`get_all_the_projects_of_the_user`,setJWT,get_all_the_projects_of_the_user.refetch,setMakeARequestForGetAllUserProject,setResponnseJSONForGetAllUserProject, {}),
   enabled:makeARequestForGetAllUserProject,
   // retry:2
   // ------------ decide on the project name  ----------------
@@ -156,17 +167,6 @@ if (get_all_the_projects_of_the_user.data!=null || get_all_the_projects_of_the_u
         {/* <Button title='remove' onPress={async ()=>{
           setMakeARequest(true)
 
-        
-
-// });
-// -------------------------------------- now make sure i also return the response from the 2 try after refresh token ------------------
-// ----------------------------------------------------------
-// ------------------------------------------  or maybe don't need to as Refetch works --- try an example to see  -->> yup I think it works 
-// -------------------------------------------- lets make a abstract function
-// --------------------------------------2.> setMakeARequest() .........3.> UpdateJWT()
-// data_to_return_to_react_query   
-//   return data_to_return_to_react_query
-// -------------------------------------- now make sure i also return the response from the 2 try after refresh token ------------------
         }} /> */}
         
         {/* <View className="mt-3">
@@ -187,14 +187,14 @@ if (get_all_the_projects_of_the_user.data!=null || get_all_the_projects_of_the_u
           {IsFirstRequest? ( 
             <>
               <Text className=" text-xl font-sans font-bold text-slate-900">Hi! Let's make you a website</Text>
-              <PillShapeButtonForHomeScreen textToBeDisplayed={'Generate'} colorOnTheBorderAndInTheText={'#000000'} function_to_run_on_touch={()=>setMakeARequestForGetAllUserProject(true)} />
+              <PillShapeButtonForHomeScreen textToBeDisplayed={'Generate'} colorOnTheBorderAndInTheText={'#000000'} function_to_run_on_touch={()=>{setMakeARequestForTempProject(true)}} />
             </>
           )
           :
           (
             <>
               <PillShapeButtonForHomeScreen textToBeDisplayed={'Fix It'} colorOnTheBorderAndInTheText={'#f20a77'} />
-              <PillShapeButtonForHomeScreen textToBeDisplayed={'Deploy'} colorOnTheBorderAndInTheText={'#0ce80c'} />
+              <PillShapeButtonForHomeScreen textToBeDisplayed={'Deploy'} colorOnTheBorderAndInTheText={'#0ce80c'} function_to_run_on_touch={()=>setMakeARequestFormTempToProject(true)}  />
             </>
           )}
 

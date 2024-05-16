@@ -39,8 +39,9 @@ export default async function UpdateJWT (setJWTTokens, refetch ){
 
 
 
-  export async function QueryFunction(URLPath_DoNoT_Include_BackSlash,setJWTTokensInState_Zustand_here,refetch,setMakeARequestWithReactQuery,setResponseOrHeadersFromAUseStateFunc) {
+  export async function QueryFunction(URLPath_DoNoT_Include_BackSlash,setJWTTokensInState_Zustand_here,refetch,setMakeARequestWithReactQuery,setResponseOrHeadersFromAUseStateFunc, prompt_for_the_body_do_Not_JSON_stringify) {
     let token = JSON.parse(getItem("JWT")).access
+  console.log(" \n //==in it --/// \n");
   
       try {
       const response = await fetch(`${process.env.EXPO_PUBLIC_BACKEND_URL}/${URLPath_DoNoT_Include_BackSlash}`, {
@@ -49,15 +50,13 @@ export default async function UpdateJWT (setJWTTokens, refetch ){
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ' + token,
         },
-        body: JSON.stringify({
-          prompt: "Create website with many pages for a GYM that is on the way to create a revolution  ; give us a very  dope looking website that has too/as  many colors as i am trying to target the younger generation that like colors and photos and futuristic and modernly colorful, with animations. I also need my ui to be rounder like google's material ui (overly rounded ui) and have flashy color and clean (meaning space in between elements)"
-        })
+        body: JSON.stringify(prompt_for_the_body_do_Not_JSON_stringify)
       });
       if(response.status === 401){
         UpdateJWT(setJWTTokensInState_Zustand_here,refetch)
         refetch()
       }
-      console.log(response.status, "---");
+      console.log(response.status, "---- from the query function ----");
       
   
       const body = await response.json();
