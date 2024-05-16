@@ -19,8 +19,6 @@ export default async function UpdateJWT (setJWTTokens, refetch ){
      
     //  console.log("\n\n ================================8888888888888888-===========response and access(jsut to be sure ) -->>",refresh,"\n access -----", access);
      deleteItemAsync("JWT").then(()=>{
-      // eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTcxODI3NDQwNywiaWF0IjoxNzE1NTA5NjA3LCJqdGkiOiI3ZmI3ZGM0MzQ5Mjk0Zjk2ODk1ZWFhNGZkYjVkMGNiOCIsInVzZXJfaWQiOjR9.L_hqCl9ddWUuUnO2LcAwlFFLASbaEi2P8DyFlXcBols 
-      // access ----- eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzE1NTA5NjMyLCJpYXQiOjE3MTU1MDk1NjIsImp0aSI6Ijc1OTE1NmZlNWFjMTQ5MWM4ODRkM2NlYWVmMWViNjI5IiwidXNlcl9pZCI6NH0.h75SIL0z9vWXNmkmz2-07gmuJn2MgPkHA8PIJkLy1S4
       setItem("JWT",JSON.stringify({access,refresh}))
       setJWTTokens(JSON.stringify({access,refresh}))
       
