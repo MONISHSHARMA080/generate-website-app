@@ -6,13 +6,15 @@ import { useEffect, useState } from 'react';
 import JWTStore from '@/app/store';
 import { Redirect, useFocusEffect, useRouter } from 'expo-router';
 import PillShapeButtonForHomeScreen from './buttons/pillShapeButtonForHomeScreen';
-import { Modal as ModalFromRNPaper, Portal, } from 'react-native-paper';
+import { Modal as ModalFromRNPaper, Portal,Button as ButtonFromRNPaper } from 'react-native-paper';
 //   import axios, { AxiosError } from 'axios';
 // import axiosInstance from "../auth/utils/new_tokens_auth";
 import { useQuery } from "@tanstack/react-query";
 import UpdateJWT, { QueryFunction } from "../auth/utils/functions_for_updating_tokens";
 import { alert_user_for_common__errors_from_backend_given_by_Rquery } from "../auth/utils/func_to_alert_user_for_common_querystatus_and_message_to_displa";
 import function_to_make_react_query_request from "../auth/utils/function_to_make_react_query_request";
+import * as Linking from 'expo-linking';
+
 
 
   export default function HomeScreen() {    
@@ -37,6 +39,8 @@ import function_to_make_react_query_request from "../auth/utils/function_to_make
     const [nameGeneratedFromTheDjango , setNameGeneratedFromTheDjango] = useState(false)
    
     const [project_name , setProject_name] = useState<string|null>(null)
+    const [projectLink , setProjectLink] = useState<string|null>(null)
+    const [modalToShowTheProjectHostedLink , setModalToShowTheProjectHostedLink] = useState(false)
     
 
 
@@ -105,6 +109,11 @@ if (temp_website_to_production_RQ.data!=null || temp_website_to_production_RQ.da
   console.log("\n temp_website_to_production_RQ useeffect -->>",temp_website_to_production_RQ.data);
   
   alert_user_for_common__errors_from_backend_given_by_Rquery(temp_website_to_production_RQ.data)
+  if(temp_website_to_production_RQ.data.body){
+    setIsModalVisible(false)
+    setModalToShowTheProjectHostedLink(true)
+    setProjectLink(temp_website_to_production_RQ.data.body.link_for_the_current_site)
+  }
 }
 },[temp_website_to_production_RQ.data, responnseJSONForTempToProduction, temp_website_to_production_RQ.isSuccess, temp_website_to_production_RQ.status])
 
@@ -208,42 +217,24 @@ if (get_the_name_for_the_project.data!=null || get_the_name_for_the_project.data
  
     return (
       <View style={{ flex: 1, backgroundColor: '#010c1c', paddingTop: 150 }}>
-       
-      {/* <Portal> */}
-        {/* <ModalFromRNPaper visible={isModalVisible} onDismiss={()=>setIsModalVisible(false)} contentContainerStyle={{backgroundColor:'#010c1c', borderRadius:20, padding:10}}> */}
-        {/* <View className="text-white flex rounded-3xl mt-60 mx-6 border-white border-2 p-7 " style={{backgroundColor:'#010c1c'}}   > */}
-            {/* {project_name?(<>
-              <Text className=" text-white text-2xl ">Project name:  <Text>{project_name}</Text> </Text>
-              <Text className="text-slate-200 pt-6 ">To change the title just type it down</Text>
-            </>) 
-              :
-              nameGeneratedFromTheDjango?(<Text className=" text-white text-xl">Start by typing your name below</Text>)
-                  : 
-                  (<Text className=" text-stone-400">Hold on! generating the project name</Text>)
-           
-            }  */}
-             {/* <View className=" flex-row justify-center pt-4"> */}
-         {/* <PillShapeButtonForHomeScreen colorOnTheBorderAndInTheText="#0ce80c" textToBeDisplayed="deploy" function_to_run_on_touch={
-            ()=>{
-              // -- call the api with the name set here 
-              console.log("ibfbvioub");
-              if (project_name.length > 1){
-                setMakeARequestFormTempToProject(true)
-              }
-              
+       <Portal>
+        <ModalFromRNPaper visible={modalToShowTheProjectHostedLink} onDismiss={()=>setModalToShowTheProjectHostedLink(false)} contentContainerStyle={{backgroundColor:"#464a4a",padding:20, borderRadius:18}}
+        dismissable={true} dismissableBackButton={true} theme={{version:3, roundness:20}}
+        >
+          <Text>Example Modal.  Click outside this area to dismiss.</Text>
+          <ButtonFromRNPaper
+          onTouchStart={async()=>{
+            let a = await Linking.canOpenURL(projectLink)
+            if (a){
+              Linking.openURL(projectLink)
             }
-          } /> */}
-          {/* <PillShapeButtonForHomeScreen colorOnTheBorderAndInTheText="#db0000" textToBeDisplayed="cancel" function_to_run_on_touch={
-            ()=>{
-              // -- call the func when the site is successfully made and show the site to the user
-             setIsModalVisible(false)
-              
+            else{
+              Alert.alert("Can't open the link", "Sorry we can't open the url in a web browser ,please copy it and paste it there")
             }
-          } /> */}
-         {/* </View> */}
-            {/* </View>   */}
-        {/* </ModalFromRNPaper> */}
-      {/* </Portal> */}
+          }}
+          >See the Site in action</ButtonFromRNPaper>
+        </ModalFromRNPaper>
+      </Portal>
 
           <Modal
         visible={isModalVisible}
