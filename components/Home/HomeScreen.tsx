@@ -32,8 +32,10 @@ import function_to_make_react_query_request from "../auth/utils/function_to_make
     const [responnseJSONForTempToProduction , setResponnseJSONForTempToProduction] = useState(null)
     const [responnseJSONForDeleteAProjectOrTemp , setResponnseJSONForDeleteAProjectOrTemp] = useState(null)
     const [responnseJSONForGetAllUserProject , setResponnseJSONForGetAllUserProject] = useState(null)
+    
+    const [nameGeneratedFromTheDjango , setNameGeneratedFromTheDjango] = useState(false)
    
-    const [project_name , setProject_name] = useState("1")
+    const [project_name , setProject_name] = useState<string|null>(null)
     
 
 
@@ -179,7 +181,10 @@ if (get_the_name_for_the_project.data!=null || get_the_name_for_the_project.data
   
   alert_user_for_common__errors_from_backend_given_by_Rquery(get_the_name_for_the_project.data)
   if(get_the_name_for_the_project.data.body.project_name){
+    // console.log("\n--- about to set the project name---\n");
+    
     setProject_name(get_the_name_for_the_project.data.body.project_name)
+    setNameGeneratedFromTheDjango(true)
   }
 }
 },[get_the_name_for_the_project.data, responnseJSONForGetNameForTheProject, get_the_name_for_the_project.isSuccess, get_the_name_for_the_project.status])
@@ -207,17 +212,47 @@ if (get_the_name_for_the_project.data!=null || get_the_name_for_the_project.data
         transparent={true}
         onRequestClose={()=>setIsModalVisible(false)}
         animationType="slide"
-      >
-          <View className="text-white flex rounded-3xl mt-40 mx-6 border-white border-2 p-7 " style={{backgroundColor:'#010c1c'}}   >
-            <Text className=" text-white"> {project_name? ` Is ---- ${project_name}-----` : "-- hold on generating project name for you --"} a good project name for your project , I not then write it down  </Text>
-            {/*  make a title with text saying project name in  bold , and down below wiil be a text stating the input  */}
+        >
+          <View className="text-white flex rounded-3xl mt-60 mx-6 border-white border-2 p-7 " style={{backgroundColor:'#010c1c'}}   >
+            {project_name?(<>
+              <Text className=" text-white text-2xl ">Project name:  <Text>{project_name}</Text> </Text>
+              <Text className="text-slate-200 pt-3 ">To change the title just type it down</Text>
+            </>) 
+              :
+              nameGeneratedFromTheDjango?(<Text className=" text-white text-xl">Start by typing your name below</Text>)
+                  : 
+                  (<Text className=" text-white">Hold on generating the project name</Text>)
+             // if the name is generated for the project 
+            // <Text className=" text-white">Hold on generating the project name </Text>
+            
+            }
+
+
+            {/*  make a title with text saying project name in  bold , and down below will be a text stating the input  */}
             {/* ----------- On modal and another input --------------- */}
             {/* well you see id the modal is open then just make the values of text input down to be that  */}
             {/* ----------- On modal and another input --------------- */}
-          <TextInput className=" m-3  border-2 border-white rounded-3xl py-3 px-4" style={{backgroundColor: '#5a7ead' }}
+
+          <TextInput className=" my-1  border-2 border-white rounded-3xl py-3 px-4" style={{backgroundColor: '#5a7ead' }}
           onChangeText={(text) => setProject_name(text)}  value={project_name}
           />
-          <PillShapeButtonForHomeScreen colorOnTheBorderAndInTheText="#000ffa" textToBeDisplayed="Your custom title" />
+          <PillShapeButtonForHomeScreen colorOnTheBorderAndInTheText="#0ce80c" textToBeDisplayed="deploy" function_to_run_on_touch={
+            ()=>{
+              // -- call the api with the name set here 
+              console.log("ibfbvioub");
+              if (project_name.length > 1){
+                setMakeARequestFormTempToProject(true)
+              }
+              
+            }
+          } />
+          <PillShapeButtonForHomeScreen colorOnTheBorderAndInTheText="#0ce80c" textToBeDisplayed="cancel" function_to_run_on_touch={
+            ()=>{
+              // -- call the api with the name set here 
+             setIsModalVisible(false)
+              
+            }
+          } />
             </View>    
       </Modal>
    
@@ -247,25 +282,41 @@ if (get_the_name_for_the_project.data!=null || get_the_name_for_the_project.data
             <>
               <Text className=" text-xl font-sans font-bold text-slate-900">Hi! Let's make you a website</Text>
               <PillShapeButtonForHomeScreen textToBeDisplayed={'Generate'} colorOnTheBorderAndInTheText={'#000000'} function_to_run_on_touch={()=>{
-                if( inputText != null || inputText != undefined ){
-                  setMakeARequestForTempProject(true)
-                  setMakeARequestForGetNameForTheProject(true);
-                  setIsModalVisible(true)
-                  // String(inputText).length >2 ||
-                }
-                else{
-                  Alert.alert("can't be empty", "Input can't be empty , please describe somethign about your website")
-                }
+                setIsFirstRequest(false)
+              // if( inputText != null || inputText != undefined ){
+              //     setMakeARequestForTempProject(true)
+              //     setMakeARequestForGetNameForTheProject(true);
+              //     setIsModalVisible(true)
+              //     // String(inputText).length >2 ||
+              //   }
+              //   else{
+              //     Alert.alert("Text can't be empty", "Input can't be empty , please describe something about your website")
+              //   }
                 }} />
-              <PillShapeButtonForHomeScreen textToBeDisplayed={'Deploy'} colorOnTheBorderAndInTheText={'#0ce80c'} function_to_run_on_touch={()=>{
-                
-              } }  />
+              
             </>
           )
           :
           (
             <>
-              <PillShapeButtonForHomeScreen textToBeDisplayed={'Fix It'} colorOnTheBorderAndInTheText={'#f20a77'} />
+            <PillShapeButtonForHomeScreen textToBeDisplayed={'Deploy'} colorOnTheBorderAndInTheText={'#0ce80c'} function_to_run_on_touch={()=>{
+             setMakeARequestForGetNameForTheProject(true);
+             setIsModalVisible(true)
+
+
+            //  ---- don't need the text input here 
+
+             // if( inputText != null || inputText != undefined ){
+              //     // setMakeARequestFormTempToProject(true)
+              //     setMakeARequestForGetNameForTheProject(true);
+              //     setIsModalVisible(true)
+              //     // String(inputText).length >2 ||
+              //   }
+              //   else{
+              //     Alert.alert("Text can't be empty", "Input can't be empty , please describe something about your website")
+              //   }
+                }} />
+            <PillShapeButtonForHomeScreen textToBeDisplayed={'Fix It'} colorOnTheBorderAndInTheText={'#f20a77'} />
             </>
           )}
 
