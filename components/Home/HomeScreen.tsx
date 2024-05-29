@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import JWTStore from '@/app/store';
 import { Redirect, useFocusEffect, useRouter } from 'expo-router';
 import PillShapeButtonForHomeScreen from './buttons/pillShapeButtonForHomeScreen';
+import { Modal as ModalFromRNPaper, Portal, } from 'react-native-paper';
 //   import axios, { AxiosError } from 'axios';
 // import axiosInstance from "../auth/utils/new_tokens_auth";
 import { useQuery } from "@tanstack/react-query";
@@ -91,7 +92,7 @@ if (data!=null || data!= undefined){
 
 
 const temp_website_to_production_RQ = useQuery({
-  queryKey:['push-the-temp-website-to-prod'],
+  queryKey:['temp_website_to_production'],
   queryFn: ()=>QueryFunction(`temp_website_to_production?project_name=${project_name}`,setJWT,temp_website_to_production_RQ.refetch,setMakeARequestFormTempToProject,setResponnseJSONForTempToProduction, {}),
   enabled:makeARequestFormTempToProject,
   // retry:2
@@ -100,8 +101,8 @@ const temp_website_to_production_RQ = useQuery({
 
 useEffect(()=>{console.log("\n\n ============================||----||data from the query fucntion============================||------||" , "\n\n-->>",(responnseJSONForTempToProduction?responnseJSONForTempToProduction:"") );
 if (temp_website_to_production_RQ.data!=null || temp_website_to_production_RQ.data!= undefined){
-  console.log("\n data in the isSuccess -->>",temp_website_to_production_RQ.isSuccess,"\n\n ",);
-  console.log("\n data in the useeffect -->>",temp_website_to_production_RQ.data);
+  console.log("\n temp_website_to_production_RQ isSuccess -->>",temp_website_to_production_RQ.isSuccess,"\n\n ",);
+  console.log("\n temp_website_to_production_RQ useeffect -->>",temp_website_to_production_RQ.data);
   
   alert_user_for_common__errors_from_backend_given_by_Rquery(temp_website_to_production_RQ.data)
 }
@@ -116,7 +117,7 @@ if (temp_website_to_production_RQ.data!=null || temp_website_to_production_RQ.da
 
 
 const delete_a_project_or_temp = useQuery({
-  queryKey:['push-the-temp-website-to-prod'],
+  queryKey:['delete_a_project_or_temp'],
   queryFn: ()=>QueryFunction(`delete_a_project_or_temp?project_name=${project_name}`, setJWT, delete_a_project_or_temp.refetch,setMakeARequestForDeleteAProjectOrTemp,setResponnseJSONForDeleteAProjectOrTemp, {}),
   enabled:makeARequestForDeleteAProjectOrTemp,
   // retry:2
@@ -143,7 +144,7 @@ if (delete_a_project_or_temp.data!=null || delete_a_project_or_temp.data!= undef
 
 
 const get_all_the_projects_of_the_user = useQuery({
-  queryKey:['push-the-temp-website-to-prod'],
+  queryKey:['get_all_the_projects_of_the_user'],
   queryFn: ()=>QueryFunction(`get_all_the_projects_of_the_user`,setJWT,get_all_the_projects_of_the_user.refetch,setMakeARequestForGetAllUserProject,setResponnseJSONForGetAllUserProject, {}),
   enabled:makeARequestForGetAllUserProject,
   // retry:2
@@ -167,7 +168,7 @@ if (get_all_the_projects_of_the_user.data!=null || get_all_the_projects_of_the_u
 
 // ---------------some problem/wromg with this method this is not sending requests----------------------
 const get_the_name_for_the_project = useQuery({
-  queryKey:['push-the-temp-website-to-prod'],
+  queryKey:['get_the_name_for_the_project'],
   queryFn: ()=>QueryFunction(`get_the_name_for_the_project`,setJWT,get_the_name_for_the_project.refetch,setMakeARequestForGetNameForTheProject,setResponnseJSONForGetNameForTheProject, {"prompt":inputText}),
   enabled:makeARequestForGetNameForTheProject,
   // retry:2
@@ -176,7 +177,7 @@ const get_the_name_for_the_project = useQuery({
 
 useEffect(()=>{console.log("\n\n ============================||----||data from the query fucntion============================||------||" , "\n\n-->>",(responnseJSONForGetNameForTheProject?responnseJSONForGetNameForTheProject:"") );
 if (get_the_name_for_the_project.data!=null || get_the_name_for_the_project.data!= undefined){
-  console.log("\n data in the isSuccess -->>",get_the_name_for_the_project.isSuccess,"\n\n ",);
+  console.log("\n data in the isSuccess -->>",get_the_name_for_the_project.isSuccess,"\n",);
   console.log("\n data in the useeffect -->>",get_the_name_for_the_project.data);
   
   alert_user_for_common__errors_from_backend_given_by_Rquery(get_the_name_for_the_project.data)
@@ -207,6 +208,43 @@ if (get_the_name_for_the_project.data!=null || get_the_name_for_the_project.data
  
     return (
       <View style={{ flex: 1, backgroundColor: '#010c1c', paddingTop: 150 }}>
+       
+      {/* <Portal> */}
+        {/* <ModalFromRNPaper visible={isModalVisible} onDismiss={()=>setIsModalVisible(false)} contentContainerStyle={{backgroundColor:'#010c1c', borderRadius:20, padding:10}}> */}
+        {/* <View className="text-white flex rounded-3xl mt-60 mx-6 border-white border-2 p-7 " style={{backgroundColor:'#010c1c'}}   > */}
+            {/* {project_name?(<>
+              <Text className=" text-white text-2xl ">Project name:  <Text>{project_name}</Text> </Text>
+              <Text className="text-slate-200 pt-6 ">To change the title just type it down</Text>
+            </>) 
+              :
+              nameGeneratedFromTheDjango?(<Text className=" text-white text-xl">Start by typing your name below</Text>)
+                  : 
+                  (<Text className=" text-stone-400">Hold on! generating the project name</Text>)
+           
+            }  */}
+             {/* <View className=" flex-row justify-center pt-4"> */}
+         {/* <PillShapeButtonForHomeScreen colorOnTheBorderAndInTheText="#0ce80c" textToBeDisplayed="deploy" function_to_run_on_touch={
+            ()=>{
+              // -- call the api with the name set here 
+              console.log("ibfbvioub");
+              if (project_name.length > 1){
+                setMakeARequestFormTempToProject(true)
+              }
+              
+            }
+          } /> */}
+          {/* <PillShapeButtonForHomeScreen colorOnTheBorderAndInTheText="#db0000" textToBeDisplayed="cancel" function_to_run_on_touch={
+            ()=>{
+              // -- call the func when the site is successfully made and show the site to the user
+             setIsModalVisible(false)
+              
+            }
+          } /> */}
+         {/* </View> */}
+            {/* </View>   */}
+        {/* </ModalFromRNPaper> */}
+      {/* </Portal> */}
+
           <Modal
         visible={isModalVisible}
         transparent={true}
@@ -216,15 +254,13 @@ if (get_the_name_for_the_project.data!=null || get_the_name_for_the_project.data
           <View className="text-white flex rounded-3xl mt-60 mx-6 border-white border-2 p-7 " style={{backgroundColor:'#010c1c'}}   >
             {project_name?(<>
               <Text className=" text-white text-2xl ">Project name:  <Text>{project_name}</Text> </Text>
-              <Text className="text-slate-200 pt-3 ">To change the title just type it down</Text>
+              <Text className="text-slate-200 pt-6 ">To change the title just type it down</Text>
             </>) 
               :
               nameGeneratedFromTheDjango?(<Text className=" text-white text-xl">Start by typing your name below</Text>)
                   : 
-                  (<Text className=" text-white">Hold on generating the project name</Text>)
-             // if the name is generated for the project 
-            // <Text className=" text-white">Hold on generating the project name </Text>
-            
+                  (<Text className=" text-stone-400">Hold on! generating the project name</Text>)
+           
             }
 
 
@@ -236,23 +272,26 @@ if (get_the_name_for_the_project.data!=null || get_the_name_for_the_project.data
           <TextInput className=" my-1  border-2 border-white rounded-3xl py-3 px-4" style={{backgroundColor: '#5a7ead' }}
           onChangeText={(text) => setProject_name(text)}  value={project_name}
           />
-          <PillShapeButtonForHomeScreen colorOnTheBorderAndInTheText="#0ce80c" textToBeDisplayed="deploy" function_to_run_on_touch={
+         <View className=" flex-row justify-center pt-4">
+         <PillShapeButtonForHomeScreen colorOnTheBorderAndInTheText="#0ce80c" textToBeDisplayed="deploy" function_to_run_on_touch={
             ()=>{
               // -- call the api with the name set here 
               console.log("ibfbvioub");
               if (project_name.length > 1){
+                console.log("\n--D4c--");
                 setMakeARequestFormTempToProject(true)
               }
               
             }
           } />
-          <PillShapeButtonForHomeScreen colorOnTheBorderAndInTheText="#0ce80c" textToBeDisplayed="cancel" function_to_run_on_touch={
+          <PillShapeButtonForHomeScreen colorOnTheBorderAndInTheText="#db0000" textToBeDisplayed="cancel" function_to_run_on_touch={
             ()=>{
-              // -- call the api with the name set here 
+              // -- call the func when the site is successfully made and show the site to the user
              setIsModalVisible(false)
               
             }
           } />
+         </View>
             </View>    
       </Modal>
    
@@ -303,18 +342,7 @@ if (get_the_name_for_the_project.data!=null || get_the_name_for_the_project.data
              setMakeARequestForGetNameForTheProject(true);
              setIsModalVisible(true)
 
-
-            //  ---- don't need the text input here 
-
-             // if( inputText != null || inputText != undefined ){
-              //     // setMakeARequestFormTempToProject(true)
-              //     setMakeARequestForGetNameForTheProject(true);
-              //     setIsModalVisible(true)
-              //     // String(inputText).length >2 ||
-              //   }
-              //   else{
-              //     Alert.alert("Text can't be empty", "Input can't be empty , please describe something about your website")
-              //   }
+            
                 }} />
             <PillShapeButtonForHomeScreen textToBeDisplayed={'Fix It'} colorOnTheBorderAndInTheText={'#f20a77'} />
             </>

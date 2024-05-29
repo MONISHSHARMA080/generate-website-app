@@ -5,6 +5,7 @@ import React, { useEffect } from 'react';
 import JWTStore from './store';
 import { vexo } from 'vexo-analytics';
 import axios from 'axios';
+import { PaperProvider } from 'react-native-paper';
 
 
 export default function HomeLayout() {
@@ -43,8 +44,10 @@ export default function HomeLayout() {
     return (
       <>
   
-       <QueryClientProvider client={queryClient}>      
-          <Slot />
+       <QueryClientProvider client={queryClient}>     
+        <PaperProvider>
+            <Slot />
+        </PaperProvider> 
        </QueryClientProvider>
        
       </>

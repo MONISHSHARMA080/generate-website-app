@@ -3,12 +3,13 @@ import { Alert } from "react-native";
 export  function alert_user_for_common__errors_from_backend_given_by_Rquery(data) {
     // console.log("{{}}}}}--==",data);
     if (data === undefined || data === null || data.body.status_code === null || data.body.status_code === undefined ){
-        console.log("\n\n------------------------------null--------------------------\n\n");
+        console.log("\n\n-------------------data is null in the func alert_user_for_common__errors_from_backend_given_by_Rquery-----------null--------------------------",data,"\n\n");
         
         return 
     }
     if (!data){
-
+        
+        console.log("\n\n-------------------data is not here and this is not happening, in the func alert_user_for_common__errors_from_backend_given_by_Rquery-----------null--------------------------\n\n");
         
         return
     }
