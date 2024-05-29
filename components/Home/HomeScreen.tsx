@@ -1,6 +1,6 @@
 import { FlashList } from "@shopify/flash-list";
 import { deleteItemAsync, getItem, setItem } from 'expo-secure-store';
-import { View, TextInput, Text, Button, Alert, Modal } from 'react-native'
+import { View, TextInput, Text, Button, Alert, Modal, ViewBase } from 'react-native'
 import * as React from 'react'
 import { useEffect, useState } from 'react';
 import JWTStore from '@/app/store';
@@ -218,11 +218,25 @@ if (get_the_name_for_the_project.data!=null || get_the_name_for_the_project.data
     return (
       <View style={{ flex: 1, backgroundColor: '#010c1c', paddingTop: 150 }}>
        <Portal>
-        <ModalFromRNPaper visible={modalToShowTheProjectHostedLink} onDismiss={()=>setModalToShowTheProjectHostedLink(false)} contentContainerStyle={{backgroundColor:"#464a4a",padding:20, borderRadius:18}}
-        dismissable={true} dismissableBackButton={true} theme={{version:3, roundness:20}}
+        <ModalFromRNPaper visible={modalToShowTheProjectHostedLink} onDismiss={()=>setModalToShowTheProjectHostedLink(false)} contentContainerStyle={{backgroundColor:"#010c1c",padding:20, borderRadius:28
+          ,paddingVertical:90 , justifyContent:"center"
+        }}
+        dismissable={true} dismissableBackButton={true} theme={{version:3, roundness:20}} 
         >
-          <Text>Example Modal.  Click outside this area to dismiss.</Text>
+          <Text className=" text-white text-xl">Your website is ready, to see it just click on the button </Text>
+         <View className=" flex-row justify-center pt-7">
+
           <ButtonFromRNPaper
+          className="px-6 mx-4"
+          mode="outlined" buttonColor={"#6edcfa"} textColor="#000"
+          onTouchStart={()=>{
+            setModalToShowTheProjectHostedLink(false)
+          }}
+          
+          >Cancel</ButtonFromRNPaper>
+
+          <ButtonFromRNPaper
+          mode="outlined" buttonColor={"#6edcfa"} textColor="#000"
           onTouchStart={async()=>{
             let a = await Linking.canOpenURL(projectLink)
             if (a){
@@ -233,7 +247,9 @@ if (get_the_name_for_the_project.data!=null || get_the_name_for_the_project.data
             }
           }}
           >See the Site in action</ButtonFromRNPaper>
+         </View>
         </ModalFromRNPaper>
+
       </Portal>
 
           <Modal
