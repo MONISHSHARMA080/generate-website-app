@@ -199,24 +199,12 @@ if (get_the_name_for_the_project.data!=null || get_the_name_for_the_project.data
 }
 },[get_the_name_for_the_project.data, responnseJSONForGetNameForTheProject, get_the_name_for_the_project.isSuccess, get_the_name_for_the_project.status])
 
-
-
-
-
-
-// -------make a function that takes in the data from react query amd alerts all teh function of the  common errors 400 , 500 , message to display to the userrs
-
-
-
-
-  
-  // ------------------------------- react query ------------------------------
-
   
 
  
     return (
       <View style={{ flex: 1, backgroundColor: '#010c1c', paddingTop: 150 }}>
+        {/* modal for opening the website in the browser */}
        <Portal>
         <ModalFromRNPaper visible={modalToShowTheProjectHostedLink} onDismiss={()=>setModalToShowTheProjectHostedLink(false)} contentContainerStyle={{backgroundColor:"#010c1c",padding:20, borderRadius:28
           ,paddingVertical:90 , justifyContent:"center"
@@ -251,6 +239,7 @@ if (get_the_name_for_the_project.data!=null || get_the_name_for_the_project.data
         </ModalFromRNPaper>
 
       </Portal>
+          {/* modal for opening the website in the browser */}
 
           <Modal
         visible={isModalVisible}
@@ -277,14 +266,17 @@ if (get_the_name_for_the_project.data!=null || get_the_name_for_the_project.data
             {/* ----------- On modal and another input --------------- */}
 
           <TextInput className=" my-1  border-2 border-white rounded-3xl py-3 px-4" style={{backgroundColor: '#5a7ead' }}
-          onChangeText={(text) => setProject_name(text)}  value={project_name}
+          onChangeText={(text) => text.length<29?setProject_name(text):null}  value={project_name}
           />
          <View className=" flex-row justify-center pt-4">
-         <PillShapeButtonForHomeScreen colorOnTheBorderAndInTheText="#0ce80c" textToBeDisplayed="deploy" function_to_run_on_touch={
+         <PillShapeButtonForHomeScreen 
+        //  colorOnTheBorderAndInTheText={"#0ce80c"} 
+         colorOnTheBorderAndInTheText={project_name === null ? "#0ce80c": project_name.length<2?"#474747":"#0ce80c"} 
+          textToBeDisplayed="deploy"  function_to_run_on_touch={
             ()=>{
               // -- call the api with the name set here 
               console.log("ibfbvioub");
-              if (project_name.length > 1){
+              if (project_name.length > 2){
                 console.log("\n--D4c--");
                 setMakeARequestFormTempToProject(true)
               }
