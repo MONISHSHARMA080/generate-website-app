@@ -57,7 +57,8 @@ const {data, isSuccess, status, refetch} = useQuery({
   queryKey:['temp_website'],
   queryFn: ()=>QueryFunction('temp_website', setJWT, refetch, setMakeARequestForTempProject, setResponnseJSONForTempSite, 
     {
-      prompt: "make me a  website for a shop owner that that sells clothes (also make the links), they should be very much inspired from the material ui and the buttons should change the site ; make the colors of the background and buttons etc as colorful as possible and animations that aims  that make it oddly satisfying , we will be selling it as a luxury brand "
+      // prompt: "make me a  website for a shop owner that that sells clothes (also make the links), they should be very much inspired from the material ui and the buttons should change the site ; make the colors of the background and buttons etc as colorful as possible and animations that aims  that make it oddly satisfying , we will be selling it as a luxury brand "
+      prompt: inputText
     }),
   enabled:makeARequestForTempProject,
   // retry:2
@@ -355,10 +356,13 @@ if (get_the_name_for_the_project.data!=null || get_the_name_for_the_project.data
           :
           (
             <>
-            <PillShapeButtonForHomeScreen textToBeDisplayed={'Deploy'} colorOnTheBorderAndInTheText={'#0ce80c'} function_to_run_on_touch={()=>{
-            //  setMakeARequestForGetNameForTheProject(true);
-            //  setIsModalVisible(true)
-            setMakeARequestForGetAllUserProject(true)
+            <PillShapeButtonForHomeScreen textToBeDisplayed={'Deploy'} 
+              // colorOnTheBorderAndInTheText={'#0ce80c'}
+              colorOnTheBorderAndInTheText={tempLink === null ? "#474747":"#0ce80c"} 
+              function_to_run_on_touch={()=>{
+             setMakeARequestForGetNameForTheProject(true);
+             setIsModalVisible(true)
+            // setMakeARequestForGetAllUserProject(true)
 
             
                 }} />
@@ -378,7 +382,14 @@ if (get_the_name_for_the_project.data!=null || get_the_name_for_the_project.data
                 Alert.alert("Text can't be empty", "Input can't be empty , please describe something about your website")
               }
             }} />
-            <PillShapeButtonForHomeScreen textToBeDisplayed={'Fix It'} colorOnTheBorderAndInTheText={'#f20a77'} />
+            
+            
+            {/* -----------------  2nd update --------------- */}
+
+              {/* <PillShapeButtonForHomeScreen textToBeDisplayed={'Tweak it '} colorOnTheBorderAndInTheText={'#f20a77'} /> */}
+            
+            {/* -----------------  2nd update --------------- */}
+            
             <PillShapeButtonForHomeScreen textToBeDisplayed={'See the temp site'} 
             // colorOnTheBorderAndInTheText={'#6f099a'}
             colorOnTheBorderAndInTheText={tempLink === null ? "#474747":"#d7de02"} 
