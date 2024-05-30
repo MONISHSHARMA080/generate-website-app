@@ -15,8 +15,6 @@ import { alert_user_for_common__errors_from_backend_given_by_Rquery } from "../a
 import function_to_make_react_query_request from "../auth/utils/function_to_make_react_query_request";
 import * as Linking from 'expo-linking';
 
-
-
   export default function HomeScreen() {    
     const router = useRouter();
     const { setJWT,JWT, sitePromptStoredInState, setSitePromptStoredInState } = JWTStore();
