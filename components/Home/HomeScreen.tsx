@@ -19,7 +19,7 @@ import * as Linking from 'expo-linking';
 
   export default function HomeScreen() {    
     const router = useRouter();
-    const { setJWT,JWT } = JWTStore();
+    const { setJWT,JWT, sitePromptStoredInState, setSitePromptStoredInState } = JWTStore();
     const [IsFirstRequest , setIsFirstRequest] = useState(true)
     const [inputText , setInputText] = useState(null)
 
@@ -40,31 +40,36 @@ import * as Linking from 'expo-linking';
    
     const [project_name , setProject_name] = useState<string|null>(null)
     const [projectLink , setProjectLink] = useState<string|null>(null)
+    const [tempLink , setTempLink] = useState<string|null>(null)
     const [modalToShowTheProjectHostedLink , setModalToShowTheProjectHostedLink] = useState(false)
     
-
+    
 
     // -----modal ----
     const [isModalVisible, setIsModalVisible] = useState(false);
     
-    // useEffect(()=>{
-    //     console.log("input text from the home screen -- ",inputText, "\n jwt tokens in zustand state -->>",JWT,"\n ====>make a request -->",makeARequest)
-    //   },[JWT,makeARequest])
-
 
 // let a 
+
 // a = function_to_make_react_query_request("temp_website",setJWT,setResponnseJSONForTempSite, setMakeARequestForTempProject, makeARequestForTempProject)
 
 const {data, isSuccess, status, refetch} = useQuery({
   queryKey:['temp_website'],
   queryFn: ()=>QueryFunction('temp_website', setJWT, refetch, setMakeARequestForTempProject, setResponnseJSONForTempSite, 
     {
-      prompt: "Give me a website for a shop owner that that sells jwellery , but make it  material design with extreme curves that has its own personality  and make the colors(bg and all) as posh as possible (meaning play with  golds silver(these were examples , make your own combination for sure) with unique buttons ,bg and animations that aims to sell it to 1% (wealth wise) ) , we will be selling it to a luxury brand "
+      prompt: "make me a  website for a shop owner that that sells clothes (also make the links), they should be very much inspired from the material ui and the buttons should change the site ; make the colors of the background and buttons etc as colorful as possible and animations that aims  that make it oddly satisfying , we will be selling it as a luxury brand "
     }),
   enabled:makeARequestForTempProject,
   // retry:2
   // ------------ decide on the project name  ----------------
 })
+
+useEffect(()=>{console.log("\n\n\n\n ||||||||||||\n\n\n\n\n"+sitePromptStoredInState+"\n\n\n\n\n||||||||||")
+  console.log("console.log(modalToShowTheProjectHostedLink);  "+modalToShowTheProjectHostedLink);
+  
+}
+,[sitePromptStoredInState,modalToShowTheProjectHostedLink])
+
 
 useEffect(()=>{console.log("\n\n ============================||----||data from the query fucntion============================||------||" , "\n\n-->>",(responnseJSONForTempSite?responnseJSONForTempSite:"") );
 if (data!=null || data!= undefined){
@@ -75,6 +80,12 @@ if (data!=null || data!= undefined){
   if (data.body.status_code){
     if (data.body.status_code === 200 || data.body.status_code === 201){
       setIsFirstRequest(false)
+      console.log(`\n\n  input text to store in the zustand state ${inputText}  \n\n`);
+      
+      setSitePromptStoredInState(inputText)
+      
+      setTempLink(data.body.link_for_the_current_site)
+      
     }
   }
 }
@@ -111,11 +122,13 @@ if (temp_website_to_production_RQ.data!=null || temp_website_to_production_RQ.da
   alert_user_for_common__errors_from_backend_given_by_Rquery(temp_website_to_production_RQ.data)
   if(temp_website_to_production_RQ.data.body){
     setIsModalVisible(false)
+    console.log("\n\n here to make sure that the modalToShowTheProjectHostedLink is flase and not getting updated ----|||>>>>  \n\n");
+    console.log("\n console.log(modalToShowTheProjectHostedLink);22  "+modalToShowTheProjectHostedLink);
     setModalToShowTheProjectHostedLink(true)
     setProjectLink(temp_website_to_production_RQ.data.body.link_for_the_current_site)
   }
 }
-},[temp_website_to_production_RQ.data, responnseJSONForTempToProduction, temp_website_to_production_RQ.isSuccess, temp_website_to_production_RQ.status])
+},[temp_website_to_production_RQ.data, responnseJSONForTempToProduction, temp_website_to_production_RQ.isSuccess, temp_website_to_production_RQ.status, ])
 
 
 
@@ -178,7 +191,7 @@ if (get_all_the_projects_of_the_user.data!=null || get_all_the_projects_of_the_u
 // ---------------some problem/wromg with this method this is not sending requests----------------------
 const get_the_name_for_the_project = useQuery({
   queryKey:['get_the_name_for_the_project'],
-  queryFn: ()=>QueryFunction(`get_the_name_for_the_project`,setJWT,get_the_name_for_the_project.refetch,setMakeARequestForGetNameForTheProject,setResponnseJSONForGetNameForTheProject, {"prompt":inputText}),
+  queryFn: ()=>QueryFunction(`get_the_name_for_the_project`,setJWT,get_the_name_for_the_project.refetch,setMakeARequestForGetNameForTheProject,setResponnseJSONForGetNameForTheProject, {"prompt":inputText?inputText:sitePromptStoredInState}),
   enabled:makeARequestForGetNameForTheProject,
   // retry:2
   // ------------ decide on the project name  ----------------
@@ -218,10 +231,13 @@ if (get_the_name_for_the_project.data!=null || get_the_name_for_the_project.data
           className="px-6 mx-4"
           mode="outlined" buttonColor={"#6edcfa"} textColor="#000"
           onTouchStart={()=>{
+            console.log("\n\n here to make sure that the modalToShowTheProjectHostedLink is flase and not getting updated ----|||>>>22>  \n\n");
             setModalToShowTheProjectHostedLink(false)
           }}
           
+
           >Cancel</ButtonFromRNPaper>
+
 
           <ButtonFromRNPaper
           mode="outlined" buttonColor={"#6edcfa"} textColor="#000"
@@ -275,10 +291,11 @@ if (get_the_name_for_the_project.data!=null || get_the_name_for_the_project.data
           textToBeDisplayed="deploy"  function_to_run_on_touch={
             ()=>{
               // -- call the api with the name set here 
-              console.log("ibfbvioub");
+              // console.log("ibfbvioub");
               if (project_name.length > 2){
                 console.log("\n--D4c--");
                 setMakeARequestFormTempToProject(true)
+                
               }
               
             }
@@ -320,16 +337,17 @@ if (get_the_name_for_the_project.data!=null || get_the_name_for_the_project.data
             <>
               <Text className=" text-xl font-sans font-bold text-slate-900">Hi! Let's make you a website</Text>
               <PillShapeButtonForHomeScreen textToBeDisplayed={'Generate'} colorOnTheBorderAndInTheText={'#000000'} function_to_run_on_touch={()=>{
-                setIsFirstRequest(false)
-              // if( inputText != null || inputText != undefined ){
-              //     setMakeARequestForTempProject(true)
-              //     setMakeARequestForGetNameForTheProject(true);
-              //     setIsModalVisible(true)
-              //     // String(inputText).length >2 ||
-              //   }
-              //   else{
-              //     Alert.alert("Text can't be empty", "Input can't be empty , please describe something about your website")
-              //   }
+                if( inputText != null || inputText != undefined ){
+                setIsFirstRequest(false) // ----XXXX ---this one should not be here as we 
+                  setMakeARequestForTempProject(true)
+                  // setMakeARequestForGetNameForTheProject(true);
+                  
+                  // setIsModalVisible(true)
+                  // String(inputText).length >2 ||
+                }
+                else{
+                  Alert.alert("Text can't be empty", "Input can't be empty , please describe something about your website")
+                }
                 }} />
               
             </>
@@ -338,12 +356,48 @@ if (get_the_name_for_the_project.data!=null || get_the_name_for_the_project.data
           (
             <>
             <PillShapeButtonForHomeScreen textToBeDisplayed={'Deploy'} colorOnTheBorderAndInTheText={'#0ce80c'} function_to_run_on_touch={()=>{
-             setMakeARequestForGetNameForTheProject(true);
-             setIsModalVisible(true)
+            //  setMakeARequestForGetNameForTheProject(true);
+            //  setIsModalVisible(true)
+            setMakeARequestForGetAllUserProject(true)
 
             
                 }} />
+            <PillShapeButtonForHomeScreen textToBeDisplayed={'Re-generate'} colorOnTheBorderAndInTheText={'#000000'} function_to_run_on_touch={()=>{
+              let textToSeeIfMakeARequest = inputText?inputText:sitePromptStoredInState
+              console.log(textToSeeIfMakeARequest,"=---=-=--=-=-=-==--==--=-==-0000000000");
+              
+              if( textToSeeIfMakeARequest != null || textToSeeIfMakeARequest != undefined ){
+                setIsFirstRequest(false) // ----XXXX ---this one should not be here as we 
+                setMakeARequestForTempProject(true)
+                // setMakeARequestForGetNameForTheProject(true);
+                
+                // setIsModalVisible(true)
+                // String(inputText).length >2 ||
+              }
+              else{
+                Alert.alert("Text can't be empty", "Input can't be empty , please describe something about your website")
+              }
+            }} />
             <PillShapeButtonForHomeScreen textToBeDisplayed={'Fix It'} colorOnTheBorderAndInTheText={'#f20a77'} />
+            <PillShapeButtonForHomeScreen textToBeDisplayed={'See the temp site'} 
+            // colorOnTheBorderAndInTheText={'#6f099a'}
+            colorOnTheBorderAndInTheText={tempLink === null ? "#474747":"#d7de02"} 
+            function_to_run_on_touch={async()=>{
+              console.log("temp ink -->>", tempLink);
+              
+             if (tempLink){
+              let a = await Linking.canOpenURL(tempLink)
+             if (a){
+               Linking.openURL(tempLink)
+             }
+             else{
+               Alert.alert("Can't open the link", "Sorry we can't open the url in a web browser ,please copy it and paste it there")
+             }
+
+             }
+             
+             }} />
+
             </>
           )}
 
