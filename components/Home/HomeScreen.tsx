@@ -44,15 +44,10 @@ import * as Linking from 'expo-linking';
     const [tempLink , setTempLink] = useState<string|null>(null)
     const [modalToShowTheProjectHostedLink , setModalToShowTheProjectHostedLink] = useState(false)
     
-    
-
     // -----modal ----
     const [isModalVisible, setIsModalVisible] = useState(false);
     
-
-// let a 
-
-// a = function_to_make_react_query_request("temp_website",setJWT,setResponnseJSONForTempSite, setMakeARequestForTempProject, makeARequestForTempProject)
+    
 
 const {data, isSuccess, status, refetch} = useQuery({
   queryKey:['temp_website'],
@@ -82,9 +77,9 @@ if (data!=null || data!= undefined){
   if (data.body.status_code){
     if (data.body.status_code === 200 || data.body.status_code === 201){
       setIsFirstRequest(false)
-      console.log(`\n\n  input text to store in the zustand state ${inputText}  \n\n`);
+      // console.log(`\n\n  input text to store in the zustand state ${inputText}  \n\n`);
       
-      setSitePromptStoredInState(inputText)
+      setSitePromptStoredInState(data.body.prompt)
       
       setTempLink(data.body.link_for_the_current_site)
       
@@ -215,10 +210,6 @@ if (get_the_name_for_the_project.data!=null || get_the_name_for_the_project.data
 },[get_the_name_for_the_project.data, responnseJSONForGetNameForTheProject, get_the_name_for_the_project.isSuccess, get_the_name_for_the_project.status])
 
   
-// setTimeout(()=>{setShowSnackBarToTellThatWeUsedPreviousPromptFromZustandState(true), console.log("\n--iucbiewbciewbew----\n")
-// },4000)
-useEffect(()=>console.log("showSnackBarToTellThatWeUsedPreviousPromptFromZustandState  "+showSnackBarToTellThatWeUsedPreviousPromptFromZustandState)
-,[showSnackBarToTellThatWeUsedPreviousPromptFromZustandState])
 
  
     return (
@@ -368,13 +359,18 @@ useEffect(()=>console.log("showSnackBarToTellThatWeUsedPreviousPromptFromZustand
             <>
               <Text className=" text-xl font-sans font-bold text-slate-900">Hi! Let's make you a website</Text>
               <PillShapeButtonForHomeScreen textToBeDisplayed={'Generate'} colorOnTheBorderAndInTheText={'#000000'} function_to_run_on_touch={()=>{
-                if( inputText != null || inputText != undefined ){
-                setIsFirstRequest(false) // ----XXXX ---this one should not be here as we 
+                if( inputText != null && inputText != undefined  ){
+                 if (String(inputText).replaceAll(" ","").length >4){
+                  console.log("\n\n input text from the generate --", inputText);
+                  setIsFirstRequest(false) // ----XXXX ---this one should not be here as we 
                   setMakeARequestForTempProject(true)
                   // setMakeARequestForGetNameForTheProject(true);
                   
                   // setIsModalVisible(true)
                   // String(inputText).length >2 ||
+                 }else{
+                   Alert.alert("Text can't be empty", "Input can't be empty , please describe something about your website")
+                 }
                 }
                 else{
                   Alert.alert("Text can't be empty", "Input can't be empty , please describe something about your website")
@@ -397,12 +393,50 @@ useEffect(()=>console.log("showSnackBarToTellThatWeUsedPreviousPromptFromZustand
             
                 }} />
             <PillShapeButtonForHomeScreen textToBeDisplayed={'Re-generate'} colorOnTheBorderAndInTheText={'#000000'} function_to_run_on_touch={()=>{
-              let textToSeeIfMakeARequest = inputText?inputText:sitePromptStoredInState
-              console.log(textToSeeIfMakeARequest,"=---=-=--=-=-=-==--==--=-==-0000000000");
-              
+              // let textToSeeIfMakeARequest = inputText?inputText:sitePromptStoredInState
+              let textToSeeIfMakeARequest 
+              let inputTextFromState = inputText
+
+              if (inputTextFromState === null || String(inputTextFromState).replaceAll(" ","").length <4){
+                console.log("inputText from the state  and sitePromptStoredInState -- ", inputText, " <-->  ",sitePromptStoredInState);
+                //  checking if sitePromptStoredInState is there 
+                if (sitePromptStoredInState != null ){
+                  console.log("\n\n sitePromptStoredInState in the re-gen-->>",sitePromptStoredInState);
+                  
+                  if( sitePromptStoredInState.replaceAll(" ","").length > 5){  // --- would have caught it in the first deploy button (but here for 
+                    // the redeploy check (what if entering the input second time them made it small) )
+                    textToSeeIfMakeARequest = sitePromptStoredInState
+                    setShowSnackBarToTellThatWeUsedPreviousPromptFromZustandState(true)
+                  }else{
+                    Alert.alert("Input can't be empty", "Input was empty or too short, please describe something about your website")
+                    return
+                  }
+                }
+                //  wait how will this else if cond. be true, input text is null or erased, state text is not there, meaning that
+                //  there were no state created before that means it is the first request
+                else { 
+                  
+                  Alert.alert("Input can't be empty", "Input was, please describe something about your website in the input below")
+                  return
+                }
+                
+              }else if (String(inputTextFromState).replaceAll(" ","").length >4){
+                textToSeeIfMakeARequest = inputTextFromState
+              }else if(String(inputTextFromState).replaceAll(" ","").length <4){
+                Alert.alert("Input needed", "Input was not found, please describe something about your website in the input box below")
+                return
+              } 
+             
+
+
+              console.log("\n textToSeeIfMakeARequest ---",textToSeeIfMakeARequest);
+
+
               if( textToSeeIfMakeARequest != null || textToSeeIfMakeARequest != undefined ){
                 setIsFirstRequest(false) // ----XXXX ---this one should not be here as we 
                 setMakeARequestForTempProject(true)
+                setInputText(textToSeeIfMakeARequest)
+                setTimeout(()=>setInputText(inputText),3)
                 // setMakeARequestForGetNameForTheProject(true);
                 
                 // setIsModalVisible(true)
