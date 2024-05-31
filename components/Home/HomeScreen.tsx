@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import JWTStore from '@/app/store';
 import { Redirect, useFocusEffect, useRouter } from 'expo-router';
 import PillShapeButtonForHomeScreen from './buttons/pillShapeButtonForHomeScreen';
-import { Modal as ModalFromRNPaper, Portal,Button as ButtonFromRNPaper } from 'react-native-paper';
+import { Modal as ModalFromRNPaper, Portal,Button as ButtonFromRNPaper, Snackbar } from 'react-native-paper';
 //   import axios, { AxiosError } from 'axios';
 // import axiosInstance from "../auth/utils/new_tokens_auth";
 import { useQuery } from "@tanstack/react-query";
@@ -16,7 +16,9 @@ import function_to_make_react_query_request from "../auth/utils/function_to_make
 import * as Linking from 'expo-linking';
 
   export default function HomeScreen() {    
+
     const router = useRouter();
+
     const { setJWT,JWT, sitePromptStoredInState, setSitePromptStoredInState } = JWTStore();
     const [IsFirstRequest , setIsFirstRequest] = useState(true)
     const [inputText , setInputText] = useState(null)
@@ -26,7 +28,8 @@ import * as Linking from 'expo-linking';
     const [makeARequestForDeleteAProjectOrTemp , setMakeARequestForDeleteAProjectOrTemp] = useState(false)
     const [makeARequestForGetAllUserProject , setMakeARequestForGetAllUserProject] = useState(false)
     const [makeARequestForGetNameForTheProject , setMakeARequestForGetNameForTheProject] = useState(false)
-
+    
+    const [showSnackBarToTellThatWeUsedPreviousPromptFromZustandState , setShowSnackBarToTellThatWeUsedPreviousPromptFromZustandState] = useState(false)
 
     const [responnseJSONForGetNameForTheProject , setResponnseJSONForGetNameForTheProject] = useState(null)
     const [responnseJSONForTempSite , setResponnseJSONForTempSite] = useState(null)
@@ -212,10 +215,15 @@ if (get_the_name_for_the_project.data!=null || get_the_name_for_the_project.data
 },[get_the_name_for_the_project.data, responnseJSONForGetNameForTheProject, get_the_name_for_the_project.isSuccess, get_the_name_for_the_project.status])
 
   
+// setTimeout(()=>{setShowSnackBarToTellThatWeUsedPreviousPromptFromZustandState(true), console.log("\n--iucbiewbciewbew----\n")
+// },4000)
+useEffect(()=>console.log("showSnackBarToTellThatWeUsedPreviousPromptFromZustandState  "+showSnackBarToTellThatWeUsedPreviousPromptFromZustandState)
+,[showSnackBarToTellThatWeUsedPreviousPromptFromZustandState])
 
  
     return (
       <View style={{ flex: 1, backgroundColor: '#010c1c', paddingTop: 150 }}>
+
         {/* modal for opening the website in the browser */}
        <Portal>
         <ModalFromRNPaper visible={modalToShowTheProjectHostedLink} onDismiss={()=>setModalToShowTheProjectHostedLink(false)} contentContainerStyle={{backgroundColor:"#010c1c",padding:20, borderRadius:28
@@ -263,6 +271,8 @@ if (get_the_name_for_the_project.data!=null || get_the_name_for_the_project.data
         animationType="slide"
         >
           <View className="text-white flex rounded-3xl mt-60 mx-6 border-white border-2 p-7 " style={{backgroundColor:'#010c1c'}}   >
+            {/* ---------snack bar to tell the user that previous prompt is used------------ */}
+        
             {project_name?(<>
               <Text className=" text-white text-2xl ">Project name:  <Text>{project_name}</Text> </Text>
               <Text className="text-slate-200 pt-6 ">To change the title just type it down</Text>
@@ -292,8 +302,13 @@ if (get_the_name_for_the_project.data!=null || get_the_name_for_the_project.data
               // -- call the api with the name set here 
               // console.log("ibfbvioub");
               if (project_name.length > 2){
-                console.log("\n--D4c--");
+                // console.log("\n--D4c--");
+
+                // -------------------
+                // --------------- check if the project is there if not just use the one from the zustand state state 
+                // -------------------
                 setMakeARequestFormTempToProject(true)
+
                 
               }
               
@@ -329,6 +344,23 @@ if (get_the_name_for_the_project.data!=null || get_the_name_for_the_project.data
         </View> */}
 
         <View style={{ flex: 1, backgroundColor: '#5a7ead', borderTopLeftRadius: 32, borderTopRightRadius:32, paddingBottom:24 }}>
+        
+        {/* ---------snack bar to tell the user that previous prompt is used------------ */}
+        <ButtonFromRNPaper mode="outlined" onTouchStart={()=>{setShowSnackBarToTellThatWeUsedPreviousPromptFromZustandState(true)}} >Sbhbhjbe</ButtonFromRNPaper>
+        <Snackbar
+          className="z-40 bottom-24 my-2"
+          visible={showSnackBarToTellThatWeUsedPreviousPromptFromZustandState}
+          onDismiss={()=>setShowSnackBarToTellThatWeUsedPreviousPromptFromZustandState(false)}
+          action={{
+            label: 'Hide',
+            onPress: () => {
+              setShowSnackBarToTellThatWeUsedPreviousPromptFromZustandState(false)
+            },
+          }}
+        >
+          Using your old prompt, if want add a new one jsut type it out below
+        </Snackbar>
+        {/* ---------snack bar to tell the user that previous prompt is used------------ */}
 
         
         <View className="flex-1 items-center justify-center">
