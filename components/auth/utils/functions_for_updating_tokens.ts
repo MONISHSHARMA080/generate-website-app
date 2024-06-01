@@ -1,10 +1,11 @@
 import axios from "axios";
+import {  useRouter } from "expo-router";
 import { deleteItemAsync, getItem, setItem } from "expo-secure-store";
 import { Alert } from "react-native";
 
 
 export default async function UpdateJWT (setJWTTokens, refetch ){
-    const Jwt_string = getItem('JWT')
+    // const Jwt_string = getItem('JWT')
    try {
     //  console.log("in the update func --->>, my tokens -->>",JSON.parse(Jwt_string).refresh );
      
@@ -13,16 +14,29 @@ export default async function UpdateJWT (setJWTTokens, refetch ){
        { refresh: JSON.parse(getItem('JWT')).refresh }
      );
      const { access, refresh } = response.data;
-     console.log("-------above the response ------");
+    //  console.log("-------above the response ------",response);
+    //  console.log("----status code ------",response.status);  
+    //  status code is 200 here 
      
-     console.log("\n response data ----",response.headers);
-     
+    //  console.log("\n response data ----",response.headers);
+     if (response.status === 200){
+      deleteItemAsync("JWT").then(()=>{
+        setItem("JWT",JSON.stringify({access,refresh}))
+        setJWTTokens(JSON.stringify({access,refresh}))
+        
+      })
+     }
+     else{
+      const router = useRouter();
+      deleteItemAsync("JWT") ;
+          
+          //  console.log("input text from the home screen -- ",inputText, "\n jwt tokens in zustand state -->>",JWT)
+           setJWT(null)
+          
+    router.replace('/(main_app)/');
+     }
     //  console.log("\n\n ================================8888888888888888-===========response and access(jsut to be sure ) -->>",refresh,"\n access -----", access);
-     deleteItemAsync("JWT").then(()=>{
-      setItem("JWT",JSON.stringify({access,refresh}))
-      setJWTTokens(JSON.stringify({access,refresh}))
-      
-    })
+     
     // console.log("\n\n checking both the jwt tokens -->", Jwt_string,JSON.stringify({access,refresh}), "\n\n\n are both of these same -->>", JSON.stringify({access,refresh}) === Jwt_string );
     refetch()
   
@@ -106,4 +120,8 @@ export default async function UpdateJWT (setJWTTokens, refetch ){
   
   
   }
+
+function setJWT(arg0: null) {
+  throw new Error("Function not implemented.");
+}
         

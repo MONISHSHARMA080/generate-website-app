@@ -346,7 +346,15 @@ if (get_the_name_for_the_project.data!=null || get_the_name_for_the_project.data
     router.replace('/(main_app)/');
         }} /> */}
    
-       
+        <Button title="delete jwt"
+        onPress={()=>{
+                  deleteItemAsync("JWT") ;
+          
+           console.log("input text from the home screen -- ",inputText, "\n jwt tokens in zustand state -->>",JWT)
+           setJWT(null)
+          
+    router.replace('/(main_app)/');
+        }} />
         
         {/* <View className="mt-3">
         <Button title="delete jwt"
