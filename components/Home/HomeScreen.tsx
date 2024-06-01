@@ -368,22 +368,24 @@ if (get_the_name_for_the_project.data!=null || get_the_name_for_the_project.data
             <>
               <Text className=" text-xl font-sans font-bold text-slate-900">Hi! Let's make you a website</Text>
               <PillShapeButtonForHomeScreen textToBeDisplayed={'Generate'} colorOnTheBorderAndInTheText={'#000000'} function_to_run_on_touch={()=>{
-                if( inputText != null && inputText != undefined  ){
-                 if (String(inputText).replaceAll(" ","").length >4){
-                  console.log("\n\n input text from the generate --", inputText);
-                  setIsFirstRequest(false) // ----XXXX ---this one should not be here as we 
-                  setMakeARequestForTempProject(true)
-                  // setMakeARequestForGetNameForTheProject(true);
+                console.log("jnieiuefb");
+                
+                // if( inputText != null && inputText != undefined  ){
+                //  if (String(inputText).replaceAll(" ","").length >4){
+                //   console.log("\n\n input text from the generate --", inputText);
+                //   setIsFirstRequest(false) // ----XXXX ---this one should not be here as we 
+                //   setMakeARequestForTempProject(true)
+                //   // setMakeARequestForGetNameForTheProject(true);
                   
-                  // setIsModalVisible(true)
-                  // String(inputText).length >2 ||
-                 }else{
-                   Alert.alert("Text can't be empty", "Input can't be empty , please describe something about your website")
-                 }
-                }
-                else{
-                  Alert.alert("Text can't be empty", "Input can't be empty , please describe something about your website")
-                }
+                //   // setIsModalVisible(true)
+                //   // String(inputText).length >2 ||
+                //  }else{
+                //    Alert.alert("Text can't be empty", "Input can't be empty , please describe something about your website")
+                //  }
+                // }
+                // else{
+                //   Alert.alert("Text can't be empty", "Input can't be empty , please describe something about your website")
+                // }
                 }} />
               
             </>

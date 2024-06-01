@@ -1,4 +1,4 @@
-import { View, Text, GestureResponderEvent } from 'react-native'
+import { View, Text, GestureResponderEvent, Vibration } from 'react-native'
 import React, { Dispatch, SetStateAction } from 'react'
 
 interface PillShapeButtonProps {
@@ -13,7 +13,7 @@ export default function PillShapeButtonForHomeScreen({textToBeDisplayed,colorOnT
   
   return (
     <View className="flex-row m-2 rounded-full h-14 w-40 items-center justify-center border-2 " style={{borderColor:colorOnTheBorderAndInTheText}} 
-    onTouchStart={()=>{function_to_run_on_touch()}} 
+    onTouchStart={()=>{function_to_run_on_touch(); Vibration.vibrate(47, false)}} 
     >
       <Text style={{color:colorOnTheBorderAndInTheText}} className="text-lg font-bold">{textToBeDisplayed}</Text>
     </View>
