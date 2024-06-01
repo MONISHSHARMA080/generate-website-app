@@ -61,12 +61,14 @@ const {data, isSuccess, status, refetch} = useQuery({
   // ------------ decide on the project name  ----------------
 })
 
-useEffect(()=>{console.log("\n\n\n\n ||||||||||||\n\n\n\n\n"+sitePromptStoredInState+"\n\n\n\n\n||||||||||")
-  console.log("console.log(modalToShowTheProjectHostedLink);  "+modalToShowTheProjectHostedLink);
+// useEffect(()=>{console.log("\n\n\n\n ||||||||||||\n\n\n\n\n"+sitePromptStoredInState+"\n\n\n\n\n||||||||||")
+//   console.log("console.log(modalToShowTheProjectHostedLink);  "+modalToShowTheProjectHostedLink);
   
-}
-,[sitePromptStoredInState,modalToShowTheProjectHostedLink])
+// }
+// ,[sitePromptStoredInState,modalToShowTheProjectHostedLink])
 
+useEffect(()=>{console.log("=--==-from the is1streq in the useeffect ",IsFirstRequest);
+},[IsFirstRequest])
 
 useEffect(()=>{console.log("\n\n ============================||----||data from the query fucntion============================||------||" , "\n\n-->>",(responnseJSONForTempSite?responnseJSONForTempSite:"") );
 if (data!=null || data!= undefined){
@@ -75,8 +77,23 @@ if (data!=null || data!= undefined){
   
   alert_user_for_common__errors_from_backend_given_by_Rquery(data)
   if (data.body.status_code){
+    // if made a 1st req and got the err, do not make it first
+    if (IsFirstRequest){
+      if(data.body.status_code !== 200 && data.body.status_code !== 201){
+        // console.log("\n===Turning the 1st req state to flase as qwe got the error ===\n isFirstReq", IsFirstRequest);
+        // console.log("\n here if the req is NOT 200/201\n",data.body.status_code);
+        // could have just returned here as the 1streq is already true
+        setIsFirstRequest(true)
+        return
+      }
+    }
     if (data.body.status_code === 200 || data.body.status_code === 201){
-      setIsFirstRequest(false)
+      // if got the response is perfect  check if 1st req --> if it is set th !st req state to false 
+      // console.log("\n here if the req is 200/201\n");
+      
+      if (IsFirstRequest){
+        setIsFirstRequest(false)
+      }
       // console.log(`\n\n  input text to store in the zustand state ${inputText}  \n\n`);
       
       setSitePromptStoredInState(data.body.prompt)
@@ -368,24 +385,24 @@ if (get_the_name_for_the_project.data!=null || get_the_name_for_the_project.data
             <>
               <Text className=" text-xl font-sans font-bold text-slate-900">Hi! Let's make you a website</Text>
               <PillShapeButtonForHomeScreen textToBeDisplayed={'Generate'} colorOnTheBorderAndInTheText={'#000000'} function_to_run_on_touch={()=>{
-                console.log("jnieiuefb");
-                
-                // if( inputText != null && inputText != undefined  ){
-                //  if (String(inputText).replaceAll(" ","").length >4){
-                //   console.log("\n\n input text from the generate --", inputText);
-                //   setIsFirstRequest(false) // ----XXXX ---this one should not be here as we 
-                //   setMakeARequestForTempProject(true)
-                //   // setMakeARequestForGetNameForTheProject(true);
+                if( inputText != null && inputText != undefined  ){
+                 if (String(inputText).replaceAll(" ","").length >4){
+                  console.log("\n\n input text from the generate --", inputText);
                   
-                //   // setIsModalVisible(true)
-                //   // String(inputText).length >2 ||
-                //  }else{
-                //    Alert.alert("Text can't be empty", "Input can't be empty , please describe something about your website")
-                //  }
-                // }
-                // else{
-                //   Alert.alert("Text can't be empty", "Input can't be empty , please describe something about your website")
-                // }
+                  // setIsFirstRequest(false) 
+
+                  setMakeARequestForTempProject(true)
+                  // setMakeARequestForGetNameForTheProject(true);
+                  
+                  // setIsModalVisible(true)
+                  // String(inputText).length >2 ||
+                 }else{
+                   Alert.alert("Text can't be empty", "Input can't be empty , please describe something about your website")
+                 }
+                }
+                else{
+                  Alert.alert("Text can't be empty", "Input can't be empty , please describe something about your website")
+                }
                 }} />
               
             </>
@@ -444,7 +461,7 @@ if (get_the_name_for_the_project.data!=null || get_the_name_for_the_project.data
 
 
               if( textToSeeIfMakeARequest != null || textToSeeIfMakeARequest != undefined ){
-                setIsFirstRequest(false) // ----XXXX ---this one should not be here as we 
+                // setI sFirstReque st(false) // ----XXXX ---this one should not be here as we 
                 setMakeARequestForTempProject(true)
                 setInputText(textToSeeIfMakeARequest)
                 setTimeout(()=>setInputText(inputText),3)
