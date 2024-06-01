@@ -7,7 +7,7 @@ module.exports = function (api) {
         plugins: ['react-native-paper/babel'],
       },
     },
-    plugins: ['nativewind/babel'],
+    plugins: ['nativewind/babel', 'react-native-reanimated/plugin'],
   };
  
 

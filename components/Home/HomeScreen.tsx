@@ -239,7 +239,7 @@ if (get_the_name_for_the_project.data!=null || get_the_name_for_the_project.data
           (<Text className="text-white text-2xl align-middle self-center mb-2">Loading, please wait</Text>) : null}
 
           {/* ------ button for opening the drawer/hamburgerMenu -------  */}
-            <ButtonFromRNPaper className="top-0  z-10 mx-2 my-4 absolute" icon='menu'>Previous websites</ButtonFromRNPaper>
+            <ButtonFromRNPaper className="top-0  z-10 mx-2 my-4 absolute" textColor="#4f87d1" icon='menu'>Previous websites</ButtonFromRNPaper>
           {/* ------ button for opening the drawer/hamburgerMenu -------  */}
 
         {/* modal for opening the website in the browser */}
