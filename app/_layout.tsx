@@ -6,6 +6,7 @@ import JWTStore from './store';
 import { vexo } from 'vexo-analytics';
 import axios from 'axios';
 import { PaperProvider } from 'react-native-paper';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 
 export default function HomeLayout() {
@@ -46,7 +47,9 @@ export default function HomeLayout() {
   
        <QueryClientProvider client={queryClient}>     
         <PaperProvider>
-            <Slot />
+          <SafeAreaView style={{flex:1}}>
+              <Slot />
+          </SafeAreaView>
         </PaperProvider> 
        </QueryClientProvider>
        

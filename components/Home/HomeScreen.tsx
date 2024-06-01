@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import JWTStore from '@/app/store';
 import { Redirect, useFocusEffect, useRouter } from 'expo-router';
 import PillShapeButtonForHomeScreen from './buttons/pillShapeButtonForHomeScreen';
-import { Modal as ModalFromRNPaper, Portal,Button as ButtonFromRNPaper, Snackbar } from 'react-native-paper';
+import { Modal as ModalFromRNPaper, Portal,Button as ButtonFromRNPaper, Snackbar, Drawer } from 'react-native-paper';
 //   import axios, { AxiosError } from 'axios';
 // import axiosInstance from "../auth/utils/new_tokens_auth";
 import { useQuery } from "@tanstack/react-query";
@@ -47,6 +47,7 @@ import * as Linking from 'expo-linking';
     // -----modal ----
     const [isModalVisible, setIsModalVisible] = useState(false);
     
+    const [drawerOnTheSide, setDrawerOnTheSide] = useState('');
     
 
 const {data, isSuccess, status, refetch, isLoading} = useQuery({
@@ -236,6 +237,11 @@ if (get_the_name_for_the_project.data!=null || get_the_name_for_the_project.data
       }}>
         {makeARequestForTempProject || makeARequestFormTempToProject || makeARequestForDeleteAProjectOrTemp || makeARequestForGetAllUserProject || makeARequestForGetNameForTheProject ?
           (<Text className="text-white text-2xl align-middle self-center mb-2">Loading, please wait</Text>) : null}
+
+          {/* ------ button for opening the drawer/hamburgerMenu -------  */}
+            <ButtonFromRNPaper className="top-0  z-10 mx-2 my-4 absolute" icon='menu'>Previous websites</ButtonFromRNPaper>
+          {/* ------ button for opening the drawer/hamburgerMenu -------  */}
+
         {/* modal for opening the website in the browser */}
        <Portal>
         <ModalFromRNPaper visible={modalToShowTheProjectHostedLink} onDismiss={()=>setModalToShowTheProjectHostedLink(false)} contentContainerStyle={{backgroundColor:"#010c1c",padding:20, borderRadius:28
@@ -338,15 +344,22 @@ if (get_the_name_for_the_project.data!=null || get_the_name_for_the_project.data
       </Modal>
       {/* <Button title="delete jwt"
         onPress={()=>{
-                  deleteItemAsync("JWT") ;
-          
-           console.log("input text from the home screen -- ",inputText, "\n jwt tokens in zustand state -->>",JWT)
-           setJWT(null)
-          
-    router.replace('/(main_app)/');
-        }} /> */}
-   
-        <Button title="delete jwt"
+                  
+          setDrawerOnTheSide(true)
+        }} /> 
+   <Drawer.Section title="Previous sites">
+      <Drawer.Item
+        label="First Item"
+        active={drawerOnTheSide === 'first'}
+        onPress={() => setDrawerOnTheSide('first')}
+      />
+      <Drawer.Item
+        label="Second Item"
+        active={drawerOnTheSide === 'second'}
+        onPress={() => setDrawerOnTheSide('second')}
+      />
+    </Drawer.Section> */}
+        {/* <Button title="delete jwt"
         onPress={()=>{
                   deleteItemAsync("JWT") ;
           
@@ -355,7 +368,7 @@ if (get_the_name_for_the_project.data!=null || get_the_name_for_the_project.data
           
     router.replace('/(main_app)/');
         }} />
-        
+         */}
         {/* <View className="mt-3">
         <Button title="delete jwt"
         onPress={()=>{
