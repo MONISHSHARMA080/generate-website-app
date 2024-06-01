@@ -315,6 +315,15 @@ if (get_the_name_for_the_project.data!=null || get_the_name_for_the_project.data
          </View>
             </View>    
       </Modal>
+      <Button title="delete jwt"
+        onPress={()=>{
+                  deleteItemAsync("JWT") ;
+          
+           console.log("input text from the home screen -- ",inputText, "\n jwt tokens in zustand state -->>",JWT)
+           setJWT(null)
+          
+    router.replace('/(main_app)/');
+        }} />
    
        
         {/* <Button title='remove' onPress={async ()=>{
@@ -349,7 +358,7 @@ if (get_the_name_for_the_project.data!=null || get_the_name_for_the_project.data
             },
           }}
         >
-          Using your old prompt, if want add a new one jsut type it out below
+          Using your old prompt, if want add a new one just type it out below
         </Snackbar>
         {/* ---------snack bar to tell the user that previous prompt is used------------ */}
 
