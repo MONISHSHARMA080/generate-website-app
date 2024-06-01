@@ -49,7 +49,7 @@ import * as Linking from 'expo-linking';
     
     
 
-const {data, isSuccess, status, refetch} = useQuery({
+const {data, isSuccess, status, refetch, isLoading} = useQuery({
   queryKey:['temp_website'],
   queryFn: ()=>QueryFunction('temp_website', setJWT, refetch, setMakeARequestForTempProject, setResponnseJSONForTempSite, 
     {
@@ -178,7 +178,6 @@ if (delete_a_project_or_temp.data!=null || delete_a_project_or_temp.data!= undef
 
 
 
-
 const get_all_the_projects_of_the_user = useQuery({
   queryKey:['get_all_the_projects_of_the_user'],
   queryFn: ()=>QueryFunction(`get_all_the_projects_of_the_user`,setJWT,get_all_the_projects_of_the_user.refetch,setMakeARequestForGetAllUserProject,setResponnseJSONForGetAllUserProject, {}),
@@ -230,8 +229,13 @@ if (get_the_name_for_the_project.data!=null || get_the_name_for_the_project.data
 
  
     return (
-      <View style={{ flex: 1, backgroundColor: '#010c1c', paddingTop: 150 }}>
-
+      <View style={{ 
+        flex: 1, 
+        paddingTop: 150, 
+        backgroundColor: makeARequestForTempProject || makeARequestFormTempToProject || makeARequestForDeleteAProjectOrTemp || makeARequestForGetAllUserProject || makeARequestForGetNameForTheProject ? '#330142' : '#010c1c'
+      }}>
+        {makeARequestForTempProject || makeARequestFormTempToProject || makeARequestForDeleteAProjectOrTemp || makeARequestForGetAllUserProject || makeARequestForGetNameForTheProject ?
+          (<Text className="text-white text-2xl align-middle self-center mb-2">Loading, please wait</Text>) : null}
         {/* modal for opening the website in the browser */}
        <Portal>
         <ModalFromRNPaper visible={modalToShowTheProjectHostedLink} onDismiss={()=>setModalToShowTheProjectHostedLink(false)} contentContainerStyle={{backgroundColor:"#010c1c",padding:20, borderRadius:28
@@ -278,7 +282,7 @@ if (get_the_name_for_the_project.data!=null || get_the_name_for_the_project.data
         onRequestClose={()=>setIsModalVisible(false)}
         animationType="slide"
         >
-          <View className="text-white flex rounded-3xl mt-60 mx-6 border-white border-2 p-7 " style={{backgroundColor:'#010c1c'}}   >
+          <View className="text-white flex rounded-3xl mt-60 mx-6 border-white border-2 p-7  " style={{backgroundColor:'#010c1c'}}   >
             {/* ---------snack bar to tell the user that previous prompt is used------------ */}
         
             {project_name?(<>
@@ -301,7 +305,7 @@ if (get_the_name_for_the_project.data!=null || get_the_name_for_the_project.data
           <TextInput className=" my-1  border-2 border-white rounded-3xl py-3 px-4" style={{backgroundColor: '#5a7ead' }}
           onChangeText={(text) => text.length<29?setProject_name(text):null}  value={project_name}
           />
-         <View className=" flex-row justify-center pt-4">
+         <View className=" flex-row justify-center pt-4 mx-4">
          <PillShapeButtonForHomeScreen 
         //  colorOnTheBorderAndInTheText={"#0ce80c"} 
          colorOnTheBorderAndInTheText={project_name === null ? "#0ce80c": project_name.length<2?"#474747":"#0ce80c"} 
@@ -332,7 +336,7 @@ if (get_the_name_for_the_project.data!=null || get_the_name_for_the_project.data
          </View>
             </View>    
       </Modal>
-      <Button title="delete jwt"
+      {/* <Button title="delete jwt"
         onPress={()=>{
                   deleteItemAsync("JWT") ;
           
@@ -340,13 +344,9 @@ if (get_the_name_for_the_project.data!=null || get_the_name_for_the_project.data
            setJWT(null)
           
     router.replace('/(main_app)/');
-        }} />
+        }} /> */}
    
        
-        {/* <Button title='remove' onPress={async ()=>{
-          setMakeARequest(true)
-
-        }} /> */}
         
         {/* <View className="mt-3">
         <Button title="delete jwt"
@@ -360,10 +360,10 @@ if (get_the_name_for_the_project.data!=null || get_the_name_for_the_project.data
         }} />
         </View> */}
 
-        <View style={{ flex: 1, backgroundColor: '#5a7ead', borderTopLeftRadius: 32, borderTopRightRadius:32, paddingBottom:24 }}>
+        <View style={{ flex: 1, backgroundColor: '#386eb5', borderTopLeftRadius: 32, borderTopRightRadius:32, paddingBottom:24 }}>
         
         {/* ---------snack bar to tell the user that previous prompt is used------------ */}
-        <ButtonFromRNPaper mode="outlined" onTouchStart={()=>{setShowSnackBarToTellThatWeUsedPreviousPromptFromZustandState(true)}} >Sbhbhjbe</ButtonFromRNPaper>
+        {/* <ButtonFromRNPaper mode="outlined" onTouchStart={()=>{setShowSnackBarToTellThatWeUsedPreviousPromptFromZustandState(true)}} >Sbhbhjbe</ButtonFromRNPaper> */}
         <Snackbar
           className="z-40 bottom-24 my-2"
           visible={showSnackBarToTellThatWeUsedPreviousPromptFromZustandState}
@@ -420,7 +420,7 @@ if (get_the_name_for_the_project.data!=null || get_the_name_for_the_project.data
 
             
                 }} />
-            <PillShapeButtonForHomeScreen textToBeDisplayed={'Re-generate'} colorOnTheBorderAndInTheText={'#000000'} function_to_run_on_touch={()=>{
+            <PillShapeButtonForHomeScreen textToBeDisplayed={'Regenerate'} colorOnTheBorderAndInTheText={'#000000'} function_to_run_on_touch={()=>{
               // let textToSeeIfMakeARequest = inputText?inputText:sitePromptStoredInState
               let textToSeeIfMakeARequest 
               let inputTextFromState = inputText
@@ -509,7 +509,7 @@ if (get_the_name_for_the_project.data!=null || get_the_name_for_the_project.data
         </View>
 
         <View style={{ paddingTop:5, paddingBottom:10 ,position: 'absolute', bottom: 0, left: 0, right: 0, 
-        alignItems:"center",backgroundColor: '#5a7ead' , borderRadius:24}}>
+        alignItems:"center",backgroundColor: '#386eb5' , borderRadius:24}}>
           <TextInput className='z-10 border-2 px-4 w-96 rounded-3xl py-4 text-white border-white h-auto max-h-44' 
               placeholder='Describe you website' placeholderTextColor={"#000a14"} multiline={true} numberOfLines={1} 
               onChangeText={(text) => setInputText(text)} value={inputText} 
