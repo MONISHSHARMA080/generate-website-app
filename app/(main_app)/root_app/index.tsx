@@ -7,7 +7,9 @@ export default function index() {
   return (
     <>
       {/* <HomeScreen /> */}
-      <DrawerToShowPreviousSites stateToToggleItOn={true} />
+      <DrawerToShowPreviousSites 
+        // stateToToggleItOn={true}
+         />
     </>
   )
 }

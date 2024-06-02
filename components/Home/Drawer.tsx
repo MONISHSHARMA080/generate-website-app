@@ -1,20 +1,29 @@
-import React, { useState } from 'react';
-import { View, Dimensions } from 'react-native';
-import { Drawer } from 'react-native-paper';
+import React, { useEffect, useState } from 'react';
+import { View, Dimensions, StyleSheet } from 'react-native';
+import { Button, Drawer,Text } from 'react-native-paper';
 import Animated, { useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated';
+import PillShapeButtonForDrawer from './buttons/pillShapeButtonForDrawer';
+import { FlashList } from '@shopify/flash-list';
 
+
+interface propsInThisComponent{
+  stateToToogleTheDrawerOn:Boolean
+}
 export default function DrawerToShowPreviousSites(
-    // { stateToToggleItOn }
+    { stateToToogleTheDrawerOn }:propsInThisComponent
         ) {
+          
     // stateToToggleItOn can be the reactQuery state too that way we can get fetch when opened true and may be store the previous state in the
     // storage and zustand
     const [stateToToggleItOn, setstateToToggleItOn]= useState(false)
 
-    setTimeout(()=>{console.log("stateToToggleItOn-- ",stateToToggleItOn);
+    useEffect(()=>{
+      setTimeout(()=>{console.log("stateToToggleItOn-- ",stateToToggleItOn);
             setstateToToggleItOn(true)
-    }, 2000)
+    }, 2700)
+    },[stateToToggleItOn])
   const [drawerOnTheSide, setDrawerOnTheSide] = useState('');
-  const drawerTranslateX = useSharedValue(-Dimensions.get('window').width);
+  const drawerTranslateX = useSharedValue(-Dimensions.get('window').width /2);
 
   React.useEffect(() => {
     if (stateToToggleItOn) {
@@ -31,24 +40,40 @@ export default function DrawerToShowPreviousSites(
   });
 
   return (
-    <Animated.View style={[{ height: Dimensions.get('window').height }, animatedStyle]}>
-      <Drawer.Section title="Previous sites" showDivider={true} className="pb-14 text-2xl">
-        <Drawer.Item
-          label="First Item"
-          active={drawerOnTheSide === 'first'}
-          onPress={() => setDrawerOnTheSide('first')}
-        />
-        <Drawer.Item
-          label="Second Item"
-          active={drawerOnTheSide === 'second'}
-          onPress={() => setDrawerOnTheSide('second')}
-        />
-        <Drawer.Item
-          label="remove it "
-          active={drawerOnTheSide === 'second'}
-          onPress={() => setstateToToggleItOn(false)}
-        />
-      </Drawer.Section>
-    </Animated.View>
+    <View className="bg-slate-700 flex-1">
+      <Animated.View
+        style={[
+          {
+            // height: '100%',
+            height: Dimensions.get('window').height -40,
+            backgroundColor: "#fff",
+            borderRadius: 45,
+            width: Dimensions.get('window').width -20,
+            alignSelf:'center'
+          },
+          animatedStyle,
+        ]}
+        className="m-4"
+      >
+
+          <View className="justify-end pb-4" style={{ height: '100%' }}>
+            <Text className=' text-2xl self-center p-3'>Previous  website</Text>
+            <FlashList
+              data={['ewuin','jn','hercb','hjern','fewew','ewhb','hjwe','2','','egtrg','','','3','ds','last','dd','qwd','lastlast']}
+              renderItem={({ item }) => (
+                <View style={{ borderRadius: 20, overflow: 'hidden' }}>
+                  <PillShapeButtonForDrawer
+                    textToBeDisplayed={item}
+                    colorOnTheBorderAndInTheText={'#999aaa'}
+                    function_to_run_on_touch={()=>console.log("clicked the ",item)
+                    }
+                  />
+                </View>
+              )}
+              estimatedItemSize={20}
+            />
+          </View>
+      </Animated.View>
+    </View>
   );
 }
