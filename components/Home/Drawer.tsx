@@ -27,7 +27,7 @@ export default function DrawerToShowPreviousSites(
 
   React.useEffect(() => {
     if (stateToToogleTheDrawerOn) {
-      drawerTranslateX.value = withTiming(0, { duration: 100 });
+      drawerTranslateX.value = withTiming(0, { duration: 170 });
     } else {
       drawerTranslateX.value = withTiming(-Dimensions.get('window').width, { duration: 300 });
     }
@@ -36,12 +36,11 @@ export default function DrawerToShowPreviousSites(
   const animatedStyle = useAnimatedStyle(() => {
     return {
       transform: [{ translateX: drawerTranslateX.value }],
-      zIndex: 1000, 
+      // zIndex: 100, 
     };
   });
 
   return (
-    stateToToogleTheDrawerOn?(
     <View className="bg-slate-700 flex-1">
     <Animated.View
       style={[
@@ -78,6 +77,5 @@ export default function DrawerToShowPreviousSites(
         </View>
     </Animated.View>
   </View>
-   ):(null)
   );
 }

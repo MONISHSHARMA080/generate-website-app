@@ -16,7 +16,7 @@ import function_to_make_react_query_request from "../auth/utils/function_to_make
 import * as Linking from 'expo-linking';
 import DrawerToShowPreviousSites from "./Drawer";
 
-  export default function HomeScreen() {    
+  export default function HomeScreen({toggleDrawer}) {    
 
     const router = useRouter();
 
@@ -232,7 +232,6 @@ if (get_the_name_for_the_project.data!=null || get_the_name_for_the_project.data
  
     return (
       <>
-       <DrawerToShowPreviousSites stateToToogleTheDrawerOn={drawerOnTheSide} />
       <View style={{ 
         flex: 1, 
         paddingTop: 150, 
@@ -243,7 +242,7 @@ if (get_the_name_for_the_project.data!=null || get_the_name_for_the_project.data
 
           {/* ------ button for opening the drawer/hamburgerMenu -------  */}
             <ButtonFromRNPaper className="top-0  z-10 mx-2 my-4 absolute" textColor="#4f87d1" icon='menu' 
-            onPress={()=>{setDrawerOnTheSide(!drawerOnTheSide)}}
+            onPress={toggleDrawer}
             >Previous websites</ButtonFromRNPaper>
            
           {/* ------ button for opening the drawer/hamburgerMenu -------  */}
