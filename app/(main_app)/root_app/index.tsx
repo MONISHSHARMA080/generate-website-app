@@ -6,10 +6,10 @@ import DrawerToShowPreviousSites from '@/components/Home/Drawer'
 export default function index() {
   return (
     <>
-      {/* <HomeScreen /> */}
-      <DrawerToShowPreviousSites 
-        // stateToToggleItOn={true}
-         />
+      <HomeScreen />
+      {/* <DrawerToShowPreviousSites 
+        stateToToggleItOn={true}
+         /> */}
     </>
   )
 }

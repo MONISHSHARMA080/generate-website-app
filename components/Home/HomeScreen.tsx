@@ -14,6 +14,7 @@ import UpdateJWT, { QueryFunction } from "../auth/utils/functions_for_updating_t
 import { alert_user_for_common__errors_from_backend_given_by_Rquery } from "../auth/utils/func_to_alert_user_for_common_querystatus_and_message_to_displa";
 import function_to_make_react_query_request from "../auth/utils/function_to_make_react_query_request";
 import * as Linking from 'expo-linking';
+import DrawerToShowPreviousSites from "./Drawer";
 
   export default function HomeScreen() {    
 
@@ -47,7 +48,7 @@ import * as Linking from 'expo-linking';
     // -----modal ----
     const [isModalVisible, setIsModalVisible] = useState(false);
     
-    const [drawerOnTheSide, setDrawerOnTheSide] = useState('');
+    const [drawerOnTheSide, setDrawerOnTheSide] = useState(false);
     
 
 const {data, isSuccess, status, refetch, isLoading} = useQuery({
@@ -181,7 +182,7 @@ if (delete_a_project_or_temp.data!=null || delete_a_project_or_temp.data!= undef
 
 const get_all_the_projects_of_the_user = useQuery({
   queryKey:['get_all_the_projects_of_the_user'],
-  queryFn: ()=>QueryFunction(`get_all_the_projects_of_the_user`,setJWT,get_all_the_projects_of_the_user.refetch,setMakeARequestForGetAllUserProject,setResponnseJSONForGetAllUserProject, {}),
+  queryFn: ()=>QueryFunction(`get_all_the_projects_of_the_user`, setJWT, get_all_the_projects_of_the_user.refetch,setMakeARequestForGetAllUserProject,setResponnseJSONForGetAllUserProject, {}),
   enabled:makeARequestForGetAllUserProject,
   // retry:2
   // ------------ decide on the project name  ----------------
@@ -230,6 +231,8 @@ if (get_the_name_for_the_project.data!=null || get_the_name_for_the_project.data
 
  
     return (
+      <>
+       <DrawerToShowPreviousSites stateToToogleTheDrawerOn={drawerOnTheSide} />
       <View style={{ 
         flex: 1, 
         paddingTop: 150, 
@@ -239,7 +242,10 @@ if (get_the_name_for_the_project.data!=null || get_the_name_for_the_project.data
           (<Text className="text-white text-2xl align-middle self-center mb-2">Loading, please wait</Text>) : null}
 
           {/* ------ button for opening the drawer/hamburgerMenu -------  */}
-            <ButtonFromRNPaper className="top-0  z-10 mx-2 my-4 absolute" textColor="#4f87d1" icon='menu'>Previous websites</ButtonFromRNPaper>
+            <ButtonFromRNPaper className="top-0  z-10 mx-2 my-4 absolute" textColor="#4f87d1" icon='menu' 
+            onPress={()=>{setDrawerOnTheSide(!drawerOnTheSide)}}
+            >Previous websites</ButtonFromRNPaper>
+           
           {/* ------ button for opening the drawer/hamburgerMenu -------  */}
 
         {/* modal for opening the website in the browser */}
@@ -342,33 +348,7 @@ if (get_the_name_for_the_project.data!=null || get_the_name_for_the_project.data
          </View>
             </View>    
       </Modal>
-      {/* <Button title="delete jwt"
-        onPress={()=>{
-                  
-          setDrawerOnTheSide(true)
-        }} /> 
-   <Drawer.Section title="Previous sites">
-      <Drawer.Item
-        label="First Item"
-        active={drawerOnTheSide === 'first'}
-        onPress={() => setDrawerOnTheSide('first')}
-      />
-      <Drawer.Item
-        label="Second Item"
-        active={drawerOnTheSide === 'second'}
-        onPress={() => setDrawerOnTheSide('second')}
-      />
-    </Drawer.Section> */}
-        {/* <Button title="delete jwt"
-        onPress={()=>{
-                  deleteItemAsync("JWT") ;
-          
-           console.log("input text from the home screen -- ",inputText, "\n jwt tokens in zustand state -->>",JWT)
-           setJWT(null)
-          
-    router.replace('/(main_app)/');
-        }} />
-         */}
+    
         {/* <View className="mt-3">
         <Button title="delete jwt"
         onPress={()=>{
@@ -418,11 +398,11 @@ if (get_the_name_for_the_project.data!=null || get_the_name_for_the_project.data
                   // setIsModalVisible(true)
                   // String(inputText).length >2 ||
                  }else{
-                   Alert.alert("Text can't be empty", "Input can't be empty , please describe something about your website")
+                   Alert.alert("Text can't be so short", "Input can't be empty , please describe something about your website")
                  }
                 }
                 else{
-                  Alert.alert("Text can't be empty", "Input can't be empty , please describe something about your website")
+                  Alert.alert("Text can't be so short", "Input can't be empty , please describe something about your website")
                 }
                 }} />
               
@@ -538,5 +518,6 @@ if (get_the_name_for_the_project.data!=null || get_the_name_for_the_project.data
             />
         </View>
       </View>
+      </>
     )
   }
