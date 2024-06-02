@@ -27,7 +27,7 @@ export default function DrawerToShowPreviousSites(
 
   React.useEffect(() => {
     if (stateToToogleTheDrawerOn) {
-      drawerTranslateX.value = withTiming(0, { duration: 170 });
+      drawerTranslateX.value = withTiming(0, { duration: 110 });
     } else {
       drawerTranslateX.value = withTiming(-Dimensions.get('window').width, { duration: 300 });
     }
@@ -66,7 +66,7 @@ export default function DrawerToShowPreviousSites(
               <View style={{ borderRadius: 20, overflow: 'hidden' }}>
                 <PillShapeButtonForDrawer
                   textToBeDisplayed={item}
-                  colorOnTheBorderAndInTheText={'#999aaa'}
+                  colorOnTheBorderAndInTheText={'#ff9ace'}
                   function_to_run_on_touch={()=>console.log("clicked the--> ",item)
                   }
                 />
