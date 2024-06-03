@@ -14,13 +14,12 @@ import UpdateJWT, { QueryFunction } from "../auth/utils/functions_for_updating_t
 import { alert_user_for_common__errors_from_backend_given_by_Rquery } from "../auth/utils/func_to_alert_user_for_common_querystatus_and_message_to_displa";
 import function_to_make_react_query_request from "../auth/utils/function_to_make_react_query_request";
 import * as Linking from 'expo-linking';
-import DrawerToShowPreviousSites from "./Drawer";
 
   export default function HomeScreen({toggleDrawer}) {    
 
-    const router = useRouter();
+    // const router = useRouter();
 
-    const { setJWT,JWT, sitePromptStoredInState, setSitePromptStoredInState } = JWTStore();
+    const { setJWT,JWT, sitePromptStoredInState, setSitePromptStoredInState, setSitePromptArray, sitePromptArray } = JWTStore();
     const [IsFirstRequest , setIsFirstRequest] = useState(true)
     const [inputText , setInputText] = useState(null)
 
@@ -194,6 +193,22 @@ if (get_all_the_projects_of_the_user.data!=null || get_all_the_projects_of_the_u
   console.log("\n data in the useeffect -->>",get_all_the_projects_of_the_user.data);
   
   alert_user_for_common__errors_from_backend_given_by_Rquery(get_all_the_projects_of_the_user.data)
+  console.log("--cc,",get_all_the_projects_of_the_user.data.body.values," type of ", typeof get_all_the_projects_of_the_user.data.body.values);
+  if (get_all_the_projects_of_the_user.data.body.status_code === 200  ){
+    // console.log("--c11c,",get_all_the_projects_of_the_user.data.body.values," type of ", typeof get_all_the_projects_of_the_user.data.body.values);
+    // trying to parse it 
+    let a = get_all_the_projects_of_the_user.data.body.values === null ?[""]:get_all_the_projects_of_the_user.data.body.values
+    console.log(a, typeof a);
+    setSitePromptArray(a)
+    setItem('allProjectsByUserInString',a.toString())
+
+    
+
+    
+    // now json parse it , if a is a single character or not there what to do then what  ( teachnically temp would be there)
+    
+    
+  }
 }
 },[get_all_the_projects_of_the_user.data, responnseJSONForGetAllUserProject, get_all_the_projects_of_the_user.isSuccess, get_all_the_projects_of_the_user.status])
 
@@ -242,8 +257,16 @@ if (get_the_name_for_the_project.data!=null || get_the_name_for_the_project.data
 
           {/* ------ button for opening the drawer/hamburgerMenu -------  */}
             <ButtonFromRNPaper className="top-0  z-10 mx-2 my-4 absolute" textColor="#4f87d1" icon='menu' 
-            onPress={toggleDrawer}
-            >Previous websites</ButtonFromRNPaper>
+            onPress={
+              // toggleDrawer
+            ()=>{
+              setMakeARequestForGetAllUserProject(true)
+              toggleDrawer()
+                // call the func to open the drawer 
+            }
+            }
+            // >Previous websites</ButtonFromRNPaper>
+            >Deployed websites</ButtonFromRNPaper>
            
           {/* ------ button for opening the drawer/hamburgerMenu -------  */}
 
