@@ -14,7 +14,7 @@ export default function PillShapeButtonForDrawer({textToBeDisplayed,colorOnTheBo
   
   return (
     <View className="flex-row m-2 rounded-full h-12  items-center justify-center border-2 " style={{borderColor:colorOnTheBorderAndInTheText}} 
-    onTouchStart={()=>{function_to_run_on_touch(); Vibration.vibrate(47, false)}} 
+    onTouchEnd={()=>{function_to_run_on_touch(); Vibration.vibrate(47, false)}} 
     >
       <Text style={{color:colorOnTheBorderAndInTheText}} className="text-lg font-bold">{textToBeDisplayed}</Text>
       {/* <Button style={{width:Dimensions.get('window').width-20}} mode='contained'>{textToBeDisplayed}</Button> */}

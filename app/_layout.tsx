@@ -47,7 +47,7 @@ export default function HomeLayout() {
   
        <QueryClientProvider client={queryClient}>     
         <PaperProvider>
-          <SafeAreaView style={{flex:1}}>
+          <SafeAreaView style={{flex:1, backgroundColor:"#010c1c"}}>
               <Slot />
           </SafeAreaView>
         </PaperProvider> 
