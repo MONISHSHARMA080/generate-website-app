@@ -109,7 +109,11 @@ export default function DrawerToShowPreviousSites(
             estimatedItemSize={20}
           />
         )}
+        <Button className=' self-center z-20' mode='contained' style={{width:Dimensions.get('window').width/2.3}}
+        onTouchStart={()=>toogleDrawer()}
+        >close</Button>
       </View>
+      
     </Animated.View>
   // </View>
   );
