@@ -19,7 +19,7 @@ export default function index() {
         onRequestClose={toggleDrawer}
         animationType='none'
       >
-        <DrawerToShowPreviousSites stateToToogleTheDrawerOn={showDrawer} />
+        <DrawerToShowPreviousSites stateToToogleTheDrawerOn={showDrawer} toogleDrawer={toggleDrawer} />
       </Modal>
     </View>
   );

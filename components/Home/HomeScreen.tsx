@@ -19,7 +19,7 @@ import * as Linking from 'expo-linking';
 
     // const router = useRouter();
 
-    const { setJWT,JWT, sitePromptStoredInState, setSitePromptStoredInState, setSitePromptArray, sitePromptArray } = JWTStore();
+    const { setJWT,JWT, sitePromptStoredInState, setSitePromptStoredInState, setSitePromptArray, setUser_Name_from_Req, User_Name_from_Req } = JWTStore();
     const [IsFirstRequest , setIsFirstRequest] = useState(true)
     const [inputText , setInputText] = useState(null)
 
@@ -201,6 +201,9 @@ if (get_all_the_projects_of_the_user.data!=null || get_all_the_projects_of_the_u
     console.log(a, typeof a);
     setSitePromptArray(a)
     setItem('allProjectsByUserInString',a.toString())
+    // console.log("User_Name_from_Req", );
+    User_Name_from_Req===get_all_the_projects_of_the_user.data.body.User_Name?null:setUser_Name_from_Req(get_all_the_projects_of_the_user.data.body.User_Name)
+    
 
     
 
