@@ -106,6 +106,7 @@ const SignInScreen = () => {
       }
       if (response_form_google_login_api.error) {
         console.log("response in google",response_form_google_login_api.failureReason);
+        console.log("response in google",response_form_google_login_api);
         console.log("error in google",response_form_google_login_api.error); 
       }
 

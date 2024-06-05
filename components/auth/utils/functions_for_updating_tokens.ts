@@ -20,6 +20,8 @@ export default async function UpdateJWT (setJWTTokens, refetch ){
      
     //  console.log("\n response data ----",response.headers);
      if (response.status === 200){
+      console.log(" deleting the jwt in the update function");
+      
       deleteItemAsync("JWT").then(()=>{
         setItem("JWT",JSON.stringify({access,refresh}))
         setJWTTokens(JSON.stringify({access,refresh}))
@@ -27,6 +29,8 @@ export default async function UpdateJWT (setJWTTokens, refetch ){
       })
      }
      else{
+      console.log(" \n ||| deleting the jwt |||| \n ");
+      
       const router = useRouter();
       deleteItemAsync("JWT") ;
           
@@ -70,7 +74,7 @@ export default async function UpdateJWT (setJWTTokens, refetch ){
         UpdateJWT(setJWTTokensInState_Zustand_here,refetch)
         refetch()
       }
-      console.log(response.status, "---- from the query function ----");
+      console.log(response.status, "---- from the query function func for updating token ----");
       
   
       const body = await response.json();
@@ -124,4 +128,5 @@ export default async function UpdateJWT (setJWTTokens, refetch ){
 function setJWT(arg0: null) {
   throw new Error("Function not implemented.");
 }
+// why do I have this
         

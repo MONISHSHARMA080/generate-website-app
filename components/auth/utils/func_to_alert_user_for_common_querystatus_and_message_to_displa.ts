@@ -2,6 +2,8 @@ import { Alert } from "react-native";
 
 export  function alert_user_for_common__errors_from_backend_given_by_Rquery(data) {
 
+    console.log(data , " data in the func");
+    
     if (data === undefined || data === null || data.body.status_code === null || data.body.status_code === undefined ){
         console.log("\n\n-------------------data is null in the func alert_user_for_common__errors_from_backend_given_by_Rquery-----------null--------------------------",data,"\n\n");
         return 

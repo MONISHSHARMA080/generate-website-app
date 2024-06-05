@@ -58,7 +58,7 @@ const {data, isSuccess, status, refetch, isLoading} = useQuery({
       prompt: inputText
     }),
   enabled:makeARequestForTempProject,
-  // retry:2
+  retry:2
   // ------------ decide on the project name  ----------------
 })
 
@@ -74,6 +74,7 @@ useEffect(()=>{console.log("=--==-from the is1streq in the useeffect ",IsFirstRe
 useEffect(()=>{console.log("\n\n ============================||----||data from the query fucntion============================||------||" , "\n\n-->>",(responnseJSONForTempSite?responnseJSONForTempSite:"") );
 if (data!=null || data!= undefined){
   console.log("\n data in the isSuccess -->>",isSuccess,"\n\n ",);
+  console.log("\n data in the useeffect in str -->>",String(data));
   console.log("\n data in the useeffect -->>",data);
   
   alert_user_for_common__errors_from_backend_given_by_Rquery(data)
@@ -125,7 +126,7 @@ const temp_website_to_production_RQ = useQuery({
   queryKey:['temp_website_to_production'],
   queryFn: ()=>QueryFunction(`temp_website_to_production?project_name=${project_name}`,setJWT,temp_website_to_production_RQ.refetch,setMakeARequestFormTempToProject,setResponnseJSONForTempToProduction, {}),
   enabled:makeARequestFormTempToProject,
-  // retry:2
+  retry:2
   // ------------ decide on the project name  ----------------
 })
 
@@ -157,7 +158,7 @@ const delete_a_project_or_temp = useQuery({
   queryKey:['delete_a_project_or_temp'],
   queryFn: ()=>QueryFunction(`delete_a_project_or_temp?project_name=${project_name}`, setJWT, delete_a_project_or_temp.refetch,setMakeARequestForDeleteAProjectOrTemp,setResponnseJSONForDeleteAProjectOrTemp, {}),
   enabled:makeARequestForDeleteAProjectOrTemp,
-  // retry:2
+  retry:2
   // ------------ decide on the project name  ----------------
 })
 
@@ -183,14 +184,16 @@ const get_all_the_projects_of_the_user = useQuery({
   queryKey:['get_all_the_projects_of_the_user'],
   queryFn: ()=>QueryFunction(`get_all_the_projects_of_the_user`, setJWT, get_all_the_projects_of_the_user.refetch,setMakeARequestForGetAllUserProject,setResponnseJSONForGetAllUserProject, {}),
   enabled:makeARequestForGetAllUserProject,
-  // retry:2
+  retry:2
   // ------------ decide on the project name  ----------------
 })
 
 useEffect(()=>{console.log("\n\n ============================||----||data from the query fucntion============================||------||" , "\n\n-->>",(responnseJSONForGetAllUserProject?responnseJSONForGetAllUserProject:"") );
 if (get_all_the_projects_of_the_user.data!=null || get_all_the_projects_of_the_user.data!= undefined){
   console.log("\n data in the isSuccess -->>",get_all_the_projects_of_the_user.isSuccess,"\n\n ",);
+  console.log("\n --------------isSuccess -->>\n",);
   console.log("\n data in the useeffect -->>",get_all_the_projects_of_the_user.data);
+  console.log("\n --------------isSuccess  after data-->>\n",);
   
   alert_user_for_common__errors_from_backend_given_by_Rquery(get_all_the_projects_of_the_user.data)
   console.log("--cc,",get_all_the_projects_of_the_user.data.body.values," type of ", typeof get_all_the_projects_of_the_user.data.body.values);
@@ -221,18 +224,23 @@ if (get_all_the_projects_of_the_user.data!=null || get_all_the_projects_of_the_u
 // -----------------------------------__XXXXXXXXXXX__XX-
 
 
-// ---------------some problem/wromg with this method this is not sending requests----------------------
 const get_the_name_for_the_project = useQuery({
   queryKey:['get_the_name_for_the_project'],
   queryFn: ()=>QueryFunction(`get_the_name_for_the_project`,setJWT,get_the_name_for_the_project.refetch,setMakeARequestForGetNameForTheProject,setResponnseJSONForGetNameForTheProject, {"prompt":inputText?inputText:sitePromptStoredInState}),
   enabled:makeARequestForGetNameForTheProject,
-  // retry:2
+  retry:2
   // ------------ decide on the project name  ----------------
 })
 
 useEffect(()=>{console.log("\n\n ============================||----||data from the query fucntion============================||------||" , "\n\n-->>",(responnseJSONForGetNameForTheProject?responnseJSONForGetNameForTheProject:"") );
+console.log(get_the_name_for_the_project,"oooooooooooooooooooooo");
+
 if (get_the_name_for_the_project.data!=null || get_the_name_for_the_project.data!= undefined){
-  console.log("\n data in the isSuccess -->>",get_the_name_for_the_project.isSuccess,"\n",);
+  console.log("\n data in the isSuccess -->>",get_the_name_for_the_project,"\n",);
+  console.log("\n --------------||||| -->>\n",);
+  console.log("\n data in the isSuccess -->>",String(get_the_name_for_the_project),"\n",);
+  console.log("\n --------------||||| -->>\n",);
+  console.log("\n data -->>",get_the_name_for_the_project,"\n",);
   console.log("\n data in the useeffect -->>",get_the_name_for_the_project.data);
   
   alert_user_for_common__errors_from_backend_given_by_Rquery(get_the_name_for_the_project.data)
