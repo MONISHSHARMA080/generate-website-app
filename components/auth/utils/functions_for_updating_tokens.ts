@@ -70,6 +70,8 @@ export default async function UpdateJWT (setJWTTokens, refetch ){
         },
         body: JSON.stringify(prompt_for_the_body_do_Not_JSON_stringify)
       });
+      console.log("]\n\n response form the QueryFunction", response );
+      
       if(response.status === 401){
         UpdateJWT(setJWTTokensInState_Zustand_here,refetch)
         refetch()

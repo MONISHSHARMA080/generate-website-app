@@ -4,7 +4,7 @@ import { View, TextInput, Text, Button, Alert, Modal, ViewBase } from 'react-nat
 import * as React from 'react'
 import { useEffect, useState } from 'react';
 import JWTStore from '@/app/store';
-import { Redirect, useFocusEffect, useRouter } from 'expo-router';
+import { Redirect, router, useFocusEffect, useRouter } from 'expo-router';
 import PillShapeButtonForHomeScreen from './buttons/pillShapeButtonForHomeScreen';
 import { Modal as ModalFromRNPaper, Portal,Button as ButtonFromRNPaper, Snackbar, Drawer } from 'react-native-paper';
 //   import axios, { AxiosError } from 'axios';
@@ -382,16 +382,16 @@ if (get_the_name_for_the_project.data!=null || get_the_name_for_the_project.data
             </View>    
       </Modal>
     
+      <Button title="delete jwt"
+      onPress={()=>{
+                deleteItemAsync("JWT") ;
+        
+         console.log("input text from the home screen -- ",inputText, "\n jwt tokens in zustand state -->>",JWT)
+         setJWT(null)
+        
+  router.replace('/(main_app)/');
+      }} />
         {/* <View className="mt-3">
-        <Button title="delete jwt"
-        onPress={()=>{
-                  deleteItemAsync("JWT") ;
-          
-           console.log("input text from the home screen -- ",inputText, "\n jwt tokens in zustand state -->>",JWT)
-           setJWT(null)
-          
-    router.replace('/(main_app)/');
-        }} />
         </View> */}
 
         <View style={{ flex: 1, backgroundColor: '#386eb5', borderTopLeftRadius: 32, borderTopRightRadius:32, paddingBottom:24 }}>
