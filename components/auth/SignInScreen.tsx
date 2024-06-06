@@ -11,6 +11,7 @@ import * as SecureStore from 'expo-secure-store';  // ----------------
 import { router } from 'expo-router';
 import { getItem } from 'expo-secure-store';
 import JWTStore from '@/app/store';
+import { Button, Snackbar } from 'react-native-paper';
 
 
 const SignInScreen = () => {
@@ -19,6 +20,7 @@ const SignInScreen = () => {
   
 
     const [showpassword , setShowPassword] = useState(false)
+    const [showSnackBar , setShowSnackBar] = useState(false)
     const [tokenToSignInFromGoogle, setTokenToSignInFromGoogle ] = useState(null)
     const [tokenToSignInFromSpotify, setTokenToSignInFromSpotify ] = useState(null)
     
@@ -113,54 +115,174 @@ const SignInScreen = () => {
     },[mutation.isSuccess,mutation.data,response_form_google_login_api.isSuccess,response_form_google_login_api.error,response_form_google_login_api.data])
   
 
-  return (
-    <KeyboardAvoidingView
+    return (
+      <KeyboardAvoidingView
         style={{ flex: 1 }}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : -170} // Adjust this value as needed
-    >
-      <View className="flex-1">
-        <View className=" flex-1 h-1/4 bg-black ">
-          <View className=" mt-14 ">
-            <Text className=" text-3xl text-white font-semibold mb-3">
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : -170}
+      >
+        <View style={{ flex: 1, backgroundColor: '#010c1c ' }}>
+          <View className="mt-14">
+            <Text className="text-3xl text-white font-semibold mb-3">
               Alright let's set up your account
             </Text>
-            <Text className=" text-lg text-gray-500">
+            <Text className="text-lg text-gray-300">
               You are just steps away to reach the world
             </Text>
           </View>
-        </View>
-        <View
-          className="absolute inset-x-0 bottom-0 h-3/4 bg-slate-200 "
-          style={{ borderTopLeftRadius: 32, borderTopRightRadius: 32 }}
+    
+          <View
+          className='bg-slate-300'
+            style={{
+              flex: 1,
+              // backgroundColor: '#',
+              borderTopLeftRadius: 32,
+              borderTopRightRadius: 32,
+              paddingTop: 24,
+              marginTop:5
+            }}
+          >
+             {/* ---------snack bar to tell the user that previous prompt is used------------ */}
+        {/* <ButtonFromRNPaper mode="outlined" onTouchStart={()=>{setShowSnackBarToTellThatWeUsedPreviousPromptFromZustandState(true)}} >Sbhbhjbe</ButtonFromRNPaper> */}
+        <Snackbar
+          className="z-40 bottom-24 my-2"
+          visible={showSnackBar}
+          onDismiss={()=>setShowSnackBar(false)}
+          action={{
+            label: 'Hide',
+            onPress: () => {
+              setShowSnackBar(false)
+            },
+          }}
         >
-            
-            <TextInput className=' relative h-12 top-12 m-3 p-3 w-11/12 rounded-2xl border-2' 
-             placeholder='your@email.com' textContentType="emailAddress"
+          Hey using email is not available please use google or spotify 
+        </Snackbar>
+        {/* ---------snack bar to tell the user that previous prompt is used------------ */}
+            <View>
+            <TextInput
+              className="relative h-12  m-3 p-3 w-11/12 rounded-2xl border-2"
+              placeholder="your@email.com"
+              textContentType="emailAddress"
+              onPressIn={() => {
+                if (showSnackBar) {
+                  setShowSnackBar(false);
+                  setTimeout(() => setShowSnackBar(true), 10); // Delay the true state by 100ms to ensure false state is set first
+                } else {
+                  setShowSnackBar(true);
+                }
+              }}
             />
-            <TextInput className=' relative h-12 top-12 m-3 p-3 w-11/12 rounded-2xl border-2' 
-             placeholder='User name' textContentType="givenName"
+            <TextInput
+              className="relative h-12 m-3 p-3 w-11/12 rounded-2xl border-2"
+              placeholder="User name"
+              textContentType="givenName"
+              onPressIn={() => {
+                if (showSnackBar) {
+                  setShowSnackBar(false);
+                  setTimeout(() => setShowSnackBar(true), 10); // Delay the true state by 100ms to ensure false state is set first
+                } else {
+                  setShowSnackBar(true);
+                }
+              }}
             />
-            <TextInput className=' relative h-12 top-12 m-3 p-3 w-11/12 rounded-2xl  border-2' 
-             placeholder='your passowrd' secureTextEntry={showpassword} textContentType="password"
+            <TextInput
+              className="relative h-12 m-3 p-3 w-11/12 rounded-2xl border-2"
+              placeholder="your password"
+              secureTextEntry={showpassword}
+              textContentType="password"
+              onPressIn={() => {
+                if (showSnackBar) {
+                  setShowSnackBar(false);
+                  setTimeout(() => setShowSnackBar(true), 10); // Delay the true state by 100ms to ensure false state is set first
+                } else {
+                  setShowSnackBar(true);
+                }
+              }}
             />
-            <View className='top-12 left-56 flex-row' >
-                <Text> Hide Password </Text>
-                <Checkbox className=" ml-3  "  value={showpassword} onValueChange={setShowPassword} />
             </View>
-            <Text   
-            className=' relative h-12 top-12 m-3 p-3 mt-6 w-11/12 rounded-full text-center  border-2 bg-green-700 ' >
-                Login
+            <View className=" mt-2 left-56 flex-row">
+              <Text > Hide Password </Text>
+              <Checkbox
+                className="ml-3"
+                value={showpassword}
+                onValueChange={setShowPassword}
+              />
+            </View>
+            <Text className="relative h-12 top-12 m-3 p-3 mt-6 w-11/12 rounded-full text-center text-sm  font-semibold border bg-green-700 " 
+             onPress={() => {
+              if (showSnackBar) {
+                setShowSnackBar(false);
+                setTimeout(() => setShowSnackBar(true), 10); // Delay the true state by 100ms to ensure false state is set first
+              } else {
+                setShowSnackBar(true);
+              }
+            }}
+            >
+              Login
             </Text>
-            <Text className='top-12 mt-6 self-center' >--------------------------Or login with--------------------------</Text>
-            <View className=' flex-row top-12  mt-5 pl-3' >
-                <GoogleSigninButton setTokenToSignInFromGoogle={setTokenToSignInFromGoogle}  />
-                <SpotifyAuthButton setTokenToSignInFromSpotify={setTokenToSignInFromSpotify} />
+           
+            <Text className="top-12 mt-6 self-center">
+              --------------------------Or login with--------------------------
+            </Text>
+            <View className="flex-row top-12 mt-5 pl-3">
+              <GoogleSigninButton setTokenToSignInFromGoogle={setTokenToSignInFromGoogle} />
+              <SpotifyAuthButton setTokenToSignInFromSpotify={setTokenToSignInFromSpotify} />
             </View>
+          </View>
         </View>
-      </View>
-    </KeyboardAvoidingView>
-  );
+      </KeyboardAvoidingView>
+    );
 };
 
 export default SignInScreen;
+
+
+// -----------------------
+// return (
+//   <KeyboardAvoidingView
+//       style={{ flex: 1 }}
+//       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+//       keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : -170} // Adjust this value as needed
+//   >
+//     <View className="flex-1">
+//       <View className=" flex-1 h-1/4 bg-black ">
+//         <View className=" mt-14 ">
+//           <Text className=" text-3xl text-white font-semibold mb-3">
+//             Alright let's set up your account
+//           </Text>
+//           <Text className=" text-lg text-gray-500">
+//             You are just steps away to reach the world
+//           </Text>
+//         </View>
+//       </View>
+//       <View
+//         className="absolute inset-x-0 bottom-0 h-3/4 bg-slate-200 "
+//         style={{ borderTopLeftRadius: 32, borderTopRightRadius: 32 }}
+//       >
+          
+//           <TextInput className=' relative h-12 top-12 m-3 p-3 w-11/12 rounded-2xl border-2' 
+//            placeholder='your@email.com' textContentType="emailAddress"
+//           />
+//           <TextInput className=' relative h-12 top-12 m-3 p-3 w-11/12 rounded-2xl border-2' 
+//            placeholder='User name' textContentType="givenName" 
+//           />
+//           <TextInput className=' relative h-12 top-12 m-3 p-3 w-11/12 rounded-2xl  border-2' 
+//            placeholder='your passowrd' secureTextEntry={showpassword} textContentType="password"
+//           />
+//           <View className='top-12 left-56 flex-row' >
+//               <Text> Hide Password </Text>
+//               <Checkbox className=" ml-3  "  value={showpassword} onValueChange={setShowPassword} />
+//           </View>
+//           <Text   
+//           className=' relative h-12 top-12 m-3 p-3 mt-6 w-11/12 rounded-full text-center  border-2 bg-green-700 ' >
+//               Login
+//           </Text>
+//           <Text className='top-12 mt-6 self-center' >--------------------------Or login with--------------------------</Text>
+//           <View className=' flex-row top-12  mt-5 pl-3' >
+//               <GoogleSigninButton setTokenToSignInFromGoogle={setTokenToSignInFromGoogle}  />
+//               <SpotifyAuthButton setTokenToSignInFromSpotify={setTokenToSignInFromSpotify} />
+//           </View>
+//       </View>
+//     </View>
+//   </KeyboardAvoidingView>
+// );

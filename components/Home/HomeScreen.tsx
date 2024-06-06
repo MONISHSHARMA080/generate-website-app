@@ -188,7 +188,7 @@ const delete_a_project_or_temp = useQuery({
   // ------------ decide on the project name  ----------------
 })
 
-useEffect(()=>{console.log("\n\n ============================||----||data from the query fucntion============================||------||" , "\n\n-->>",(responnseJSONForDeleteAProjectOrTemp?responnseJSONForDeleteAProjectOrTemp:"") );
+useEffect(()=>{console.log("\n\n ========isLoading====================||----||data from the query fucntion============================||------||" , "\n\n-->>",(responnseJSONForDeleteAProjectOrTemp?responnseJSONForDeleteAProjectOrTemp:"") );
 if (delete_a_project_or_temp.data!=null || delete_a_project_or_temp.data!= undefined){
   console.log("\n data in the isSuccess -->>",delete_a_project_or_temp.isSuccess,"\n\n ",);
   console.log("\n data in the useeffect -->>",delete_a_project_or_temp.data);
