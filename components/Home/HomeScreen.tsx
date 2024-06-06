@@ -346,7 +346,7 @@ if (get_the_name_for_the_project.data!=null || get_the_name_for_the_project.data
   if(get_the_name_for_the_project.data.body.project_name){
     // console.log("\n--- about to set the project name---\n");
     
-    setProject_name(get_the_name_for_the_project.data.body.project_name)
+    setProject_name(get_the_name_for_the_project.data.body.project_name.slice(0,29))
     setNameGeneratedFromTheDjango(true)
   }
 }
@@ -463,6 +463,8 @@ if (get_the_name_for_the_project.data!=null || get_the_name_for_the_project.data
                 // -------------------
                 // --------------- check if the project is there if not just use the one from the zustand state state 
                 // -------------------
+                console.log("deploying");
+                
                 setMakeARequestFormTempToProject(true)
 
                 

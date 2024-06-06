@@ -1,5 +1,5 @@
 
-import { View, Text,TextInput, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, Text,TextInput, KeyboardAvoidingView, Platform, Vibration } from 'react-native';
 import { Checkbox } from 'expo-checkbox';
 import { useEffect, useState } from 'react';
 import  React from 'react';
@@ -164,6 +164,7 @@ const SignInScreen = () => {
               placeholder="your@email.com"
               textContentType="emailAddress"
               onPressIn={() => {
+                Vibration.vibrate([30,30])
                 if (showSnackBar) {
                   setShowSnackBar(false);
                   setTimeout(() => setShowSnackBar(true), 10); // Delay the true state by 100ms to ensure false state is set first
