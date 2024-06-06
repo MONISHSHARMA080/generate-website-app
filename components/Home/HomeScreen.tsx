@@ -18,7 +18,7 @@ import { useRouter } from 'expo-router';
   export default function HomeScreen({toggleDrawer}) {    
 
     // const router = useRouter();
-
+    const router = useRouter();
     const { setJWT,JWT, sitePromptStoredInState, setSitePromptStoredInState, setSitePromptArray, setUser_Name_from_Req, User_Name_from_Req } = JWTStore();
     const [IsFirstRequest , setIsFirstRequest] = useState(true)
     const [inputText , setInputText] = useState(null)
@@ -81,8 +81,7 @@ if (data!=null || data!= undefined){
   if (data.body.message_for_the_user && data.body.message_for_the_user.trim()=== "Oops! Your name was not found on the server" ){
 
     // if the user name is not there delete the credentials and go the sign in screen 
-    const { setJWT } = JWTStore();
-              const router = useRouter();
+    
               deleteItemAsync("JWT") ;
               
               //  console.log("input text from the home screen -- ",inputText, "\n jwt tokens in zustand state -->>",JWT)
@@ -153,8 +152,7 @@ if (temp_website_to_production_RQ.data!=null || temp_website_to_production_RQ.da
   if (temp_website_to_production_RQ.data.body.message_for_the_user && temp_website_to_production_RQ.data.body.message_for_the_user.trim()=== "Oops! Your name was not found on the server" ){
 
     // if the user name is not there delete the credentials and go the sign in screen 
-    const { setJWT } = JWTStore();
-              const router = useRouter();
+  
               deleteItemAsync("JWT") ;
               
               //  console.log("input text from the home screen -- ",inputText, "\n jwt tokens in zustand state -->>",JWT)
@@ -199,8 +197,7 @@ if (delete_a_project_or_temp.data!=null || delete_a_project_or_temp.data!= undef
   if (delete_a_project_or_temp.data.body.message_for_the_user && delete_a_project_or_temp.data.body.message_for_the_user.trim()=== "Oops! Your name was not found on the server" ){
 
     // if the user name is not there delete the credentials and go the sign in screen 
-    const { setJWT } = JWTStore();
-              const router = useRouter();
+    
               deleteItemAsync("JWT") ;
               
               //  console.log("input text from the home screen -- ",inputText, "\n jwt tokens in zustand state -->>",JWT)
@@ -251,8 +248,7 @@ if (get_all_the_projects_of_the_user.data!=null || get_all_the_projects_of_the_u
   if (get_all_the_projects_of_the_user.data.body.message_for_the_user && get_all_the_projects_of_the_user.data.body.message_for_the_user.trim()=== "Oops! Your name was not found on the server" ){
 
     // if the user name is not there delete the credentials and go the sign in screen 
-    const { setJWT } = JWTStore();
-              const router = useRouter();
+    
               deleteItemAsync("JWT") ;
               
               //  console.log("input text from the home screen -- ",inputText, "\n jwt tokens in zustand state -->>",JWT)
@@ -324,8 +320,7 @@ if (get_the_name_for_the_project.data!=null || get_the_name_for_the_project.data
   if (get_the_name_for_the_project.data.body.message_for_the_user && get_the_name_for_the_project.data.body.message_for_the_user.trim()=== "Oops! Your name was not found on the server" ){
 
     // if the user name is not there delete the credentials and go the sign in screen 
-    const { setJWT } = JWTStore();
-              const router = useRouter();
+   
               deleteItemAsync("JWT") ;
               
               //  console.log("input text from the home screen -- ",inputText, "\n jwt tokens in zustand state -->>",JWT)
