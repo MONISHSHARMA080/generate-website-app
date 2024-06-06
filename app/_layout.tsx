@@ -16,15 +16,15 @@ export default function HomeLayout() {
   // const {JWT,setJWT} = JWTStore()
   // Track the location in your analytics provider here.
 
-  if (!__DEV__) {
+  // if (Boolean(process.env.EXPO_PUBLIC_PRODUCTION)) {
 
-    vexo(process.env.EXPO_PUBLIC_VEXO_API_KEY);
+  //   
 
-  }
-  // if(__DEV__){
-  //   console.log("\n Running in the dev mode");
-    
   // }
+  if(!__DEV__){
+    // console.log("\n Running in the dev mode");
+    vexo(process.env.EXPO_PUBLIC_VEXO_API_KEY);
+  }
 
   const queryClient = new QueryClient({});
 
