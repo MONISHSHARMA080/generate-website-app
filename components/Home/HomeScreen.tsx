@@ -1,4 +1,4 @@
-import {  setItem } from 'expo-secure-store';
+import {  deleteItemAsync, setItem } from 'expo-secure-store';
 import { View, TextInput, Text, Button, Alert, Modal, ViewBase } from 'react-native'
 import * as React from 'react'
 import { useEffect, useState } from 'react';
@@ -13,6 +13,7 @@ import  { QueryFunction } from "../auth/utils/functions_for_updating_tokens";
 import { alert_user_for_common__errors_from_backend_given_by_Rquery } from "../auth/utils/func_to_alert_user_for_common_querystatus_and_message_to_displa";
 import function_to_make_react_query_request from "../auth/utils/function_to_make_react_query_request";
 import * as Linking from 'expo-linking';
+import { useRouter } from 'expo-router';
 
   export default function HomeScreen({toggleDrawer}) {    
 
@@ -77,6 +78,20 @@ if (data!=null || data!= undefined){
   console.log("\n data in the useeffect -->>",data);
   
   alert_user_for_common__errors_from_backend_given_by_Rquery(data)
+  if (data.body.message_for_the_user && data.body.message_for_the_user.trim()=== "Oops! Your name was not found on the server" ){
+
+    // if the user name is not there delete the credentials and go the sign in screen 
+    const { setJWT } = JWTStore();
+              const router = useRouter();
+              deleteItemAsync("JWT") ;
+              
+              //  console.log("input text from the home screen -- ",inputText, "\n jwt tokens in zustand state -->>",JWT)
+              setJWT(null)
+              
+              router.replace('/(main_app)/');
+    // probally return too
+    return
+  }
   if (data.body.status_code){
     // if made a 1st req and got the err, do not make it first
     if (IsFirstRequest){
@@ -135,6 +150,20 @@ if (temp_website_to_production_RQ.data!=null || temp_website_to_production_RQ.da
   console.log("\n temp_website_to_production_RQ useeffect -->>",temp_website_to_production_RQ.data);
   
   alert_user_for_common__errors_from_backend_given_by_Rquery(temp_website_to_production_RQ.data)
+  if (temp_website_to_production_RQ.data.body.message_for_the_user && temp_website_to_production_RQ.data.body.message_for_the_user.trim()=== "Oops! Your name was not found on the server" ){
+
+    // if the user name is not there delete the credentials and go the sign in screen 
+    const { setJWT } = JWTStore();
+              const router = useRouter();
+              deleteItemAsync("JWT") ;
+              
+              //  console.log("input text from the home screen -- ",inputText, "\n jwt tokens in zustand state -->>",JWT)
+              setJWT(null)
+              
+              router.replace('/(main_app)/');
+    // probally return too
+    return
+  }
   if(temp_website_to_production_RQ.data.body){
     setIsModalVisible(false)
     console.log("\n\n here to make sure that the modalToShowTheProjectHostedLink is flase and not getting updated ----|||>>>>  \n\n");
@@ -167,6 +196,30 @@ if (delete_a_project_or_temp.data!=null || delete_a_project_or_temp.data!= undef
   console.log("\n data in the useeffect -->>",delete_a_project_or_temp.data);
   
   alert_user_for_common__errors_from_backend_given_by_Rquery(delete_a_project_or_temp.data)
+  if (delete_a_project_or_temp.data.body.message_for_the_user && delete_a_project_or_temp.data.body.message_for_the_user.trim()=== "Oops! Your name was not found on the server" ){
+
+    // if the user name is not there delete the credentials and go the sign in screen 
+    const { setJWT } = JWTStore();
+              const router = useRouter();
+              deleteItemAsync("JWT") ;
+              
+              //  console.log("input text from the home screen -- ",inputText, "\n jwt tokens in zustand state -->>",JWT)
+              setJWT(null)
+              
+              router.replace('/(main_app)/');
+    // probally return too
+    return
+  }
+  // if the user name is not there delete the credentials and go the sign in screen 
+  // const { setJWT } = JWTStore();
+  //           const router = useRouter();
+  //           deleteItemAsync("JWT") ;
+            
+  //           //  console.log("input text from the home screen -- ",inputText, "\n jwt tokens in zustand state -->>",JWT)
+  //           setJWT(null)
+            
+  //           router.replace('/(main_app)/');
+  // probally return too
 }
 },[temp_website_to_production_RQ.data, responnseJSONForTempToProduction, temp_website_to_production_RQ.isSuccess, temp_website_to_production_RQ.status])
 
@@ -195,6 +248,31 @@ if (get_all_the_projects_of_the_user.data!=null || get_all_the_projects_of_the_u
   console.log("\n --------------isSuccess  after data-->>\n",);
   
   alert_user_for_common__errors_from_backend_given_by_Rquery(get_all_the_projects_of_the_user.data)
+  if (get_all_the_projects_of_the_user.data.body.message_for_the_user && get_all_the_projects_of_the_user.data.body.message_for_the_user.trim()=== "Oops! Your name was not found on the server" ){
+
+    // if the user name is not there delete the credentials and go the sign in screen 
+    const { setJWT } = JWTStore();
+              const router = useRouter();
+              deleteItemAsync("JWT") ;
+              
+              //  console.log("input text from the home screen -- ",inputText, "\n jwt tokens in zustand state -->>",JWT)
+              setJWT(null)
+              
+              router.replace('/(main_app)/');
+    // probally return too
+    return
+  }
+  // if the  user name is not found go to the auth screen
+  // const { setJWT } = JWTStore();
+  //           const router = useRouter();
+  //           deleteItemAsync("JWT") ;
+            
+  //           //  console.log("input text from the home screen -- ",inputText, "\n jwt tokens in zustand state -->>",JWT)
+  //           setJWT(null)
+            
+  //           router.replace('/(main_app)/');
+  // probally return too
+
   console.log("--cc,",get_all_the_projects_of_the_user.data.body.values," type of ", typeof get_all_the_projects_of_the_user.data.body.values);
   if (get_all_the_projects_of_the_user.data.body.status_code === 200  ){
     // console.log("--c11c,",get_all_the_projects_of_the_user.data.body.values," type of ", typeof get_all_the_projects_of_the_user.data.body.values);
@@ -243,6 +321,33 @@ if (get_the_name_for_the_project.data!=null || get_the_name_for_the_project.data
   console.log("\n data in the useeffect -->>",get_the_name_for_the_project.data);
   
   alert_user_for_common__errors_from_backend_given_by_Rquery(get_the_name_for_the_project.data)
+  if (get_the_name_for_the_project.data.body.message_for_the_user && get_the_name_for_the_project.data.body.message_for_the_user.trim()=== "Oops! Your name was not found on the server" ){
+
+    // if the user name is not there delete the credentials and go the sign in screen 
+    const { setJWT } = JWTStore();
+              const router = useRouter();
+              deleteItemAsync("JWT") ;
+              
+              //  console.log("input text from the home screen -- ",inputText, "\n jwt tokens in zustand state -->>",JWT)
+              setJWT(null)
+              
+              router.replace('/(main_app)/');
+    // probally return too
+    return
+  }
+
+// if the user name is not there delete the credentials and go the sign in screen 
+  // const { setJWT } = JWTStore();
+  //           const router = useRouter();
+  //           deleteItemAsync("JWT") ;
+            
+  //           //  console.log("input text from the home screen -- ",inputText, "\n jwt tokens in zustand state -->>",JWT)
+  //           setJWT(null)
+            
+  //           router.replace('/(main_app)/');
+  // probally return too
+
+
   if(get_the_name_for_the_project.data.body.project_name){
     // console.log("\n--- about to set the project name---\n");
     

@@ -1,3 +1,4 @@
+import JWTStore from "@/app/store";
 import axios from "axios";
 import {  useRouter } from "expo-router";
 import { deleteItemAsync, getItem, setItem } from "expo-secure-store";
@@ -30,7 +31,7 @@ export default async function UpdateJWT (setJWTTokens, refetch ){
      }
      else{
       console.log(" \n ||| deleting the jwt |||| \n ");
-      
+      const { setJWT } = JWTStore();
       const router = useRouter();
       deleteItemAsync("JWT") ;
           
@@ -72,10 +73,12 @@ export default async function UpdateJWT (setJWTTokens, refetch ){
       });
       console.log("]\n\n response form the QueryFunction", response );
       
+      //  what about 500, I am not refetching it  if I get 500
       if(response.status === 401){
         UpdateJWT(setJWTTokensInState_Zustand_here,refetch)
         refetch()
       }
+
       console.log(response.status, "---- from the query function func for updating token ----");
       
   
@@ -127,8 +130,8 @@ export default async function UpdateJWT (setJWTTokens, refetch ){
   
   }
 
-function setJWT(arg0: null) {
-  throw new Error("Function not implemented.");
-}
+// function setJWT(arg0: null) {
+//   throw new Error("Function not implemented.");
+// }
 // why do I have this
         
