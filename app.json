@@ -1,14 +1,14 @@
 {
   "expo": {
-    "name": "Magical-first-website",
+    "name": "generate-website",
     "slug": "Magical-first-website",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "magicalfirstwebsite",
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./assets/images/splash.png",
+      "image": "./assets/images/generate-website.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -24,7 +24,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "foregroundImage": "./assets/images/generate-website.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.Magicalfirstwebsite"
@@ -32,7 +32,7 @@
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/images/generate-website.png"
     },
     "plugins": [
       "expo-router",
