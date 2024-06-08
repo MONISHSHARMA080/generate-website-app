@@ -24,6 +24,9 @@
         "EXPO_PUBLIC_BACKEND_URL":"https://generate-a-website.fly.dev",
         "EXPO_PUBLIC_SVELTE_URL":"https://generate-website.fly.dev",
         "EXPO_PUBLIC_VEXO_API_KEY":"9d8b2a88-06a0-4acf-9883-df17b45fde1b"
+      },
+      "android": {
+        "buildType": "apk"
       }
     }
   },
