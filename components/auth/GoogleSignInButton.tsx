@@ -2,10 +2,13 @@ import { Alert, Pressable} from 'react-native'
 import * as React from 'react';
 import { GoogleSignin,  statusCodes } from '@react-native-google-signin/google-signin';
 import PillShapeButton from './PillShapeButton';
+import Constants from 'expo-constants';
+
+// const env = Constants.expoConfig.extra.env;
 
 GoogleSignin.configure({
   scopes: ['email', 'profile', ],
-  webClientId: process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID, 
+  webClientId: "536289115131-99enca0gqcqjhd3a3ijtji049e0th543.apps.googleusercontent.com", 
   // iosClientId: 
   offlineAccess: true,
   forceCodeForRefreshToken: true,

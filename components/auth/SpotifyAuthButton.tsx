@@ -6,15 +6,16 @@ import React, { useEffect } from 'react';
 import { Alert, Button, Pressable } from 'react-native';
 import PillShapeButton from './PillShapeButton';
 import * as Linking from 'expo-linking';
+import Constants from 'expo-constants';
 
 WebBrowser.maybeCompleteAuthSession();
 
-const SPOTIFY_CLIENT_ID = process.env.EXPO_PUBLIC_Spotify_CLIENT_ID;
+// const SPOTIFY_CLIENT_ID = Constants.expoConfig.env.EXPO_PUBLIC_Spotify_CLIENT_ID;
 
 export default function AuthScreen({setTokenToSignInFromSpotify}) {
   const [request, response, promptAsync] = useAuthRequest(
     {
-      clientId: SPOTIFY_CLIENT_ID,
+      clientId: "812c827d57b44b2497941ccb210ae022",
       scopes: ['user-read-email', ],
       // To follow the "Authorization Code Flow" to fetch token after authorizationEndpoint
       // this must be set to false

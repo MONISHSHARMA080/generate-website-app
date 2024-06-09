@@ -12,11 +12,14 @@ import { router } from 'expo-router';
 import { getItem } from 'expo-secure-store';
 import JWTStore from '@/app/store';
 import { Button, Snackbar } from 'react-native-paper';
+import Constants from 'expo-constants';
+
+// console.log("public backend url  ",Constants.expoConfig.env.EXPO_PUBLIC_BACKEND_URL);
 
 
 const SignInScreen = () => {
   const setJWT = JWTStore((state) => state.setJWT)
-  console.log("url ->",process.env.EXPO_PUBLIC_BACKEND_URL); 
+  // console.log("url ->",process.env.EX PO_PUBLIC_BACKEND_URL); 
   
 
     const [showpassword , setShowPassword] = useState(false)
@@ -29,7 +32,7 @@ const SignInScreen = () => {
       mutationFn: (id_token) => {
         // console.log("from the mutation function ",id_token);        
         // return axios.post(`${process.env.EXPO_PUBLIC_BACKEND_URL}/${path}`, id_token)
-        return axios.post(`${process.env.EXPO_PUBLIC_BACKEND_URL}/signup/spotify`, {id_token})
+        return axios.post(`https://generate-a-website.fly.dev/signup/spotify`, {id_token})
       },
       // onError(error, variables, context) {
       //     error
@@ -38,9 +41,9 @@ const SignInScreen = () => {
 
     const response_form_google_login_api = useMutation({
       mutationFn: (id_token) => {
-        console.log("from the mutation function ",id_token , "\n\n",process.env.EXPO_PUBLIC_BACKEND_URL); 
+        // console.log("from the mutation function ",id_token , "\n\n",Constants.expoConfig.env.EX PO_PUBLIC_BACKEND_URL); 
         // return axios.post(`${process.env.EXPO_PUBLIC_BACKEND_URL}/`, id_token)
-        return axios.post(`${process.env.EXPO_PUBLIC_BACKEND_URL}/signup/google`, {id_token}) 
+        return axios.post(`https://generate-a-website.fly.dev/signup/google`, {id_token}) 
       
       },
     })    

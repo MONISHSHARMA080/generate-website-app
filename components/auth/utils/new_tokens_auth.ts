@@ -2,6 +2,7 @@ import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { getItem,setItem,deleteItemAsync } from 'expo-secure-store';
 import { Alert } from 'react-native';
 import JWTStore from '@/app/store';
+import Constants from 'expo-constants';
 
 interface TokenResponse {
   access: string;
@@ -17,7 +18,7 @@ const refreshAccessToken = async () => {
   
   try {
     const response: AxiosResponse<TokenResponse> = await axios.post(
-      `${process.env.EXPO_PUBLIC_BACKEND_URL}/api/token/refresh/`,
+      `https://generate-a-website.fly.dev/api/token/refresh/`,
       { refresh: refreshToken }
     );
 console.log("\n response from tying to refresh the tokens -->>",response,"\n response.data -->>",response.data,"\n\n");
@@ -53,7 +54,7 @@ console.log("\n response from tying to refresh the tokens -->>",response,"\n res
 };
 
 const axiosInstance = axios.create({
-  baseURL: process.env.EXPO_PUBLIC_BACKEND_URL,
+  baseURL: "https://generate-a-website.fly.dev",
   headers: {
     Authorization: `Bearer ${getItem('JWT')}`,
   },

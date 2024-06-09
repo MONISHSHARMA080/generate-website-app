@@ -1,5 +1,6 @@
 import JWTStore from "@/app/store";
 import axios from "axios";
+import Constants from "expo-constants";
 import {  useRouter } from "expo-router";
 import { deleteItemAsync, getItem, setItem } from "expo-secure-store";
 import { Alert } from "react-native";
@@ -11,7 +12,7 @@ export default async function UpdateJWT (setJWTTokens, refetch ){
     //  console.log("in the update func --->>, my tokens -->>",JSON.parse(Jwt_string).refresh );
      
      const response = await axios.post(
-       `${process.env.EXPO_PUBLIC_BACKEND_URL}/api/token/refresh/`,
+       `https://generate-a-website.fly.dev/api/token/refresh/`,
        { refresh: JSON.parse(getItem('JWT')).refresh }
      );
      const { access, refresh } = response.data;
@@ -63,7 +64,7 @@ export default async function UpdateJWT (setJWTTokens, refetch ){
       try {
        
       
-      const response = await fetch(`${process.env.EXPO_PUBLIC_BACKEND_URL}/${URLPath_DoNoT_Include_BackSlash}`, {
+      const response = await fetch(`https://generate-a-website.fly.dev/${URLPath_DoNoT_Include_BackSlash}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
