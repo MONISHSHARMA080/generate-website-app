@@ -1,13 +1,8 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Slot } from 'expo-router';
-// import { getItem } from 'expo-secure-store';
-import React, { useEffect } from 'react';
-// import JWTStore from './store';
-import { vexo } from 'vexo-analytics';
-// import axios from 'axios';
+import React  from 'react';
 import { PaperProvider } from 'react-native-paper';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import Constants from 'expo-constants';
 
 
 
@@ -25,9 +20,7 @@ export default function HomeLayout() {
   //   
 
   // }
-  if(!__DEV__){
-    vexo("d2fa3b3d-2a9c-4173-b598-85d5b3906bf7");
-  }
+ 
 
   const queryClient = new QueryClient({});
 

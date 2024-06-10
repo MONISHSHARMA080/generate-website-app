@@ -1,8 +1,6 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { getItem,setItem,deleteItemAsync } from 'expo-secure-store';
 import { Alert } from 'react-native';
-import JWTStore from '@/app/store';
-import Constants from 'expo-constants';
 
 interface TokenResponse {
   access: string;

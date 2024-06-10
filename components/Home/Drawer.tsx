@@ -5,8 +5,6 @@ import Animated, { useSharedValue, useAnimatedStyle, withTiming } from 'react-na
 import PillShapeButtonForDrawer from './buttons/pillShapeButtonForDrawer';
 import { FlashList } from '@shopify/flash-list';
 import JWTStore from '@/app/store';
-import Constants from 'expo-constants';
-
 
 interface propsInThisComponent{
   stateToToogleTheDrawerOn:Boolean,

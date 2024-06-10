@@ -2,9 +2,7 @@ import { Alert, Pressable} from 'react-native'
 import * as React from 'react';
 import { GoogleSignin,  statusCodes } from '@react-native-google-signin/google-signin';
 import PillShapeButton from './PillShapeButton';
-import Constants from 'expo-constants';
 
-// const env = Constants.expoConfig.extra.env;
 
 GoogleSignin.configure({
   scopes: ['email', 'profile', ],

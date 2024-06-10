@@ -11,10 +11,8 @@ import * as SecureStore from 'expo-secure-store';  // ----------------
 import { router } from 'expo-router';
 import { getItem } from 'expo-secure-store';
 import JWTStore from '@/app/store';
-import { Button, Snackbar } from 'react-native-paper';
-import Constants from 'expo-constants';
+import { Snackbar } from 'react-native-paper';
 
-// console.log("public backend url  ",Constants.expoConfig.env.EXPO_PUBLIC_BACKEND_URL);
 
 
 const SignInScreen = () => {

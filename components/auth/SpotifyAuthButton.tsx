@@ -5,12 +5,9 @@ import * as WebBrowser from 'expo-web-browser';
 import React, { useEffect } from 'react';
 import { Alert, Button, Pressable } from 'react-native';
 import PillShapeButton from './PillShapeButton';
-import * as Linking from 'expo-linking';
-import Constants from 'expo-constants';
 
 WebBrowser.maybeCompleteAuthSession();
 
-// const SPOTIFY_CLIENT_ID = Constants.expoConfig.env.EXPO_PUBLIC_Spotify_CLIENT_ID;
 
 export default function AuthScreen({setTokenToSignInFromSpotify}) {
   const [request, response, promptAsync] = useAuthRequest(
