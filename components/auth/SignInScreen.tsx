@@ -30,7 +30,7 @@ const SignInScreen = () => {
       mutationFn: (id_token) => {
         // console.log("from the mutation function ",id_token);        
         // return axios.post(`${process.env.EXPO_PUBLIC_BACKEND_URL}/${path}`, id_token)
-        return axios.post(`https://generate-a-website.fly.dev/signup/spotify`, {id_token})
+        return axios.post(`${process.env.EXPO_PUBLIC_BACKEND_URL}/signup/spotify`, {id_token})
       },
       // onError(error, variables, context) {
       //     error
@@ -41,7 +41,7 @@ const SignInScreen = () => {
       mutationFn: (id_token) => {
         // console.log("from the mutation function ",id_token , "\n\n",Constants.expoConfig.env.EX PO_PUBLIC_BACKEND_URL); 
         // return axios.post(`${process.env.EXPO_PUBLIC_BACKEND_URL}/`, id_token)
-        return axios.post(`https://generate-a-website.fly.dev/signup/google`, {id_token}) 
+        return axios.post(`${process.env.EXPO_PUBLIC_BACKEND_URL}/signup/google`, {id_token}) 
       
       },
     })    
@@ -128,7 +128,7 @@ const SignInScreen = () => {
               Alright let's set up your account
             </Text>
             <Text className="text-lg text-gray-300">
-              You are just steps away to reach the world
+              You are just steps away to make your website
             </Text>
           </View>
     
@@ -165,7 +165,7 @@ const SignInScreen = () => {
               placeholder="your@email.com"
               textContentType="emailAddress"
               onPressIn={() => {
-                Vibration.vibrate([30,30])
+                Vibration.vibrate([40,40])
                 if (showSnackBar) {
                   setShowSnackBar(false);
                   setTimeout(() => setShowSnackBar(true), 10); // Delay the true state by 100ms to ensure false state is set first
@@ -179,6 +179,7 @@ const SignInScreen = () => {
               placeholder="User name"
               textContentType="givenName"
               onPressIn={() => {
+                Vibration.vibrate([40,40])
                 if (showSnackBar) {
                   setShowSnackBar(false);
                   setTimeout(() => setShowSnackBar(true), 10); // Delay the true state by 100ms to ensure false state is set first
@@ -193,6 +194,7 @@ const SignInScreen = () => {
               secureTextEntry={showpassword}
               textContentType="password"
               onPressIn={() => {
+                Vibration.vibrate([40,40])
                 if (showSnackBar) {
                   setShowSnackBar(false);
                   setTimeout(() => setShowSnackBar(true), 10); // Delay the true state by 100ms to ensure false state is set first
@@ -212,7 +214,9 @@ const SignInScreen = () => {
             </View>
             <Text className="relative h-12 top-12 m-3 p-3 mt-6 w-11/12 rounded-full text-center text-sm  font-semibold border bg-green-700 " 
              onPress={() => {
+              Vibration.vibrate([50,50])
               if (showSnackBar) {
+
                 setShowSnackBar(false);
                 setTimeout(() => setShowSnackBar(true), 10); // Delay the true state by 100ms to ensure false state is set first
               } else {

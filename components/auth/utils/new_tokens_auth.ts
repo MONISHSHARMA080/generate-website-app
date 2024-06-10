@@ -16,7 +16,7 @@ const refreshAccessToken = async () => {
   
   try {
     const response: AxiosResponse<TokenResponse> = await axios.post(
-      `https://generate-a-website.fly.dev/api/token/refresh/`,
+      `${process.env.EXPO_PUBLIC_BACKEND_URL}/api/token/refresh/`,
       { refresh: refreshToken }
     );
 console.log("\n response from tying to refresh the tokens -->>",response,"\n response.data -->>",response.data,"\n\n");
@@ -52,7 +52,7 @@ console.log("\n response from tying to refresh the tokens -->>",response,"\n res
 };
 
 const axiosInstance = axios.create({
-  baseURL: "https://generate-a-website.fly.dev",
+  baseURL: `${process.env.EXPO_PUBLIC_BACKEND_URL}`,
   headers: {
     Authorization: `Bearer ${getItem('JWT')}`,
   },

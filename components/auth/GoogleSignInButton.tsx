@@ -6,7 +6,7 @@ import PillShapeButton from './PillShapeButton';
 
 GoogleSignin.configure({
   scopes: ['email', 'profile', ],
-  webClientId: "536289115131-99enca0gqcqjhd3a3ijtji049e0th543.apps.googleusercontent.com", 
+  webClientId: `${process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID}`, 
   // iosClientId: 
   offlineAccess: true,
   forceCodeForRefreshToken: true,

@@ -12,7 +12,7 @@ WebBrowser.maybeCompleteAuthSession();
 export default function AuthScreen({setTokenToSignInFromSpotify}) {
   const [request, response, promptAsync] = useAuthRequest(
     {
-      clientId: "812c827d57b44b2497941ccb210ae022",
+      clientId: `${process.env.EXPO_PUBLIC_Spotify_CLIENT_ID}`,
       scopes: ['user-read-email', ],
       // To follow the "Authorization Code Flow" to fetch token after authorizationEndpoint
       // this must be set to false
