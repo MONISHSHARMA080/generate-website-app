@@ -1,7 +1,6 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import { getItem,setItem,deleteItemAsync } from 'expo-secure-store';
 import { Alert } from 'react-native';
-import JWTStore from '@/app/store';
 
 interface TokenResponse {
   access: string;
@@ -53,7 +52,7 @@ console.log("\n response from tying to refresh the tokens -->>",response,"\n res
 };
 
 const axiosInstance = axios.create({
-  baseURL: process.env.EXPO_PUBLIC_BACKEND_URL,
+  baseURL: `${process.env.EXPO_PUBLIC_BACKEND_URL}`,
   headers: {
     Authorization: `Bearer ${getItem('JWT')}`,
   },

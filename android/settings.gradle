@@ -1,4 +1,4 @@
-rootProject.name = 'Magical-first-website'
+rootProject.name = 'generate-website'
 
 dependencyResolutionManagement {
   versionCatalogs {

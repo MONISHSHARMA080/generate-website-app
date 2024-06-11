@@ -6,7 +6,6 @@ import PillShapeButtonForDrawer from './buttons/pillShapeButtonForDrawer';
 import { FlashList } from '@shopify/flash-list';
 import JWTStore from '@/app/store';
 
-
 interface propsInThisComponent{
   stateToToogleTheDrawerOn:Boolean,
   toogleDrawer
@@ -63,11 +62,10 @@ export default function DrawerToShowPreviousSites( { stateToToogleTheDrawerOn, t
                   textToBeDisplayed={item}
                   colorOnTheBorderAndInTheText={'#2b87ff'}
                   function_to_run_on_touch={async() => {
-                    console.log("clicked on -->",process.env.EXPO_PUBLIC_SVELTE_URL+"/"+User_Name_from_Req+"/"+item);
                     
-                    let a = await Linking.canOpenURL(process.env.EXPO_PUBLIC_SVELTE_URL+"/"+User_Name_from_Req+"/"+item)
+                    let a = await Linking.canOpenURL(`${process.env.EXPO_PUBLIC_SVELTE_URL}/`+User_Name_from_Req+"/"+item)
                     if (a){
-                      Linking.openURL(process.env.EXPO_PUBLIC_SVELTE_URL+"/"+User_Name_from_Req+"/"+item)
+                      Linking.openURL(`${process.env.EXPO_PUBLIC_SVELTE_URL}/`+User_Name_from_Req+"/"+item)
                     }
                     else{
                       Alert.alert("Can't open the link", "Sorry we can't open the url in a web browser ,please copy it and paste it there")

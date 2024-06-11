@@ -3,9 +3,10 @@ import * as React from 'react';
 import { GoogleSignin,  statusCodes } from '@react-native-google-signin/google-signin';
 import PillShapeButton from './PillShapeButton';
 
+
 GoogleSignin.configure({
   scopes: ['email', 'profile', ],
-  webClientId: process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID, 
+  webClientId: `${process.env.EXPO_PUBLIC_GOOGLE_CLIENT_ID}`, 
   // iosClientId: 
   offlineAccess: true,
   forceCodeForRefreshToken: true,

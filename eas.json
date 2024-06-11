@@ -14,19 +14,27 @@
     "preview2": {
       "android": {
         "buildType": "apk"
-      }
-    },
-    "production": {
+      },
       "env": {
         "EXPO_PUBLIC_PRODUCTION":"true",
-        "EXPO_PUBLIC_GOOGLE_CLIENT_ID" : "536289115131-99enca0gqcqjhd3a3ijtji049e0th543.apps.googleusercontent.com",
+        "EXPO_PUBLIC_GOOGLE_CLIENT_ID" : "536289115131-tmonjjqnklakv93pc6mj969rmhsdmmvq.apps.googleusercontent.com",
         "EXPO_PUBLIC_Spotify_CLIENT_ID":"812c827d57b44b2497941ccb210ae022",
         "EXPO_PUBLIC_BACKEND_URL":"https://generate-a-website.fly.dev",
         "EXPO_PUBLIC_SVELTE_URL":"https://generate-website.fly.dev",
         "EXPO_PUBLIC_VEXO_API_KEY":"9d8b2a88-06a0-4acf-9883-df17b45fde1b"
-      },
+      }
+    },
+    "production": {
       "android": {
         "buildType": "apk"
+      },
+      "env": {
+        "EXPO_PUBLIC_PRODUCTION":"true",
+        "EXPO_PUBLIC_GOOGLE_CLIENT_ID" : "536289115131-tmonjjqnklakv93pc6mj969rmhsdmmvq.apps.googleusercontent.com",
+        "EXPO_PUBLIC_Spotify_CLIENT_ID":"812c827d57b44b2497941ccb210ae022",
+        "EXPO_PUBLIC_BACKEND_URL":"https://generate-a-website.fly.dev",
+        "EXPO_PUBLIC_SVELTE_URL":"https://generate-website.fly.dev",
+        "EXPO_PUBLIC_VEXO_API_KEY":"9d8b2a88-06a0-4acf-9883-df17b45fde1b"
       }
     }
   },
