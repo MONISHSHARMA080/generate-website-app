@@ -24,7 +24,7 @@
         "EXPO_PUBLIC_VEXO_API_KEY":"9d8b2a88-06a0-4acf-9883-df17b45fde1b"
       }
     },
-    "production": {
+    "prod": {
       "android": {
         "buildType": "apk"
       },
