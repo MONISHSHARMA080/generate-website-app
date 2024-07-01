@@ -1,0 +1,11 @@
+appId: com.Magicalfirstwebsite
+---
+- tapOn: "Google"
+- waitForAnimationToEnd:
+    timeout: 5000
+- tapOn:
+    id: "com.google.android.gms:id/container"
+- tapOn: "Continue"
+- waitForAnimationToEnd:
+    timeout: 5000
+- assertVisible: "Hi! Let's make you a website"

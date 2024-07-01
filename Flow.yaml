@@ -1,0 +1,9 @@
+appId: com.Magicalfirstwebsite
+---
+- launchApp
+- runFlow:
+    when:
+      visible: "Alright let's set up your account"
+    file: "auth_using_google.yaml"
+# - runFlow: anotherFlow.yaml
+---

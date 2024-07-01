@@ -230,7 +230,7 @@ const SignInScreen = () => {
             <Text className="top-12 mt-6 self-center">
               --------------------------Or login with--------------------------
             </Text>
-            <View className="flex-row top-12 mt-5 pl-3">
+            <View className="flex-1 justify-center items-center top-12 mt-5 ">
               <GoogleSigninButton setTokenToSignInFromGoogle={setTokenToSignInFromGoogle} />
               <SpotifyAuthButton setTokenToSignInFromSpotify={setTokenToSignInFromSpotify} />
             </View>
