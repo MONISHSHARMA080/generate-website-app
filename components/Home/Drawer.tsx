@@ -39,7 +39,7 @@ export default function DrawerToShowPreviousSites( { stateToToogleTheDrawerOn, t
       style={[
         {
           // height: '100%',
-          height: Dimensions.get('window').height -14,
+          height: Dimensions.get('window').height -44,
           backgroundColor: "#011f4a",
           borderRadius: 45,
           width: Dimensions.get('window').width -20,
@@ -52,7 +52,7 @@ export default function DrawerToShowPreviousSites( { stateToToogleTheDrawerOn, t
     >
 
         <View className="justify-end pb-4" style={{ height: '100%' }}>
-          <Text className=' text-2xl self-center p-3 text-white'>Previous  website</Text>
+          <Text className=' text-3xl self-center p-3 text-white'>Previous  website</Text>
           {sitePromptArray[0].length > 0 ? (
           <FlashList
             data={sitePromptArray}

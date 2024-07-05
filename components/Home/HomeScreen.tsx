@@ -245,6 +245,9 @@ if (get_all_the_projects_of_the_user.data!=null || get_all_the_projects_of_the_u
   console.log("\n --------------isSuccess  after data-->>\n",);
   
   alert_user_for_common__errors_from_backend_given_by_Rquery(get_all_the_projects_of_the_user.data)
+
+  console.log("gggggggggggggggggggg ---", get_all_the_projects_of_the_user);
+  
   if (get_all_the_projects_of_the_user.data.body.message_for_the_user && get_all_the_projects_of_the_user.data.body.message_for_the_user.trim()=== "Oops! Your name was not found on the server" ){
 
     // if the user name is not there delete the credentials and go the sign in screen 
