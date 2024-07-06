@@ -15,11 +15,14 @@ import function_to_make_react_query_request from "../auth/utils/function_to_make
 import * as Linking from 'expo-linking';
 import { useRouter } from 'expo-router';
 
-  export default function HomeScreen({toggleDrawer}) {    
+
+
+  export default function HomeScreen() {    
+
 
     // const router = useRouter();
     const router = useRouter();
-    const { setJWT,JWT, sitePromptStoredInState, setSitePromptStoredInState, setSitePromptArray, setUser_Name_from_Req, User_Name_from_Req } = JWTStore();
+    const { setJWT,JWT, sitePromptStoredInState, setSitePromptStoredInState, setSitePromptArray, setUser_Name_from_Req, User_Name_from_Req, openDrawer, setOpenDrawer } = JWTStore();
     const [IsFirstRequest , setIsFirstRequest] = useState(true)
     const [inputText , setInputText] = useState(null)
 
@@ -222,11 +225,7 @@ if (delete_a_project_or_temp.data!=null || delete_a_project_or_temp.data!= undef
 
 
 
-
-
-
 //  --------- XXXXXXXXX -----------------------
-
 
 
 const get_all_the_projects_of_the_user = useQuery({
@@ -238,6 +237,7 @@ const get_all_the_projects_of_the_user = useQuery({
 })
 
 useEffect(()=>{console.log("\n\n ============================||----||data from the query fucntion============================||------||" , "\n\n-->>",(responnseJSONForGetAllUserProject?responnseJSONForGetAllUserProject:"") );
+
 if (get_all_the_projects_of_the_user.data!=null || get_all_the_projects_of_the_user.data!= undefined){
   console.log("\n data in the isSuccess -->>",get_all_the_projects_of_the_user.isSuccess,"\n\n ",);
   console.log("\n --------------isSuccess -->>\n",);
@@ -248,18 +248,41 @@ if (get_all_the_projects_of_the_user.data!=null || get_all_the_projects_of_the_u
 
   console.log("gggggggggggggggggggg ---", get_all_the_projects_of_the_user);
   
-  if (get_all_the_projects_of_the_user.data.body.message_for_the_user && get_all_the_projects_of_the_user.data.body.message_for_the_user.trim()=== "Oops! Your name was not found on the server" ){
+    if(get_all_the_projects_of_the_user.body){
 
-    // if the user name is not there delete the credentials and go the sign in screen 
+      if (get_all_the_projects_of_the_user.data.body.message_for_the_user && get_all_the_projects_of_the_user.data.body.message_for_the_user.trim()=== "Oops! Your name was not found on the server" ){
+        
+        // if the user name is not there delete the credentials and go the sign in screen 
+        
+        deleteItemAsync("JWT") ;
+        
+        //  console.log("input text from the home screen -- ",inputText, "\n jwt tokens in zustand state -->>",JWT)
+        setJWT(null)
+        
+        router.replace('/(main_app)/');
+        // probally return too
+        return
+      }
+
+      if (get_all_the_projects_of_the_user.data.body.status_code === 200  ){
+        // console.log("--c11c,",get_all_the_projects_of_the_user.data.body.values," type of ", typeof get_all_the_projects_of_the_user.data.body.values);
+        // trying to parse it 
+        let a = get_all_the_projects_of_the_user.data.body.values === null ?[""]:get_all_the_projects_of_the_user.data.body.values
+        console.log(a, typeof a);
+        setSitePromptArray(a)
+        setItem('allProjectsByUserInString',a.toString())
+        // console.log("User_Name_from_Req", );
+        User_Name_from_Req===get_all_the_projects_of_the_user.data.body.User_Name?null:setUser_Name_from_Req(get_all_the_projects_of_the_user.data.body.User_Name)
+        
     
-              deleteItemAsync("JWT") ;
-              
-              //  console.log("input text from the home screen -- ",inputText, "\n jwt tokens in zustand state -->>",JWT)
-              setJWT(null)
-              
-              router.replace('/(main_app)/');
-    // probally return too
-    return
+        
+    
+        
+        // now json parse it , if a is a single character or not there what to do then what  ( teachnically temp would be there)
+        
+        
+      }
+      
   }
   // if the  user name is not found go to the auth screen
   // const { setJWT } = JWTStore();
@@ -272,25 +295,8 @@ if (get_all_the_projects_of_the_user.data!=null || get_all_the_projects_of_the_u
   //           router.replace('/(main_app)/');
   // probally return too
 
-  console.log("--cc,",get_all_the_projects_of_the_user.data.body.values," type of ", typeof get_all_the_projects_of_the_user.data.body.values);
-  if (get_all_the_projects_of_the_user.data.body.status_code === 200  ){
-    // console.log("--c11c,",get_all_the_projects_of_the_user.data.body.values," type of ", typeof get_all_the_projects_of_the_user.data.body.values);
-    // trying to parse it 
-    let a = get_all_the_projects_of_the_user.data.body.values === null ?[""]:get_all_the_projects_of_the_user.data.body.values
-    console.log(a, typeof a);
-    setSitePromptArray(a)
-    setItem('allProjectsByUserInString',a.toString())
-    // console.log("User_Name_from_Req", );
-    User_Name_from_Req===get_all_the_projects_of_the_user.data.body.User_Name?null:setUser_Name_from_Req(get_all_the_projects_of_the_user.data.body.User_Name)
-    
-
-    
-
-    
-    // now json parse it , if a is a single character or not there what to do then what  ( teachnically temp would be there)
-    
-    
-  }
+  // console.log("--cc,",get_all_the_projects_of_the_user.data.body.values," type of ", typeof get_all_the_projects_of_the_user.data.body.values);
+  
 }
 },[get_all_the_projects_of_the_user.data, responnseJSONForGetAllUserProject, get_all_the_projects_of_the_user.isSuccess, get_all_the_projects_of_the_user.status])
 
@@ -355,6 +361,7 @@ if (get_the_name_for_the_project.data!=null || get_the_name_for_the_project.data
 }
 },[get_the_name_for_the_project.data, responnseJSONForGetNameForTheProject, get_the_name_for_the_project.isSuccess, get_the_name_for_the_project.status])
 
+console.log('toggleDrawer in HomeScreen:', openDrawer, setOpenDrawer);
   
 
  
@@ -369,17 +376,23 @@ if (get_the_name_for_the_project.data!=null || get_the_name_for_the_project.data
           (<Text className="text-white text-2xl align-middle self-center mb-2">Loading, please wait</Text>) : null}
 
           {/* ------ button for opening the drawer/hamburgerMenu -------  */}
-            <ButtonFromRNPaper className="top-0  z-10 mx-2 my-4 absolute" textColor="#4f87d1" icon='menu' 
-            onPress={
-              // toggleDrawer
-            ()=>{
-              setMakeARequestForGetAllUserProject(true)
-              toggleDrawer()
-                // call the func to open the drawer 
-            }
-            }
-            // >Previous websites</ButtonFromRNPaper>
-            >Deployed websites</ButtonFromRNPaper>
+          <ButtonFromRNPaper
+          className="top-0 z-10 mx-2 my-4 absolute"
+          textColor="#4f87d1"
+          icon='menu'
+          onPress={() => {
+            setMakeARequestForGetAllUserProject(true);
+            try {
+              setOpenDrawer(false);
+            } catch (error) {
+              console.error(" can't run the function ", error);
+              
+              // Alert.alert("can't work with function showdrawer", error)
+            } 
+          }}
+        >
+          Deployed websites
+        </ButtonFromRNPaper>
            
           {/* ------ button for opening the drawer/hamburgerMenu -------  */}
 

@@ -3,22 +3,21 @@ import { View, Modal, StyleSheet, Dimensions } from 'react-native';
 import HomeScreen from '@/components/Home/HomeScreen';
 import DrawerToShowPreviousSites from '@/components/Home/Drawer';
 import Animated, { useSharedValue, useAnimatedStyle, withTiming } from 'react-native-reanimated';
+import JWTStore from '@/app/store';
 
 export default function index() {
-  const [showDrawer, setShowDrawer] = useState(false);
-  const toggleDrawer = () => {
-    setShowDrawer(!showDrawer);
-  };
+ 
+  const { openDrawer, setOpenDrawer } = JWTStore();
 
   const modalTranslateX = useSharedValue(0);
 
   React.useEffect(() => {
-    if (showDrawer) {
+    if (openDrawer) {
       modalTranslateX.value = withTiming(0, { duration: 300 });
     } else {
       modalTranslateX.value = withTiming(-Dimensions.get('window').width, { duration: 300 });
     }
-  }, [showDrawer, modalTranslateX]);
+  }, [openDrawer, modalTranslateX]);
 
   const animatedStyle = useAnimatedStyle(() => {
     return {
@@ -28,10 +27,10 @@ export default function index() {
 
   return (
     <View style={{ flex: 1 }}>
-      <HomeScreen toggleDrawer={toggleDrawer} />
-      <Modal visible={showDrawer} transparent={true} onRequestClose={toggleDrawer}>
+      <HomeScreen  />
+      <Modal visible={openDrawer} transparent={true} onRequestClose={()=>setOpenDrawer(false) }>
         <Animated.View style={[styles.modalContainer, animatedStyle]}>
-          <DrawerToShowPreviousSites stateToToogleTheDrawerOn={showDrawer} toogleDrawer={toggleDrawer} />
+          <DrawerToShowPreviousSites stateToToogleTheDrawerOn={openDrawer} toogleDrawer={()=>setOpenDrawer(false)} />
         </Animated.View>
       </Modal>
     </View>

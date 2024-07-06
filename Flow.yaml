@@ -1,5 +1,6 @@
 appId: com.Magicalfirstwebsite
 ---
+- clearState  
 - launchApp
 - runFlow:
     when:
