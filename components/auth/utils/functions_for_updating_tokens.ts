@@ -44,6 +44,8 @@ export default async function UpdateJWT (setJWTTokens, refetch ){
     //  console.log("\n\n ================================8888888888888888-===========response and access(jsut to be sure ) -->>",refresh,"\n access -----", access);
      
     // console.log("\n\n checking both the jwt tokens -->", Jwt_string,JSON.stringify({access,refresh}), "\n\n\n are both of these same -->>", JSON.stringify({access,refresh}) === Jwt_string );
+  console.log("about to refetch in the updatejwt ",);
+  
     refetch()
   
    } catch (error) {
@@ -52,6 +54,7 @@ export default async function UpdateJWT (setJWTTokens, refetch ){
     // alert the user and respond to the backend --or may be retry 
     // ------------------------------------------ Alert -----------------------------------------------------
     console.error(error)
+    return
    }
   }
 
@@ -60,8 +63,10 @@ export default async function UpdateJWT (setJWTTokens, refetch ){
   export async function QueryFunction(URLPath_DoNoT_Include_BackSlash,setJWTTokensInState_Zustand_here,refetch,setMakeARequestWithReactQuery,setResponseOrHeadersFromAUseStateFunc, prompt_for_the_body_do_Not_JSON_stringify, ) {
     let token = JSON.parse(getItem("JWT")).access
   console.log(" \n //==in it --/// \n",JSON.stringify(prompt_for_the_body_do_Not_JSON_stringify));
+  // counter for the refetch func 
+  const a = {a:0}
  
-      try {
+    try {
        
       
       const response = await fetch(`${process.env.EXPO_PUBLIC_BACKEND_URL}/${URLPath_DoNoT_Include_BackSlash}`, {
@@ -73,11 +78,18 @@ export default async function UpdateJWT (setJWTTokens, refetch ){
         body: JSON.stringify(prompt_for_the_body_do_Not_JSON_stringify)
       });
       console.log("]\n\n response form the QueryFunction", response );
+      console.log("\n\n a.a====--->",a.a, a.a +1  );
       
       //  what about 500, I am not refetching it  if I get 500
       if(response.status === 401){
-        UpdateJWT(setJWTTokensInState_Zustand_here,refetch)
-        refetch()
+        if (a.a <3){
+          console.log("\n\n  refetching the jwt tokens \n\n -->>>",a.a);  
+          UpdateJWT(setJWTTokensInState_Zustand_here,refetch)
+          refetch()
+        }
+        else{
+          return
+        }
       }
 
       console.log(response.status, "---- from the query function func for updating token ----");

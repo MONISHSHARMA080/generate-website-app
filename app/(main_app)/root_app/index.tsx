@@ -12,12 +12,20 @@ export default function index() {
   const modalTranslateX = useSharedValue(0);
 
   React.useEffect(() => {
+    
+  }, [
+    // openDrawer,
+    openDrawer]);
+
+  React.useEffect(() => {
     if (openDrawer) {
       modalTranslateX.value = withTiming(0, { duration: 300 });
     } else {
       modalTranslateX.value = withTiming(-Dimensions.get('window').width, { duration: 300 });
     }
-  }, [openDrawer, modalTranslateX]);
+  }, [
+    openDrawer,
+     modalTranslateX]);
 
   const animatedStyle = useAnimatedStyle(() => {
     return {
@@ -28,9 +36,9 @@ export default function index() {
   return (
     <View style={{ flex: 1 }}>
       <HomeScreen  />
-      <Modal visible={openDrawer} transparent={true} onRequestClose={()=>setOpenDrawer(false) }>
+      <Modal visible={openDrawer} transparent={true} onRequestClose={()=>setOpenDrawer(!openDrawer) }>
         <Animated.View style={[styles.modalContainer, animatedStyle]}>
-          <DrawerToShowPreviousSites stateToToogleTheDrawerOn={openDrawer} toogleDrawer={()=>setOpenDrawer(false)} />
+          <DrawerToShowPreviousSites stateToToogleTheDrawerOn={openDrawer} toogleDrawer={()=>setOpenDrawer(!openDrawer)} />
         </Animated.View>
       </Modal>
     </View>

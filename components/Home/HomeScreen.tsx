@@ -383,8 +383,8 @@ console.log('toggleDrawer in HomeScreen:', openDrawer, setOpenDrawer);
           onPress={() => {
             setMakeARequestForGetAllUserProject(true);
             try {
-              setOpenDrawer(false);
-            } catch (error) {
+              setOpenDrawer(!openDrawer);
+            } catch (error) { 
               console.error(" can't run the function ", error);
               
               // Alert.alert("can't work with function showdrawer", error)
