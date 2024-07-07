@@ -40,11 +40,6 @@ export default function index() {
       <HomeScreen
         isActive={isActive}
         setIsActive={(value: boolean) => setIsActive(value)}      />
-      {/* <Modal visible={openDrawer} transparent={true} onRequestClose={()=>setOpenDrawer(false) }>
-        <Animated.View style={[styles.modalContainer, animatedStyle]}>
-          <DrawerToShowPreviousSites stateToToogleTheDrawerOn={openDrawer} toogleDrawer={()=>setOpenDrawer(!openDrawer)} />
-        </Animated.View>
-      </Modal> */}
     </View>
   );
 }
