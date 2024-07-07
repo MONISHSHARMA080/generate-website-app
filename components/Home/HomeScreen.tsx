@@ -18,12 +18,8 @@ import DrawerToShowPreviousSites from './Drawer';
 import { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 import Animated from 'react-native-reanimated';
 
-interface HomeScreenProps {
-  isActive: boolean;
-  setIsActive: React.Dispatch<React.SetStateAction<boolean>>;
-}
 
-export default function HomeScreen({ isActive, setIsActive }: HomeScreenProps) {
+export default function HomeScreen() {
 
  
 
@@ -34,43 +30,6 @@ export default function HomeScreen({ isActive, setIsActive }: HomeScreenProps) {
     const { setJWT,JWT, sitePromptStoredInState, setSitePromptStoredInState, setSitePromptArray, setUser_Name_from_Req, User_Name_from_Req, openDrawer, setOpenDrawer } = JWTStore();
     const [IsFirstRequest , setIsFirstRequest] = useState(true)
     const [inputText , setInputText] = useState(null)
-
-    const modalTranslateX = useSharedValue(0);
-  
-  
-    React.useEffect(()=>{
-      console.log("\n\n ------ openDrawer, setOpenDrawer from index.tsx-",openDrawer, setOpenDrawer);
-      
-    },[isActive,setIsActive, openDrawer, setOpenDrawer])
-  
-    React.useEffect(() => {
-      if (openDrawer) {
-        console.log(" we have the drawer in the index.tsx");
-        
-        modalTranslateX.value = withTiming(0, { duration: 300 });
-      } else {
-        modalTranslateX.value = withTiming(-Dimensions.get('window').width, { duration: 300 });
-      }
-    }, [
-      openDrawer,
-       modalTranslateX]);
-  
-    const animatedStyle = useAnimatedStyle(() => {
-      return {
-        transform: [{ translateX: modalTranslateX.value }],
-      };
-    });
-  
-
-    useEffect(()=>{
-      console.log("\n\n ==-9999=== (in use effect) Props received:", { isActive, setIsActive });
-      console.log("\n\n ------ openDrawer, setOpenDrawer",openDrawer, setOpenDrawer);
-      
-    },[isActive,setIsActive, openDrawer, setOpenDrawer])
-  
-    setTimeout(()=>{    console.log("\n\n ==-9999=== (in use effect) Props received:", { isActive, setIsActive });
-  },4000)
-
     const [makeARequestForTempProject , setMakeARequestForTempProject] = useState(false)
     const [makeARequestFormTempToProject , setMakeARequestFormTempToProject] = useState(false)
     const [makeARequestForDeleteAProjectOrTemp , setMakeARequestForDeleteAProjectOrTemp] = useState(false)
@@ -94,8 +53,27 @@ export default function HomeScreen({ isActive, setIsActive }: HomeScreenProps) {
     
     // -----modal ----
     const [isModalVisible, setIsModalVisible] = useState(false);
+
+    const modalTranslateX = useSharedValue(0);
+  
+    useEffect(() => {
+      if (openDrawer) {
+        console.log(" we have the drawer in the index.tsx");
+        
+        modalTranslateX.value = withTiming(0, { duration: 300 });
+      } else {
+        modalTranslateX.value = withTiming(-Dimensions.get('window').width, { duration: 300 });
+      }
+    }, [
+      openDrawer,
+       modalTranslateX]);
+  
+    const animatedStyle = useAnimatedStyle(() => {
+      return {
+        transform: [{ translateX: modalTranslateX.value }],
+      };
+    });
     
-    const [drawerOnTheSide, setDrawerOnTheSide] = useState(false);
     
 
 const {data, isSuccess, status, refetch, isLoading} = useQuery({
@@ -109,12 +87,6 @@ const {data, isSuccess, status, refetch, isLoading} = useQuery({
   retry:2
   // ------------ decide on the project name  ----------------
 })
-
-// useEffect(()=>{console.log("\n\n\n\n ||||||||||||\n\n\n\n\n"+sitePromptStoredInState+"\n\n\n\n\n||||||||||")
-//   console.log("console.log(modalToShowTheProjectHostedLink);  "+modalToShowTheProjectHostedLink);
-  
-// }
-// ,[sitePromptStoredInState,modalToShowTheProjectHostedLink])
 
 useEffect(()=>{console.log("=--==-from the is1streq in the useeffect ",IsFirstRequest);
 },[IsFirstRequest])
@@ -170,19 +142,6 @@ if (data!=null || data!= undefined){
 
 
 
-
-
-
-
-// ------------------------XXXXX_----------------
-
-
-
-
-
- 
-
-
 const temp_website_to_production_RQ = useQuery({
   queryKey:['temp_website_to_production'],
   queryFn: ()=>QueryFunction(`temp_website_to_production?project_name=${project_name}`,setJWT,temp_website_to_production_RQ.refetch,setMakeARequestFormTempToProject,setResponnseJSONForTempToProduction, {}),
@@ -221,13 +180,6 @@ if (temp_website_to_production_RQ.data!=null || temp_website_to_production_RQ.da
 },[temp_website_to_production_RQ.data, responnseJSONForTempToProduction, temp_website_to_production_RQ.isSuccess, temp_website_to_production_RQ.status, ])
 
 
-
-
-// ------------ xxxxxxx ------------
-
-
-
-
 const delete_a_project_or_temp = useQuery({
   queryKey:['delete_a_project_or_temp'],
   queryFn: ()=>QueryFunction(`delete_a_project_or_temp?project_name=${project_name}`, setJWT, delete_a_project_or_temp.refetch,setMakeARequestForDeleteAProjectOrTemp,setResponnseJSONForDeleteAProjectOrTemp, {}),
@@ -255,16 +207,6 @@ if (delete_a_project_or_temp.data!=null || delete_a_project_or_temp.data!= undef
     // probally return too
     return
   }
-  // if the user name is not there delete the credentials and go the sign in screen 
-  // const { setJWT } = JWTStore();
-  //           const router = useRouter();
-  //           deleteItemAsync("JWT") ;
-            
-  //           //  console.log("input text from the home screen -- ",inputText, "\n jwt tokens in zustand state -->>",JWT)
-  //           setJWT(null)
-            
-  //           router.replace('/(main_app)/');
-  // probally return too
 }
 },[temp_website_to_production_RQ.data, responnseJSONForTempToProduction, temp_website_to_production_RQ.isSuccess, temp_website_to_production_RQ.status])
 
@@ -328,19 +270,6 @@ if (get_all_the_projects_of_the_user.data!=null || get_all_the_projects_of_the_u
       }
       
   }
-  // if the  user name is not found go to the auth screen
-  // const { setJWT } = JWTStore();
-  //           const router = useRouter();
-  //           deleteItemAsync("JWT") ;
-            
-  //           //  console.log("input text from the home screen -- ",inputText, "\n jwt tokens in zustand state -->>",JWT)
-  //           setJWT(null)
-            
-  //           router.replace('/(main_app)/');
-  // probally return too
-
-  // console.log("--cc,",get_all_the_projects_of_the_user.data.body.values," type of ", typeof get_all_the_projects_of_the_user.data.body.values);
-  
 }
 },[get_all_the_projects_of_the_user.data, responnseJSONForGetAllUserProject, get_all_the_projects_of_the_user.isSuccess, get_all_the_projects_of_the_user.status])
 
@@ -384,16 +313,6 @@ if (get_the_name_for_the_project.data!=null || get_the_name_for_the_project.data
     return
   }
 
-// if the user name is not there delete the credentials and go the sign in screen 
-  // const { setJWT } = JWTStore();
-  //           const router = useRouter();
-  //           deleteItemAsync("JWT") ;
-            
-  //           //  console.log("input text from the home screen -- ",inputText, "\n jwt tokens in zustand state -->>",JWT)
-  //           setJWT(null)
-            
-  //           router.replace('/(main_app)/');
-  // probally return too
 
 
   if(get_the_name_for_the_project.data.body.project_name){
@@ -591,13 +510,8 @@ console.log('toggleDrawer in HomeScreen:', openDrawer, setOpenDrawer);
                  if (String(inputText).replaceAll(" ","").length >4){
                   console.log("\n\n input text from the generate --", inputText);
                   
-                  // setIsFirstRequest(false) 
 
                   setMakeARequestForTempProject(true)
-                  // setMakeARequestForGetNameForTheProject(true);
-                  
-                  // setIsModalVisible(true)
-                  // String(inputText).length >2 ||
                  }else{
                    Alert.alert("Text can't be so short", "Input can't be empty , please describe something about your website")
                  }
