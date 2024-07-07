@@ -5,6 +5,8 @@ import { Alert } from "react-native";
 
 export  function alert_user_for_common__errors_from_backend_given_by_Rquery(data) {
 
+    console.log("--data000000-",data);
+    
    try {
     let data_body_status_code 
     let data_body_message_for_the_user 

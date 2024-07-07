@@ -60,15 +60,13 @@ export default async function UpdateJWT (setJWTTokens, refetch ){
 
 
 
-  export async function QueryFunction(URLPath_DoNoT_Include_BackSlash,setJWTTokensInState_Zustand_here,refetch,setMakeARequestWithReactQuery,setResponseOrHeadersFromAUseStateFunc, prompt_for_the_body_do_Not_JSON_stringify, ) {
+  export async function QueryFunction(URLPath_DoNoT_Include_BackSlash, setJWTTokensInState_Zustand_here, refetch, setMakeARequestWithReactQuery, setResponseOrHeadersFromAUseStateFunc, prompt_for_the_body_do_Not_JSON_stringify) {
     let token = JSON.parse(getItem("JWT")).access
-  console.log(" \n //==in it --/// \n",JSON.stringify(prompt_for_the_body_do_Not_JSON_stringify));
-  // counter for the refetch func 
-  const a = {a:0}
- 
+    console.log("\n //==in QueryFunction --/// \n", JSON.stringify(prompt_for_the_body_do_Not_JSON_stringify));
+    
+    const a = {a:0}
+   
     try {
-       
-      
       const response = await fetch(`${process.env.EXPO_PUBLIC_BACKEND_URL}/${URLPath_DoNoT_Include_BackSlash}`, {
         method: 'POST',
         headers: {
@@ -77,34 +75,26 @@ export default async function UpdateJWT (setJWTTokens, refetch ){
         },
         body: JSON.stringify(prompt_for_the_body_do_Not_JSON_stringify)
       });
-      console.log("]\n\n response form the QueryFunction", response );
-      console.log("\n\n a.a====--->",a.a,  );
-      a.a= a.a +1 
-      //  what about 500, I am not refetching it  if I get 500
-      if(response.status === 401){
-        if (a.a <3){
-          console.log("\n\n  refetching the jwt tokens \n\n -->>>",a.a);  
-          UpdateJWT(setJWTTokensInState_Zustand_here,refetch)
-          refetch()
-        }
-        else{
-          return
-        }
-      }
-
-      console.log(response.status, "---- from the query function func for updating token ----");
-      
+  
+      console.log("\n\n--- Response from QueryFunction ---");
+      console.log("Status:", response.status);
+      console.log("Headers:", JSON.stringify(Object.fromEntries(response.headers), null, 2));
   
       const body = await response.json();
-      // const text = await response.text();
-    //   console.log("Response data from temp_website:", body, "\n\nresponse -->",response, "\n\n --t--ex--t",);
+      console.log("Body:", JSON.stringify(body, null, 2));
+      
+      // Rest of the function remains the same...
+  
       setResponseOrHeadersFromAUseStateFunc(response)
       setMakeARequestWithReactQuery(false)
-    //   console.log("\n\n =======8888888======= lets see what is getting out -->>",{body,"headers":response},"===888888===\n\n");
       
-      return {body,"headers":response};
+      console.log("\n\n--- Full response object ---");
+      console.log(JSON.stringify({body, headers: Object.fromEntries(response.headers)}, null, 2));
+      
+      return {body, headers: response.headers};
   
     } catch (error) {
+      console.error("Error in QueryFunction:", error);
   
         setMakeARequestWithReactQuery(false)
         if (String(error).includes("Network request failed")){
@@ -129,18 +119,7 @@ export default async function UpdateJWT (setJWTTokens, refetch ){
     // -------------------------------------------- lets make a abstract function
     // --------------------------------------2.> setMakeARequest() .........3.> UpdateJWT()
       // data_to_return_to_react_query 
-          
-      // if (data.status===401){
-      //   console.log("\n in the data two---");
-      //   UpdateJWT(setJWT)
-      //   // don't need to retuern form here as it already re runs the function
-      // }
-      
-      // setMakeARequest(false)
-  
-    // -------------------------------------- now make sure i also return the response from the 2 try after refresh token ------------------
-  
-  
+    
   }
 
 // function setJWT(arg0: null) {

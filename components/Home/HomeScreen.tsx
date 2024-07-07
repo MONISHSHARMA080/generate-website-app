@@ -234,7 +234,7 @@ if (get_all_the_projects_of_the_user.data!=null || get_all_the_projects_of_the_u
 
   console.log("gggggggggggggggggggg ---", get_all_the_projects_of_the_user);
   
-    if(get_all_the_projects_of_the_user.body){
+  if(get_all_the_projects_of_the_user.data.body){
 
       if (get_all_the_projects_of_the_user.data.body.message_for_the_user && get_all_the_projects_of_the_user.data.body.message_for_the_user.trim()=== "Oops! Your name was not found on the server" ){
         
@@ -249,10 +249,14 @@ if (get_all_the_projects_of_the_user.data!=null || get_all_the_projects_of_the_u
         // probally return too
         return
       }
-
+      
+      console.log("gggggggggggggggggggg 222222---",get_all_the_projects_of_the_user.data.body.status_code , " --type is ", typeof(get_all_the_projects_of_the_user.data.body.status_code ));
       if (get_all_the_projects_of_the_user.data.body.status_code === 200  ){
         // console.log("--c11c,",get_all_the_projects_of_the_user.data.body.values," type of ", typeof get_all_the_projects_of_the_user.data.body.values);
         // trying to parse it 
+
+        console.log(" about to do operation on arrays ");
+        
         let a = get_all_the_projects_of_the_user.data.body.values === null ?[""]:get_all_the_projects_of_the_user.data.body.values
         console.log(a, typeof a);
         setSitePromptArray(a)
