@@ -11,17 +11,18 @@ interface propsInThisComponent{
   toogleDrawer
 }
 export default function DrawerToShowPreviousSites( { stateToToogleTheDrawerOn, toogleDrawer}:propsInThisComponent,) {
+  console.log(" \n\n -------in the drawer ");
 
-  const {  sitePromptArray, User_Name_from_Req } = JWTStore();
+  const {  sitePromptArray, User_Name_from_Req, openDrawer, setOpenDrawer } = JWTStore();
   const drawerTranslateX = useSharedValue(-Dimensions.get('window').width /2);
 
   React.useEffect(() => {
-    if (stateToToogleTheDrawerOn) {
+    if (openDrawer) {
       drawerTranslateX.value = withTiming(0, { duration: 110 });
     } else {
       drawerTranslateX.value = withTiming(-Dimensions.get('window').width, { duration: 300 });
     }
-  }, [stateToToogleTheDrawerOn, drawerTranslateX]);
+  }, [openDrawer, drawerTranslateX]);
 
   const animatedStyle = useAnimatedStyle(() => {
     return {
@@ -86,7 +87,7 @@ export default function DrawerToShowPreviousSites( { stateToToogleTheDrawerOn, t
                   textToBeDisplayed={item}
                   colorOnTheBorderAndInTheText={'#fc035a'}
                   function_to_run_on_touch={() => {
-                    toogleDrawer()
+                    setOpenDrawer(!openDrawer)
                   }}
                 />
               </View>
@@ -95,7 +96,7 @@ export default function DrawerToShowPreviousSites( { stateToToogleTheDrawerOn, t
           />
         )}
         <Button className=' self-center z-20' mode='contained' style={{width:Dimensions.get('window').width/2.3}}
-        onTouchStart={()=>toogleDrawer()}
+        onTouchStart={()=>setOpenDrawer(!openDrawer)}
         >close</Button>
       </View>
       

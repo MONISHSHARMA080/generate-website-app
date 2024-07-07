@@ -78,8 +78,8 @@ export default async function UpdateJWT (setJWTTokens, refetch ){
         body: JSON.stringify(prompt_for_the_body_do_Not_JSON_stringify)
       });
       console.log("]\n\n response form the QueryFunction", response );
-      console.log("\n\n a.a====--->",a.a, a.a +1  );
-      
+      console.log("\n\n a.a====--->",a.a,  );
+      a.a= a.a +1 
       //  what about 500, I am not refetching it  if I get 500
       if(response.status === 401){
         if (a.a <3){

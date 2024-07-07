@@ -8,17 +8,19 @@ import JWTStore from '@/app/store';
 export default function index() {
  
   const { openDrawer, setOpenDrawer } = JWTStore();
-
   const modalTranslateX = useSharedValue(0);
+  const [isActive, setIsActive] = useState(false);
 
-  React.useEffect(() => {
+
+  React.useEffect(()=>{
+    console.log("\n\n ------ openDrawer, setOpenDrawer from index.tsx-",openDrawer, setOpenDrawer);
     
-  }, [
-    // openDrawer,
-    openDrawer]);
+  },[isActive,setIsActive, openDrawer, setOpenDrawer])
 
   React.useEffect(() => {
     if (openDrawer) {
+      console.log(" we have the drawer in the index.tsx");
+      
       modalTranslateX.value = withTiming(0, { duration: 300 });
     } else {
       modalTranslateX.value = withTiming(-Dimensions.get('window').width, { duration: 300 });
@@ -35,12 +37,14 @@ export default function index() {
 
   return (
     <View style={{ flex: 1 }}>
-      <HomeScreen  />
-      <Modal visible={openDrawer} transparent={true} onRequestClose={()=>setOpenDrawer(!openDrawer) }>
+      <HomeScreen
+        isActive={isActive}
+        setIsActive={(value: boolean) => setIsActive(value)}      />
+      {/* <Modal visible={openDrawer} transparent={true} onRequestClose={()=>setOpenDrawer(false) }>
         <Animated.View style={[styles.modalContainer, animatedStyle]}>
           <DrawerToShowPreviousSites stateToToogleTheDrawerOn={openDrawer} toogleDrawer={()=>setOpenDrawer(!openDrawer)} />
         </Animated.View>
-      </Modal>
+      </Modal> */}
     </View>
   );
 }

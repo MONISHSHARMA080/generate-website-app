@@ -10,6 +10,7 @@ export default function HomeLayout() {
   
 
   const queryClient = new QueryClient({});
+  
 
     return (
       <>

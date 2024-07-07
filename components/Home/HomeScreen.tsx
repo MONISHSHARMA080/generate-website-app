@@ -1,5 +1,5 @@
 import {  deleteItemAsync, setItem } from 'expo-secure-store';
-import { View, TextInput, Text, Button, Alert, Modal, ViewBase } from 'react-native'
+import { View, TextInput, Text, Button, Alert, Modal, ViewBase,StyleSheet, Dimensions } from 'react-native'
 import * as React from 'react'
 import { useEffect, useState } from 'react';
 import JWTStore from '@/app/store';
@@ -14,17 +14,62 @@ import { alert_user_for_common__errors_from_backend_given_by_Rquery } from "../a
 import function_to_make_react_query_request from "../auth/utils/function_to_make_react_query_request";
 import * as Linking from 'expo-linking';
 import { useRouter } from 'expo-router';
+import DrawerToShowPreviousSites from './Drawer';
+import { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
+import Animated from 'react-native-reanimated';
 
+interface HomeScreenProps {
+  isActive: boolean;
+  setIsActive: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
+export default function HomeScreen({ isActive, setIsActive }: HomeScreenProps) {
 
-  export default function HomeScreen() {    
+ 
 
-
+    
+    
     // const router = useRouter();
     const router = useRouter();
     const { setJWT,JWT, sitePromptStoredInState, setSitePromptStoredInState, setSitePromptArray, setUser_Name_from_Req, User_Name_from_Req, openDrawer, setOpenDrawer } = JWTStore();
     const [IsFirstRequest , setIsFirstRequest] = useState(true)
     const [inputText , setInputText] = useState(null)
+
+    const modalTranslateX = useSharedValue(0);
+  
+  
+    React.useEffect(()=>{
+      console.log("\n\n ------ openDrawer, setOpenDrawer from index.tsx-",openDrawer, setOpenDrawer);
+      
+    },[isActive,setIsActive, openDrawer, setOpenDrawer])
+  
+    React.useEffect(() => {
+      if (openDrawer) {
+        console.log(" we have the drawer in the index.tsx");
+        
+        modalTranslateX.value = withTiming(0, { duration: 300 });
+      } else {
+        modalTranslateX.value = withTiming(-Dimensions.get('window').width, { duration: 300 });
+      }
+    }, [
+      openDrawer,
+       modalTranslateX]);
+  
+    const animatedStyle = useAnimatedStyle(() => {
+      return {
+        transform: [{ translateX: modalTranslateX.value }],
+      };
+    });
+  
+
+    useEffect(()=>{
+      console.log("\n\n ==-9999=== (in use effect) Props received:", { isActive, setIsActive });
+      console.log("\n\n ------ openDrawer, setOpenDrawer",openDrawer, setOpenDrawer);
+      
+    },[isActive,setIsActive, openDrawer, setOpenDrawer])
+  
+    setTimeout(()=>{    console.log("\n\n ==-9999=== (in use effect) Props received:", { isActive, setIsActive });
+  },4000)
 
     const [makeARequestForTempProject , setMakeARequestForTempProject] = useState(false)
     const [makeARequestFormTempToProject , setMakeARequestFormTempToProject] = useState(false)
@@ -236,13 +281,12 @@ const get_all_the_projects_of_the_user = useQuery({
   // ------------ decide on the project name  ----------------
 })
 
-useEffect(()=>{console.log("\n\n ============================||----||data from the query fucntion============================||------||" , "\n\n-->>",(responnseJSONForGetAllUserProject?responnseJSONForGetAllUserProject:"") );
+useEffect(()=>{console.log("\n\n ============================||----||data from the query fucntion get_all_the_projects_of_the_user============================||------||" , "\n\n-->>",(responnseJSONForGetAllUserProject?responnseJSONForGetAllUserProject:"") );
 
 if (get_all_the_projects_of_the_user.data!=null || get_all_the_projects_of_the_user.data!= undefined){
   console.log("\n data in the isSuccess -->>",get_all_the_projects_of_the_user.isSuccess,"\n\n ",);
-  console.log("\n --------------isSuccess -->>\n",);
   console.log("\n data in the useeffect -->>",get_all_the_projects_of_the_user.data);
-  console.log("\n --------------isSuccess  after data-->>\n",);
+  console.log("\n -------------- get_all_the_projects_of_the_user-->>",get_all_the_projects_of_the_user, "\n\n");
   
   alert_user_for_common__errors_from_backend_given_by_Rquery(get_all_the_projects_of_the_user.data)
 
@@ -374,13 +418,20 @@ console.log('toggleDrawer in HomeScreen:', openDrawer, setOpenDrawer);
       }}>
         {makeARequestForTempProject || makeARequestFormTempToProject || makeARequestForDeleteAProjectOrTemp || makeARequestForGetAllUserProject || makeARequestForGetNameForTheProject ?
           (<Text className="text-white text-2xl align-middle self-center mb-2">Loading, please wait</Text>) : null}
-
+        
+          <Modal visible={openDrawer} transparent={true} onRequestClose={()=>setOpenDrawer(false) }>
+            <Animated.View style={[styles.modalContainer, animatedStyle]}>
+              <DrawerToShowPreviousSites stateToToogleTheDrawerOn={openDrawer} toogleDrawer={()=>setOpenDrawer(!openDrawer)} />
+            </Animated.View>
+          </Modal>
           {/* ------ button for opening the drawer/hamburgerMenu -------  */}
           <ButtonFromRNPaper
           className="top-0 z-10 mx-2 my-4 absolute"
           textColor="#4f87d1"
           icon='menu'
           onPress={() => {
+            console.log(" clicked on  Deployed websites");
+            
             setMakeARequestForGetAllUserProject(true);
             try {
               setOpenDrawer(!openDrawer);
@@ -671,3 +722,11 @@ console.log('toggleDrawer in HomeScreen:', openDrawer, setOpenDrawer);
       </>
     )
   }
+
+  const styles = StyleSheet.create({
+    modalContainer: {
+      flex: 1,
+      justifyContent: 'flex-start',
+      alignItems: 'flex-start',
+    },
+  });
