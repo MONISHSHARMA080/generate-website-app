@@ -37,9 +37,7 @@ export default function index() {
 
   return (
     <View style={{ flex: 1 }}>
-      <HomeScreen
-        isActive={isActive}
-        setIsActive={(value: boolean) => setIsActive(value)}      />
+      <HomeScreen    />
     </View>
   );
 }
