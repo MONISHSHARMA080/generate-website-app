@@ -1,16 +1,16 @@
-import JWTStore from "@/app/store";
+// import JWTStore from "@/app/store";
 import { QueryFunction } from "@/components/auth/utils/functions_for_updating_tokens";
 import { useQuery,UseQueryResult } from "@tanstack/react-query";
 
 
 export default function reactQueryMakeAReq(textForTheNameAndKey:string, makeARequestForGetNameForTheProject:boolean, setMakeARequestForGetNameForTheProject:React.Dispatch<React.SetStateAction<boolean>>, 
-    setResponnseJSONForGetNameForTheProject:React.Dispatch<React.SetStateAction<any>>, JSONObject:JSON
+    setResponnseJSONForGetNameForTheProject:React.Dispatch<React.SetStateAction<any>>, JSONObject:Object, setJWT:any
  ) {
-    const { setJWT } = JWTStore();
+    // const { setJWT } = JWTStore();
 
     // can make get_the_name_for_the_project 'reactQueryReturn' statement
     const get_the_name_for_the_project:UseQueryResult = useQuery({
-        queryKey:['get_the_name_for_the_project'],
+        queryKey:[textForTheNameAndKey],
         queryFn: ()=>QueryFunction(`get_the_name_for_the_project`,setJWT,get_the_name_for_the_project.refetch,setMakeARequestForGetNameForTheProject,setResponnseJSONForGetNameForTheProject, JSONObject),
         enabled:makeARequestForGetNameForTheProject,
         // retry:2
