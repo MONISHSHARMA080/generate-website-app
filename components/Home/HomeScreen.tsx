@@ -77,24 +77,24 @@ export default function HomeScreen() {
     
     
 
-// const {data, isSuccess, status, refetch, isLoading} = useQuery({
-//   queryKey:['temp_website'],
-//   queryFn: ()=>QueryFunction('temp_website', setJWT, refetch, setMakeARequestForTempProject, setResponnseJSONForTempSite, 
-//     {
-//       // prompt: "make me a  website for a shop owner that that sells clothes (also make the links), they should be very much inspired from the material ui and the buttons should change the site ; make the colors of the background and buttons etc as colorful as possible and animations that aims  that make it oddly satisfying , we will be selling it as a luxury brand "
-//       prompt: inputText
-//     }),
-//   enabled:makeARequestForTempProject,
-//   retry:2
-//   // ------------ decide on the project name  ----------------
-// })
+const {data, isSuccess, status, refetch, isLoading} = useQuery({
+  queryKey:['temp_website'],
+  queryFn: ()=>QueryFunction('temp_website', setJWT, refetch, setMakeARequestForTempProject, setResponnseJSONForTempSite, 
+    {
+      // prompt: "make me a  website for a shop owner that that sells clothes (also make the links), they should be very much inspired from the material ui and the buttons should change the site ; make the colors of the background and buttons etc as colorful as possible and animations that aims  that make it oddly satisfying , we will be selling it as a luxury brand "
+      prompt: inputText
+    }),
+  enabled:makeARequestForTempProject,
+  retry:2
+  // ------------ decide on the project name  ----------------
+})
 
-const temp_website = reactQueryMakeAReq('temp_website',makeARequestForTempProject, setMakeARequestForTempProject, setResponnseJSONForTempSite, {prompt: inputText}, setJWT  )
+// const {data, isSuccess, status, refetch, isLoading} = reactQueryMakeAReq('temp_website',makeARequestForTempProject, setMakeARequestForTempProject, setResponnseJSONForTempSite, {prompt: inputText}, setJWT  )
 
 
 
 useEffect(()=>{console.log("\n\n ============================||----||data from the query fucntion============================||------||" , "\n\n-->>",(responnseJSONForTempSite?responnseJSONForTempSite:"") );
-  let data = temp_website.data
+  // let data = temp_website.data
 if (data!=null || data!= undefined){
   console.log("\n data in the isSuccess -->>",isSuccess,"\n\n ",);
   console.log("\n data in the useeffect in str -->>",String(data));
@@ -152,6 +152,8 @@ const temp_website_to_production_RQ = useQuery({
   retry:2
   // ------------ decide on the project name  ----------------
 })
+
+// const temp_website_to_production_RQ = reactQueryMakeAReq(`temp_website_to_production?project_name=${project_name}`, makeARequestFormTempToProject, setMakeARequestFormTempToProject, setResponnseJSONForTempToProduction, {}, setJWT  )
 
 useEffect(()=>{console.log("\n\n ============================||----||data from the query fucntion============================||------||" , "\n\n-->>",(responnseJSONForTempToProduction?responnseJSONForTempToProduction:"") );
 if (temp_website_to_production_RQ.data!=null || temp_website_to_production_RQ.data!= undefined){
