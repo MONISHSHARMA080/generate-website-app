@@ -111,13 +111,12 @@ export default async function UpdateJWT (setJWTTokens, refetch ){
       // Alert.alert("","")
       // ----------------------------------- got a error  -- respond to the user -------------------------
   
-      
     }
     // -------------------------------------- now make sure i also return the response from the 2 try after refresh token ------------------
     // ----------------------------------------------------------
     // ------------------------------------------  or maybe don't need to as Refetch works --- try an example to see  -->> yup I think it works 
     // -------------------------------------------- lets make a abstract function
-    // --------------------------------------2.> setMakeARequest() .........3.> UpdateJWT()
+    // --------------------------------------2.> setMakeARequest() .........3.> Upd ateJWT()
       // data_to_return_to_react_query 
     
   }
