@@ -240,7 +240,7 @@ if (get_all_the_projects_of_the_user.data!=null || get_all_the_projects_of_the_u
   
   console.log("\n data in the isSuccess -->>",get_all_the_projects_of_the_user.isSuccess,"\n\n ",);
   console.log("\n data in the useeffect -->>",get_all_the_projects_of_the_user.data);
-  console.log("\n -------------- get_all_the_projects_of_the_user-->>",get_all_the_projects_of_the_user, "\n\n");
+  console.log("\n -------------- get_all_the_projects_of_the_user  -->>",get_all_the_projects_of_the_user, "\n\n");
   
   alert_user_for_common__errors_from_backend_given_by_Rquery(get_all_the_projects_of_the_user.data)
 
