@@ -3,7 +3,7 @@ import { QueryFunction } from "@/components/auth/utils/functions_for_updating_to
 import { useQuery,UseQueryResult } from "@tanstack/react-query";
 import React from "react";
 
-type httpMethodType = "GET" | "PUT" | "POST";
+type httpMethodType = "GET" | "PUT" | "POST" | "DELETE";
 
 export default function reactQueryMakeAReq(textForTheNameAndKey:string, makeARequestForGetNameForTheProject:boolean, setMakeARequestForGetNameForTheProject:React.Dispatch<React.SetStateAction<boolean>>, 
     setResponnseJSONForGetNameForTheProject:React.Dispatch<React.SetStateAction<any>>, JSONObject:Object, setJWT:any, httpMethod:httpMethodType

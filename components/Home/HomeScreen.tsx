@@ -79,19 +79,19 @@ export default function HomeScreen() {
     
     
 
-const {data, isSuccess, status, refetch, isLoading} = useQuery({
-  queryKey:['temp_website'],
-  queryFn: ()=>QueryFunction('temp_website', setJWT, refetch, setMakeARequestForTempProject, setResponnseJSONForTempSite, 
-    {
-      // prompt: "make me a  website for a shop owner that that sells clothes (also make the links), they should be very much inspired from the material ui and the buttons should change the site ; make the colors of the background and buttons etc as colorful as possible and animations that aims  that make it oddly satisfying , we will be selling it as a luxury brand "
-      prompt: inputText
-    },"POST"),
-  enabled:makeARequestForTempProject,
-  retry:2
-  // ------------ decide on the project name  ----------------
-})
+// const {data, isSuccess, status, refetch, isLoading} = useQuery({
+//   queryKey:['temp_website'],
+//   queryFn: ()=>QueryFunction('temp_website', setJWT, refetch, setMakeARequestForTempProject, setResponnseJSONForTempSite, 
+//     {
+//       // prompt: "make me a  website for a shop owner that that sells clothes (also make the links), they should be very much inspired from the material ui and the buttons should change the site ; make the colors of the background and buttons etc as colorful as possible and animations that aims  that make it oddly satisfying , we will be selling it as a luxury brand "
+//       prompt: inputText
+//     },"POST"),
+//   enabled:makeARequestForTempProject,
+//   retry:2
+//   // ------------ decide on the project name  ----------------
+// })
 
-// const {data, isSuccess, status, refetch, isLoading} = reactQueryMakeAReq('temp_website',makeARequestForTempProject, setMakeARequestForTempProject, setResponnseJSONForTempSite, {prompt: inputText}, setJWT  )
+const {data, isSuccess, status, refetch, isLoading} = reactQueryMakeAReq('temp_website',makeARequestForTempProject, setMakeARequestForTempProject, setResponnseJSONForTempSite, {prompt: inputText}, setJWT , "POST" )
 
 
 
@@ -147,15 +147,15 @@ if (data!=null || data!= undefined){
 
 
 
-const temp_website_to_production_RQ = useQuery({
-  queryKey:['temp_website_to_production'],
-  queryFn: ()=>QueryFunction(`temp_website_to_production?project_name=${project_name}`,setJWT,temp_website_to_production_RQ.refetch,setMakeARequestFormTempToProject,setResponnseJSONForTempToProduction, {} , setJWT, "POST"),
-  enabled:makeARequestFormTempToProject,
-  retry:2
-  // ------------ decide on the project name  ----------------
-})
+// const temp_website_to_production_RQ = useQuery({
+//   queryKey:['temp_website_to_production'],
+//   queryFn: ()=>QueryFunction(`temp_website_to_production?project_name=${project_name}`,setJWT,temp_website_to_production_RQ.refetch,setMakeARequestFormTempToProject,setResponnseJSONForTempToProduction, {} , setJWT, "POST"),
+//   enabled:makeARequestFormTempToProject,
+//   retry:2
+//   // ------------ decide on the project name  ----------------
+// })
 
-// const temp_website_to_production_RQ = reactQueryMakeAReq(`temp_website_to_production?project_name=${project_name}`, makeARequestFormTempToProject, setMakeARequestFormTempToProject, setResponnseJSONForTempToProduction, {}, setJWT, "POST"  )
+const temp_website_to_production_RQ = reactQueryMakeAReq(`temp_website_to_production?project_name=${project_name}`, makeARequestFormTempToProject, setMakeARequestFormTempToProject, setResponnseJSONForTempToProduction, {}, setJWT, "POST"  )
 
 useEffect(()=>{console.log("\n\n ============================||----||data from the query fucntion============================||------||" , "\n\n-->>",(responnseJSONForTempToProduction?responnseJSONForTempToProduction:"") );
 if (temp_website_to_production_RQ.data!=null || temp_website_to_production_RQ.data!= undefined){
@@ -294,13 +294,18 @@ if (get_all_the_projects_of_the_user.data!=null || get_all_the_projects_of_the_u
 // -----------------------------------__XXXXXXXXXXX__XX-
 
 
-const get_the_name_for_the_project = useQuery({
-  queryKey:['get_the_name_for_the_project'],
-  queryFn: ()=>QueryFunction(`get_the_name_for_the_project`,setJWT,get_the_name_for_the_project.refetch,setMakeARequestForGetNameForTheProject,setResponnseJSONForGetNameForTheProject, {"prompt":inputText?inputText:sitePromptStoredInState},"POST"),
-  enabled:makeARequestForGetNameForTheProject,
-  retry:2
-  // ------------ decide on the project name  ----------------
-})
+// const get_the_name_for_the_project = useQuery({
+//   queryKey:['get_the_name_for_the_project'],
+//   queryFn: ()=>QueryFunction(`get_the_name_for_the_project`,setJWT,get_the_name_for_the_project.refetch,setMakeARequestForGetNameForTheProject,setResponnseJSONForGetNameForTheProject, {"prompt":inputText?inputText:sitePromptStoredInState},"POST"),
+//   enabled:makeARequestForGetNameForTheProject,
+//   retry:2
+// 
+//   // ------------ decide on the project name  ----------------
+// })
+
+const get_the_name_for_the_project = reactQueryMakeAReq(`get_the_name_for_the_project`, makeARequestForGetNameForTheProject, setMakeARequestForGetNameForTheProject, setResponnseJSONForGetNameForTheProject, {"prompt":inputText?inputText:sitePromptStoredInState}, setJWT,"POST"  )
+
+
 
 useEffect(()=>{console.log("\n\n ============================||----||data from the query fucntion============================||------||" , "\n\n-->>",(responnseJSONForGetNameForTheProject?responnseJSONForGetNameForTheProject:"") );
 console.log(get_the_name_for_the_project,"oooooooooooooooooooooo");
