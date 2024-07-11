@@ -293,7 +293,6 @@ if (get_all_the_projects_of_the_user.data!=null || get_all_the_projects_of_the_u
 
 // -----------------------------------__XXXXXXXXXXX__XX-
 
-
 // const get_the_name_for_the_project = useQuery({
 //   queryKey:['get_the_name_for_the_project'],
 //   queryFn: ()=>QueryFunction(`get_the_name_for_the_project`,setJWT,get_the_name_for_the_project.refetch,setMakeARequestForGetNameForTheProject,setResponnseJSONForGetNameForTheProject, {"prompt":inputText?inputText:sitePromptStoredInState},"POST"),
