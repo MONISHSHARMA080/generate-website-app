@@ -2,16 +2,18 @@
 import { QueryFunction } from "@/components/auth/utils/functions_for_updating_tokens";
 import { useQuery,UseQueryResult } from "@tanstack/react-query";
 
+type httpMethodType = "GET" | "PUT" | "POST";
 
 export default function reactQueryMakeAReq(textForTheNameAndKey:string, makeARequestForGetNameForTheProject:boolean, setMakeARequestForGetNameForTheProject:React.Dispatch<React.SetStateAction<boolean>>, 
-    setResponnseJSONForGetNameForTheProject:React.Dispatch<React.SetStateAction<any>>, JSONObject:Object, setJWT:any
+    setResponnseJSONForGetNameForTheProject:React.Dispatch<React.SetStateAction<any>>, JSONObject:Object, setJWT:any, httpMethod:httpMethodType
  ) {
     // const { setJWT } = JWTStore();
+    console.log("making a req at -->",textForTheNameAndKey, "\n  http method and object", httpMethod,JSONObject,"\n additonal things boolean state for the enabled-->", makeARequestForGetNameForTheProject);
 
     // can make get_the_name_for_the_project 'reactQueryReturn' statement
     const get_the_name_for_the_project:UseQueryResult = useQuery({
         queryKey:[textForTheNameAndKey],
-        queryFn: ()=>QueryFunction(`get_the_name_for_the_project`,setJWT,get_the_name_for_the_project.refetch,setMakeARequestForGetNameForTheProject,setResponnseJSONForGetNameForTheProject, JSONObject),
+        queryFn: ()=>QueryFunction(`get_the_name_for_the_project`,setJWT,get_the_name_for_the_project.refetch,setMakeARequestForGetNameForTheProject,setResponnseJSONForGetNameForTheProject, JSONObject, httpMethod),
         enabled:makeARequestForGetNameForTheProject,
         // retry:2
         // ------------ decide on the project name  ----------------

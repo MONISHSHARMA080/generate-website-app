@@ -20,6 +20,8 @@ import Animated from 'react-native-reanimated';
 import reactQueryMakeAReq from './utils/abstract_function/reactQueryMakeAReq';
 
 
+
+
 export default function HomeScreen() {
 
  
@@ -83,7 +85,7 @@ const {data, isSuccess, status, refetch, isLoading} = useQuery({
     {
       // prompt: "make me a  website for a shop owner that that sells clothes (also make the links), they should be very much inspired from the material ui and the buttons should change the site ; make the colors of the background and buttons etc as colorful as possible and animations that aims  that make it oddly satisfying , we will be selling it as a luxury brand "
       prompt: inputText
-    }),
+    },"POST"),
   enabled:makeARequestForTempProject,
   retry:2
   // ------------ decide on the project name  ----------------
@@ -147,13 +149,13 @@ if (data!=null || data!= undefined){
 
 const temp_website_to_production_RQ = useQuery({
   queryKey:['temp_website_to_production'],
-  queryFn: ()=>QueryFunction(`temp_website_to_production?project_name=${project_name}`,setJWT,temp_website_to_production_RQ.refetch,setMakeARequestFormTempToProject,setResponnseJSONForTempToProduction, {}),
+  queryFn: ()=>QueryFunction(`temp_website_to_production?project_name=${project_name}`,setJWT,temp_website_to_production_RQ.refetch,setMakeARequestFormTempToProject,setResponnseJSONForTempToProduction, {} , setJWT, "POST"),
   enabled:makeARequestFormTempToProject,
   retry:2
   // ------------ decide on the project name  ----------------
 })
 
-// const temp_website_to_production_RQ = reactQueryMakeAReq(`temp_website_to_production?project_name=${project_name}`, makeARequestFormTempToProject, setMakeARequestFormTempToProject, setResponnseJSONForTempToProduction, {}, setJWT  )
+// const temp_website_to_production_RQ = reactQueryMakeAReq(`temp_website_to_production?project_name=${project_name}`, makeARequestFormTempToProject, setMakeARequestFormTempToProject, setResponnseJSONForTempToProduction, {}, setJWT, "POST"  )
 
 useEffect(()=>{console.log("\n\n ============================||----||data from the query fucntion============================||------||" , "\n\n-->>",(responnseJSONForTempToProduction?responnseJSONForTempToProduction:"") );
 if (temp_website_to_production_RQ.data!=null || temp_website_to_production_RQ.data!= undefined){
@@ -187,7 +189,7 @@ if (temp_website_to_production_RQ.data!=null || temp_website_to_production_RQ.da
 
 const delete_a_project_or_temp = useQuery({
   queryKey:['delete_a_project_or_temp'],
-  queryFn: ()=>QueryFunction(`delete_a_project_or_temp?project_name=${project_name}`, setJWT, delete_a_project_or_temp.refetch,setMakeARequestForDeleteAProjectOrTemp,setResponnseJSONForDeleteAProjectOrTemp, {}),
+  queryFn: ()=>QueryFunction(`delete_a_project_or_temp?project_name=${project_name}`, setJWT, delete_a_project_or_temp.refetch,setMakeARequestForDeleteAProjectOrTemp,setResponnseJSONForDeleteAProjectOrTemp, {}, "DELETE"),
   enabled:makeARequestForDeleteAProjectOrTemp,
   retry:2
   // ------------ decide on the project name  ----------------
@@ -222,22 +224,27 @@ if (delete_a_project_or_temp.data!=null || delete_a_project_or_temp.data!= undef
 
 const get_all_the_projects_of_the_user = useQuery({
   queryKey:['get_all_the_projects_of_the_user'],
-  queryFn: ()=>QueryFunction(`get_all_the_projects_of_the_user`, setJWT, get_all_the_projects_of_the_user.refetch,setMakeARequestForGetAllUserProject,setResponnseJSONForGetAllUserProject, {}),
+  queryFn: ()=>QueryFunction(`get_all_the_projects_of_the_user`,setJWT, get_all_the_projects_of_the_user.refetch,setMakeARequestForGetAllUserProject,setResponnseJSONForGetAllUserProject, {}, "POST" ),
   enabled:makeARequestForGetAllUserProject,
   retry:2
   // ------------ decide on the project name  ----------------
 })
 
+
+// const get_all_the_projects_of_the_user = reactQueryMakeAReq(`get_all_the_projects_of_the_user`, makeARequestForGetAllUserProject, setMakeARequestForGetAllUserProject, setResponnseJSONForGetAllUserProject, {}, setJWT,"POST"  )
+
+
 useEffect(()=>{console.log("\n\n ============================||----||data from the query fucntion get_all_the_projects_of_the_user============================||------||" , "\n\n-->>",(responnseJSONForGetAllUserProject?responnseJSONForGetAllUserProject:"") );
 
 if (get_all_the_projects_of_the_user.data!=null || get_all_the_projects_of_the_user.data!= undefined){
+  console.log("get_all_the_projects_of_the_user");
+  
   console.log("\n data in the isSuccess -->>",get_all_the_projects_of_the_user.isSuccess,"\n\n ",);
   console.log("\n data in the useeffect -->>",get_all_the_projects_of_the_user.data);
   console.log("\n -------------- get_all_the_projects_of_the_user-->>",get_all_the_projects_of_the_user, "\n\n");
   
   alert_user_for_common__errors_from_backend_given_by_Rquery(get_all_the_projects_of_the_user.data)
 
-  console.log("gggggggggggggggggggg ---", get_all_the_projects_of_the_user);
   
   if(get_all_the_projects_of_the_user.data.body){
 
@@ -290,7 +297,7 @@ if (get_all_the_projects_of_the_user.data!=null || get_all_the_projects_of_the_u
 
 const get_the_name_for_the_project = useQuery({
   queryKey:['get_the_name_for_the_project'],
-  queryFn: ()=>QueryFunction(`get_the_name_for_the_project`,setJWT,get_the_name_for_the_project.refetch,setMakeARequestForGetNameForTheProject,setResponnseJSONForGetNameForTheProject, {"prompt":inputText?inputText:sitePromptStoredInState}),
+  queryFn: ()=>QueryFunction(`get_the_name_for_the_project`,setJWT,get_the_name_for_the_project.refetch,setMakeARequestForGetNameForTheProject,setResponnseJSONForGetNameForTheProject, {"prompt":inputText?inputText:sitePromptStoredInState},"POST"),
   enabled:makeARequestForGetNameForTheProject,
   retry:2
   // ------------ decide on the project name  ----------------
@@ -333,7 +340,7 @@ if (get_the_name_for_the_project.data!=null || get_the_name_for_the_project.data
 }
 },[get_the_name_for_the_project.data, responnseJSONForGetNameForTheProject, get_the_name_for_the_project.isSuccess, get_the_name_for_the_project.status])
 
-console.log('toggleDrawer in HomeScreen:', openDrawer, setOpenDrawer);
+// console.log('toggleDrawer in HomeScreen:', openDrawer, setOpenDrawer);
   
 
  
@@ -401,6 +408,7 @@ console.log('toggleDrawer in HomeScreen:', openDrawer, setOpenDrawer);
           mode="outlined" buttonColor={"#6edcfa"} textColor="#000"
           onTouchStart={async()=>{
             let a = await Linking.canOpenURL(projectLink)
+            
             if (a){
               Linking.openURL(projectLink)
             }

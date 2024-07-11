@@ -1,6 +1,5 @@
 import JWTStore from "@/app/store";
 import axios from "axios";
-import Constants from "expo-constants";
 import {  useRouter } from "expo-router";
 import { deleteItemAsync, getItem, setItem } from "expo-secure-store";
 import { Alert } from "react-native";
@@ -59,28 +58,53 @@ export default async function UpdateJWT (setJWTTokens, refetch ){
   }
 
 
+// ------------------------------------------------------------------------------------------
 
-  export async function QueryFunction(URLPath_DoNoT_Include_BackSlash, setJWTTokensInState_Zustand_here, refetch, setMakeARequestWithReactQuery, setResponseOrHeadersFromAUseStateFunc, prompt_for_the_body_do_Not_JSON_stringify) {
-    let token = JSON.parse(getItem("JWT")).access
-    console.log("\n //==in QueryFunction --/// \n", JSON.stringify(prompt_for_the_body_do_Not_JSON_stringify));
+type httpMethodType = "GET" | "PUT" | "POST" | "DELETE";
+
+  export async function QueryFunction(URLPath_DoNoT_Include_BackSlash, setJWTTokensInState_Zustand_here, refetch, setMakeARequestWithReactQuery, 
+    setResponseOrHeadersFromAUseStateFunc, prompt_for_the_body_do_Not_JSON_stringify, httpMethodType:httpMethodType) {
     
-    const a = {a:0}
+      
+      let token = JSON.parse(getItem("JWT")).access
+      console.log("\n //==in QueryFunction --/// \n", JSON.stringify(prompt_for_the_body_do_Not_JSON_stringify),"URLPath_DoNoT_Include_BackSlash", URLPath_DoNoT_Include_BackSlash);
+      
+      const a = {a:0}
+      
    
     try {
-      const response = await fetch(`${process.env.EXPO_PUBLIC_BACKEND_URL}/${URLPath_DoNoT_Include_BackSlash}`, {
-        method: 'POST',
+      var fetchOptions: RequestInit = {
+        method: httpMethodType,
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ' + token,
         },
-        body: JSON.stringify(prompt_for_the_body_do_Not_JSON_stringify)
-      });
+      };
   
-      console.log("\n\n--- Response from QueryFunction ---");
-      console.log("Status:", response.status);
-      console.log("Headers:", JSON.stringify(Object.fromEntries(response.headers), null, 2));
+      // Only add body if the method is NOT GET
+      if (httpMethodType !== "GET") {
+        fetchOptions.body = JSON.stringify(prompt_for_the_body_do_Not_JSON_stringify);
+      }
+      
+      console.log("fetchOptions-->", fetchOptions ,"\n url path -->",URLPath_DoNoT_Include_BackSlash );
+      
   
-      const body = await response.json();
+      const response = await fetch(`${process.env.EXPO_PUBLIC_BACKEND_URL}/${URLPath_DoNoT_Include_BackSlash}`, fetchOptions);
+  
+  
+  
+      // console.log("\n\n--- Response from QueryFunction ---");
+      console.log("cloned response:", JSON.stringify(response.clone()))
+      // console.log("Headers:", JSON.stringify(Object.fromEntries(response.headers), null, 2));
+      // console.log("response type:", typeof response);
+  
+      let body;
+    try {
+      body = await response.json();
+    } catch (jsonError) {
+      console.error("Error parsing JSON response for the body--:>>", jsonError);
+      body = null;
+    }
       console.log("Body:", JSON.stringify(body, null, 2));
       
       // Rest of the function remains the same...
@@ -95,6 +119,7 @@ export default async function UpdateJWT (setJWTTokens, refetch ){
   
     } catch (error) {
       console.error("Error in QueryFunction:", error);
+      console.log(" the request url -->",URLPath_DoNoT_Include_BackSlash, " \n fetchoptions-->",fetchOptions);
   
         setMakeARequestWithReactQuery(false)
         if (String(error).includes("Network request failed")){
