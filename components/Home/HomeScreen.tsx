@@ -76,24 +76,9 @@ export default function HomeScreen() {
         transform: [{ translateX: modalTranslateX.value }],
       };
     });
-    
-    
 
-// const {data, isSuccess, status, refetch, isLoading} = useQuery({
-//   queryKey:['temp_website'],
-//   queryFn: ()=>QueryFunction('temp_website', setJWT, refetch, setMakeARequestForTempProject, setResponnseJSONForTempSite, 
-//     {
-//       // prompt: "make me a  website for a shop owner that that sells clothes (also make the links), they should be very much inspired from the material ui and the buttons should change the site ; make the colors of the background and buttons etc as colorful as possible and animations that aims  that make it oddly satisfying , we will be selling it as a luxury brand "
-//       prompt: inputText
-//     },"POST"),
-//   enabled:makeARequestForTempProject,
-//   retry:2
-//   // ------------ decide on the project name  ----------------
-// })
-
+    
 const {data, isSuccess, status, refetch, isLoading} = reactQueryMakeAReq('temp_website',makeARequestForTempProject, setMakeARequestForTempProject, setResponnseJSONForTempSite, {prompt: inputText}, setJWT , "POST" )
-
-
 
 useEffect(()=>{console.log("\n\n ============================||----||data from the query fucntion============================||------||" , "\n\n-->>",(responnseJSONForTempSite?responnseJSONForTempSite:"") );
   // let data = temp_website.data
@@ -145,15 +130,6 @@ if (data!=null || data!= undefined){
 }
 },[data, responnseJSONForTempSite, isSuccess, status])
 
-
-
-// const temp_website_to_production_RQ = useQuery({
-//   queryKey:['temp_website_to_production'],
-//   queryFn: ()=>QueryFunction(`temp_website_to_production?project_name=${project_name}`,setJWT,temp_website_to_production_RQ.refetch,setMakeARequestFormTempToProject,setResponnseJSONForTempToProduction, {} , setJWT, "POST"),
-//   enabled:makeARequestFormTempToProject,
-//   retry:2
-//   // ------------ decide on the project name  ----------------
-// })
 
 const temp_website_to_production_RQ = reactQueryMakeAReq(`temp_website_to_production?project_name=${project_name}`, makeARequestFormTempToProject, setMakeARequestFormTempToProject, setResponnseJSONForTempToProduction, {}, setJWT, "POST"  )
 
@@ -218,20 +194,7 @@ if (delete_a_project_or_temp.data!=null || delete_a_project_or_temp.data!= undef
 },[temp_website_to_production_RQ.data, responnseJSONForTempToProduction, temp_website_to_production_RQ.isSuccess, temp_website_to_production_RQ.status])
 
 
-
-//  --------- XXXXXXXXX -----------------------
-
-
-// const get_all_the_projects_of_the_user = useQuery({
-//   queryKey:['get_all_the_projects_of_the_user'],
-//   queryFn: ()=>QueryFunction(`get_all_the_projects_of_the_user`,setJWT, get_all_the_projects_of_the_user.refetch,setMakeARequestForGetAllUserProject,setResponnseJSONForGetAllUserProject, {}, "POST" ),
-//   enabled:makeARequestForGetAllUserProject,
-//   retry:2
-//   // ------------ decide on the project name  ----------------
-// })
-
  const get_all_the_projects_of_the_user = reactQueryMakeAReq(`get_all_the_projects_of_the_user`, makeARequestForGetAllUserProject, setMakeARequestForGetAllUserProject, setResponnseJSONForGetAllUserProject, {}, setJWT,"POST"  )
-
 
 useEffect(()=>{console.log("\n\n ============================||----||data from the query fucntion get_all_the_projects_of_the_user============================||------||" , "\n\n-->>",(responnseJSONForGetAllUserProject?responnseJSONForGetAllUserProject:"") );
 
@@ -274,14 +237,9 @@ if (get_all_the_projects_of_the_user.data!=null || get_all_the_projects_of_the_u
         setItem('allProjectsByUserInString',a.toString())
         // console.log("User_Name_from_Req", );
         User_Name_from_Req===get_all_the_projects_of_the_user.data.body.User_Name?null:setUser_Name_from_Req(get_all_the_projects_of_the_user.data.body.User_Name)
-        
-    
-        
-    
-        
+   
         // now json parse it , if a is a single character or not there what to do then what  ( teachnically temp would be there)
-        
-        
+
       }
       
   }
@@ -289,22 +247,7 @@ if (get_all_the_projects_of_the_user.data!=null || get_all_the_projects_of_the_u
 },[get_all_the_projects_of_the_user.data, responnseJSONForGetAllUserProject, get_all_the_projects_of_the_user.isSuccess, get_all_the_projects_of_the_user.status])
 
 
-
-
-// -----------------------------------__XXXXXXXXXXX__XX-
-
-// const get_the_name_for_the_project = useQuery({
-//   queryKey:['get_the_name_for_the_project'],
-//   queryFn: ()=>QueryFunction(`get_the_name_for_the_project`,setJWT,get_the_name_for_the_project.refetch,setMakeARequestForGetNameForTheProject,setResponnseJSONForGetNameForTheProject, {"prompt":inputText?inputText:sitePromptStoredInState},"POST"),
-//   enabled:makeARequestForGetNameForTheProject,
-//   retry:2
-// 
-//   // ------------ decide on the project name  ----------------
-// })
-
 const get_the_name_for_the_project = reactQueryMakeAReq(`get_the_name_for_the_project`, makeARequestForGetNameForTheProject, setMakeARequestForGetNameForTheProject, setResponnseJSONForGetNameForTheProject, {"prompt":inputText?inputText:sitePromptStoredInState}, setJWT,"POST"  )
-
-
 
 useEffect(()=>{console.log("\n\n ============================||----||data from the query fucntion============================||------||" , "\n\n-->>",(responnseJSONForGetNameForTheProject?responnseJSONForGetNameForTheProject:"") );
 console.log(get_the_name_for_the_project,"oooooooooooooooooooooo");
