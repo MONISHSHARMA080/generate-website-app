@@ -222,16 +222,15 @@ if (delete_a_project_or_temp.data!=null || delete_a_project_or_temp.data!= undef
 //  --------- XXXXXXXXX -----------------------
 
 
-const get_all_the_projects_of_the_user = useQuery({
-  queryKey:['get_all_the_projects_of_the_user'],
-  queryFn: ()=>QueryFunction(`get_all_the_projects_of_the_user`,setJWT, get_all_the_projects_of_the_user.refetch,setMakeARequestForGetAllUserProject,setResponnseJSONForGetAllUserProject, {}, "POST" ),
-  enabled:makeARequestForGetAllUserProject,
-  retry:2
-  // ------------ decide on the project name  ----------------
-})
+// const get_all_the_projects_of_the_user = useQuery({
+//   queryKey:['get_all_the_projects_of_the_user'],
+//   queryFn: ()=>QueryFunction(`get_all_the_projects_of_the_user`,setJWT, get_all_the_projects_of_the_user.refetch,setMakeARequestForGetAllUserProject,setResponnseJSONForGetAllUserProject, {}, "POST" ),
+//   enabled:makeARequestForGetAllUserProject,
+//   retry:2
+//   // ------------ decide on the project name  ----------------
+// })
 
-
-// const get_all_the_projects_of_the_user = reactQueryMakeAReq(`get_all_the_projects_of_the_user`, makeARequestForGetAllUserProject, setMakeARequestForGetAllUserProject, setResponnseJSONForGetAllUserProject, {}, setJWT,"POST"  )
+ const get_all_the_projects_of_the_user = reactQueryMakeAReq(`get_all_the_projects_of_the_user`, makeARequestForGetAllUserProject, setMakeARequestForGetAllUserProject, setResponnseJSONForGetAllUserProject, {}, setJWT,"POST"  )
 
 
 useEffect(()=>{console.log("\n\n ============================||----||data from the query fucntion get_all_the_projects_of_the_user============================||------||" , "\n\n-->>",(responnseJSONForGetAllUserProject?responnseJSONForGetAllUserProject:"") );
