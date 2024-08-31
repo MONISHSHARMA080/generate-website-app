@@ -5,3 +5,8 @@ the app is available in the **release section** , or click the link **[Download 
 
 # Why -->
 why should only web developers be able to make a website for themselves; this app allows anyone from a dev to someone grandma to generate a website on the fly!!
+
+# Backend --> [github link](https://github.com/MONISHSHARMA080/first-webiste-backend-django)
+
+# Sample -->
+![demo of Generate a website app](https://vimeo.com/1004802056?share=copy)
