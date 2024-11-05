@@ -2,7 +2,6 @@
   "cli": {
     "version": "10.1.1"
   },
-  
   "build": {
     "dev": {
       "developmentClient": true,
@@ -16,11 +15,11 @@
         "buildType": "apk"
       },
       "env": {
-        "EXPO_PUBLIC_PRODUCTION":"true",
-        "EXPO_PUBLIC_GOOGLE_CLIENT_ID" : "536289115131-tmonjjqnklakv93pc6mj969rmhsdmmvq.apps.googleusercontent.com",
-        "EXPO_PUBLIC_Spotify_CLIENT_ID":"4845955b4f5e4914a36f5de935114c80",
-        "EXPO_PUBLIC_BACKEND_URL":"https://generate-a-website.fly.dev",
-        "EXPO_PUBLIC_SVELTE_URL":"https://deployfirstwebsite-tofly-production.up.railway.app"
+        "EXPO_PUBLIC_PRIN": "true",
+        "EXPO_PUBLIC_GOOGLE_CLIENT_ID": "536289115131-tmonjjqnklakv93pc6mj969rmhsdmmvq.apps.googleusercontent.com",
+        "EXPO_PUBLIC_Spotify_CLIENT_ID": "4845955b4f5e4914a36f5de935114c80",
+        "EXPO_PUBLIC_BACKEND_URL": "https://first-website-backend-900694380542.asia-south1.run.app",
+        "EXPO_PUBLIC_SVELTE_URL": "https://deployfirstwebsite-tofly-production.up.railway.app"
       }
     },
     "prod": {
@@ -28,11 +27,11 @@
         "buildType": "apk"
       },
       "env": {
-        "EXPO_PUBLIC_PRODUCTION":"true",
-        "EXPO_PUBLIC_GOOGLE_CLIENT_ID" : "536289115131-tmonjjqnklakv93pc6mj969rmhsdmmvq.apps.googleusercontent.com",
-        "EXPO_PUBLIC_Spotify_CLIENT_ID":"4845955b4f5e4914a36f5de935114c80",
-        "EXPO_PUBLIC_BACKEND_URL":"https://generate-a-website.fly.dev",
-        "EXPO_PUBLIC_SVELTE_URL":"https://deployfirstwebsite-tofly-production.up.railway.app"
+        "EXPO_PUBLIC_PRODUCTION": "true",
+        "EXPO_PUBLIC_GOOGLE_CLIENT_ID": "536289115131-tmonjjqnklakv93pc6mj969rmhsdmmvq.apps.googleusercontent.com",
+        "EXPO_PUBLIC_Spotify_CLIENT_ID": "4845955b4f5e4914a36f5de935114c80",
+        "EXPO_PUBLIC_BACKEND_URL": "https://generate-a-website.fly.",
+        "EXPO_PUBLIC_SVELTE_URL": "https://deployfirstwebsite-tofly-production.up.railway.app"
       }
     }
   },

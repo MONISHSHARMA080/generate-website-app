@@ -19,5 +19,7 @@ export default function reactQueryMakeAReq(textForTheNameAndKey:string, makeAReq
         // retry:2
         // ------------ decide on the project name  ----------------
       })
+      console.log("---------",get_the_name_for_the_project.data);
+
       return get_the_name_for_the_project
 }

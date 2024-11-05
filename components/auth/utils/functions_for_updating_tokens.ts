@@ -88,10 +88,7 @@ type httpMethodType = "GET" | "PUT" | "POST" | "DELETE";
       
       console.log("fetchOptions-->", fetchOptions ,"\n url path -->",URLPath_DoNoT_Include_BackSlash );
       
-  
       const response = await fetch(`${process.env.EXPO_PUBLIC_BACKEND_URL}/${URLPath_DoNoT_Include_BackSlash}`, fetchOptions);
-  
-  
   
       // console.log("\n\n--- Response from QueryFunction ---");
       console.log("cloned response:", JSON.stringify(response.clone()))

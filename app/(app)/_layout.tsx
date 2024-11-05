@@ -5,8 +5,8 @@ import { useStore } from 'zustand';
 import store from '../store';
 
 export default function AppLayout() {
-  const { JWT } = useStore(store);    
-  console.log("JWT form zustand ",JWT);
+  const { JWT,User_Name_from_Req } = useStore(store);    
+  console.log("JWT form zustand ",JWT, "---",User_Name_from_Req);
   
   // useEffect for that using zustand's value as dependecy
   
