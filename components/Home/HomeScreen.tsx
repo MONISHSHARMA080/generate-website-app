@@ -165,7 +165,7 @@ if (temp_website_to_production_RQ.data!=null || temp_website_to_production_RQ.da
 
 const delete_a_project_or_temp = useQuery({
   queryKey:['delete_a_project_or_temp'],
-  queryFn: ()=>QueryFunction(`delete_a_project_or_temp?project_name=${project_name}`, setJWT, delete_a_project_or_temp.refetch,setMakeARequestForDeleteAProjectOrTemp,setResponnseJSONForDeleteAProjectOrTemp, {}, "DELETE"),
+  queryFn: ()=>QueryFunction(`delete_a_project_or_temp?project_name=${project_name}`, setMakeARequestForDeleteAProjectOrTemp, setResponnseJSONForDeleteAProjectOrTemp, {}, "DELETE"),
   enabled:makeARequestForDeleteAProjectOrTemp,
   retry:2
   // ------------ decide on the project name  ----------------

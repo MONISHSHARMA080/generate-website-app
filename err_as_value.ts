@@ -33,10 +33,12 @@ async function abc() {
   console.log("in the async func");
 
   let [aa, bb] = await tryCatchAsync(async () => fetchData('https://deployfirstwebsite-tofly-production.up.railway.app/api/create_temp_and_name_dir_for_user'))
+  
   console.log(`aa is ${aa} and \n bb is ${bb}`);
   console.log('bb is:', JSON.stringify(bb, null, 2));
 
 }
+
 abc()
 
 type ResultFromFetch<T> = Promise<[Error | null, string, any]>;
@@ -49,7 +51,7 @@ async function tryCatchAsyncForFetch<T>(fn: () => Promise<T>): ResultFromFetch<T
     const [stringifyError, stringified] = tryCatchFn(() => JSON.stringify(result));
     
     if (stringifyError) {
-      return [new Error(`Failed to stringify response: ${stringifyError.message}`), null, null];
+      return [new Error(`Failed to stringify response: ${stringifyError.message}`), null, result];
     }
     return [null, stringified, result];
   } catch (error) {

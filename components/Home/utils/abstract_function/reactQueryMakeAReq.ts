@@ -14,10 +14,16 @@ export default function reactQueryMakeAReq(textForTheNameAndKey:string, makeAReq
     // can make get_the_name_for_the_project 'reactQueryReturn' statement
     const get_the_name_for_the_project:UseQueryResult = useQuery({
         queryKey:[textForTheNameAndKey],
-        queryFn: ()=>QueryFunction(textForTheNameAndKey,setJWT,get_the_name_for_the_project.refetch,setMakeARequestForGetNameForTheProject,setResponnseJSONForGetNameForTheProject, JSONObject, httpMethod),
+        // queryFn: ()=>QueryFunction(textForTheNameAndKey,setMakeARequestForGetNameForTheProject,setResponnseJSONForGetNameForTheProject, JSONObject, httpMethod),
+        queryFn: ()=>QueryFunction({
+          URLPath_DoNoT_Include_BackSlash:textForTheNameAndKey,
+          setMakeARequestWithReactQuery:setMakeARequestForGetNameForTheProject,
+          setResponseOrHeadersFromAUseStateFunc:setResponnseJSONForGetNameForTheProject,
+          prompt_for_the_body_do_Not_JSON_stringify:JSONObject,
+          httpMethodType:httpMethod,          
+        }
+      ),
         enabled:makeARequestForGetNameForTheProject,
-        // retry:2
-        // ------------ decide on the project name  ----------------
       })
       console.log("---------",get_the_name_for_the_project.data);
 
