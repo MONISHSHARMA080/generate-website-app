@@ -1,5 +1,6 @@
 
 function tryCatchFn(fn: () => any): [Error, any] {
+
   let return_val_of_func: any
 
   try {
@@ -10,7 +11,9 @@ function tryCatchFn(fn: () => any): [Error, any] {
     console.log("error occurred in the tryCatch function \n error is -->", error, "\n <--");
     return [error, null]
   }
+
 }
+
 
 // let [a,b] =  tryCatchfn(()=>fetchData('https://deployfirstwebsite-tofly-production.up.railway.app/api/create_temp_and_name_dir_for_user'))
 let [a, b] = tryCatchFn(() => { JSON.parse("<iucbewiuc>eecb") })

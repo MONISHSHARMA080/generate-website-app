@@ -1,7 +1,7 @@
 import JWTStore from "@/app/store";
 import axios from "axios";
 import {  useRouter } from "expo-router";
-import { deleteItemAsync, getItem, setItem } from "expo-secure-store";
+import { deleteItemAsync, getItem, getItemAsync, setItem } from "expo-secure-store";
 import { Alert } from "react-native";
 
 
@@ -69,8 +69,6 @@ export type queryFunctionParamType = { URLPath_DoNoT_Include_BackSlash:string, s
       let token = JSON.parse(getItem("JWT")).access
       console.log("\n //==in QueryFunction --/// \n", JSON.stringify(param.prompt_for_the_body_do_Not_JSON_stringify),"URLPath_DoNoT_Include_BackSlash", param.URLPath_DoNoT_Include_BackSlash);
       
-      const a = {a:0}
-      
    
     try {
       var fetchOptions: RequestInit = {
@@ -92,8 +90,6 @@ export type queryFunctionParamType = { URLPath_DoNoT_Include_BackSlash:string, s
   
       // console.log("\n\n--- Response from QueryFunction ---");
       console.log("cloned response:", JSON.stringify(response.clone()))
-      // console.log("Headers:", JSON.stringify(Object.fromEntries(response.headers), null, 2));
-      // console.log("response type:", typeof response);
   
       let body;
 
@@ -132,6 +128,32 @@ export type queryFunctionParamType = { URLPath_DoNoT_Include_BackSlash:string, s
       }  }
         
 
-async function QueryFunction2() {
-  tryCatchAsyncForFetch
+async function QueryFunction2(param: queryFunctionParamType) {
+  // tryCatchAsyncForFetch
+  // what will I do here -->
+  // 
+  // 1)fetch the thing , and 2) provide a return type
+
+  // 1--> fetching, fetch the thing if 403 then update the jwt and refetch it(we do it in the updarejwt func )
+  // 
+  // <--
+
+  // logging the state for the debugging 
+  console.log(param);
+  
+
+  let token = await getItemAsync("JWT")
+  let [err, JWT_value_from_store] = tryCatchFn(()=>{JSON.parse(token)})
+  if(err){
+    Alert.alert("Fatal error","Can't parse jwt tokens")
+    return
+  }
+  let access_token = JWT_value_from_store.access
+
+
+
+
+
+
+
 }
