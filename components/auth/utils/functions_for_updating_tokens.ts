@@ -1,4 +1,5 @@
 import JWTStore from "@/app/store";
+import { factory_for_http_req_body_and_head } from "@/components/helperfunc";
 import axios from "axios";
 import {  useRouter } from "expo-router";
 import { deleteItemAsync, getItem, getItemAsync, setItem } from "expo-secure-store";
@@ -57,7 +58,7 @@ export default async function UpdateJWT (setJWTTokens, refetch ){
 
 // ------------------------------------------------------------------------------------------
 
-type httpMethodType = "GET" | "PUT" | "POST" | "DELETE";
+export type httpMethodType = "GET" | "PUT" | "POST" | "DELETE";
 export type queryFunctionParamType = { URLPath_DoNoT_Include_BackSlash:string, setMakeARequestWithReactQuery:React.Dispatch<React.SetStateAction<boolean>>,
    setResponseOrHeadersFromAUseStateFunc, prompt_for_the_body_do_Not_JSON_stringify:Object,
     httpMethodType:httpMethodType
@@ -71,6 +72,7 @@ export type queryFunctionParamType = { URLPath_DoNoT_Include_BackSlash:string, s
       
    
     try {
+
       var fetchOptions: RequestInit = {
         method: param.httpMethodType,
         headers: {
@@ -143,17 +145,25 @@ async function QueryFunction2(param: queryFunctionParamType) {
   
 
   let token = await getItemAsync("JWT")
+
   let [err, JWT_value_from_store] = tryCatchFn(()=>{JSON.parse(token)})
+
   if(err){
     Alert.alert("Fatal error","Can't parse jwt tokens")
     return
   }
   let access_token = JWT_value_from_store.access
 
+  let [error, JWT_value_from_storeprompt_for_the_body_that_is_stringified] = tryCatchFn(()=>JSON.stringify(param.prompt_for_the_body_do_Not_JSON_stringify))
+  
+  if(err){
+    Alert.alert("error","Can't stringify the prompt")
+    return
+  }
 
+  let requestObj:RequestInit = factory_for_http_req_body_and_head(param.httpMethodType, access_token, JWT_value_from_storeprompt_for_the_body_that_is_stringified)
 
-
-
-
+  const [error_1, stringifiedResult, data] = await tryCatchAsyncForFetch(() => fetch(`${process.env.EXPO_PUBLIC_BACKEND_URL}/${param.URLPath_DoNoT_Include_BackSlash}`, requestObj));
+    
 
 }
