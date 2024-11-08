@@ -83,7 +83,7 @@ QueryFunction2({
   URLPath_DoNoT_Include_BackSlash: "temp_website", // Adjust path as needed
   setMakeARequestWithReactQuery: setMakeARequestForTempProject,
   setResponseOrHeadersFromAUseStateFunc: setResponnseJSONForTempSite,
-  prompt_for_the_body_do_Not_JSON_stringify: { prompt: inputText }, // Body data example
+  prompt_for_the_body_do_Not_JSON_stringify: { prompt: "a pretty pink website" }, // Body data example
   httpMethodType: "POST",
 });
 

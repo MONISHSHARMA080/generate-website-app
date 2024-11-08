@@ -1,26 +1,30 @@
-
-function tryCatchFn(fn: () => any): [Error, any] {
-
-  let return_val_of_func: any
-
+export function tryCatchFn<T>(fn: () => T): [Error | null, T | null] {
   try {
-    return_val_of_func = fn()
-    return [null, return_val_of_func]
-
-  } catch (error) {
-    console.log("error occurred in the tryCatch function \n error is -->", error, "\n <--");
-    return [error, null]
+    const result = fn();
+    return [null, result];
+  } catch (err) {
+      return [err, null]; 
+    
   }
-
 }
+// type ResultForTryCatch<T> = [Error | null, T | null];
 
-let [a, b] = tryCatchFn(() => { JSON.parse("<iucbewiuc>eecb") })
-setTimeout(() => console.log("value of the result is ", b), 3000
-)
+// // Generic function that infers the return type of the passed function
+// export function tryCatchFn<T>(fn: () => T): ResultForTryCatch<T> {
+//   try {
+//     const result = fn();
+//     return [null, result];
+//   } catch (error) {
+//     console.log("error occurred in the tryCatch function \n error is -->", error, "\n <--");
+//     return [error instanceof Error ? error : new Error(String(error)), null];
+//   }
+// }
+
+
 
 type Result<T> = Promise<[Error | null, any]>;
 
-async function tryCatchAsync<T>(fn: () => Promise<T>): Result<T> {
+export async function tryCatchAsync<T>(fn: () => Promise<T>): Result<T> {
   try {
     const result = await fn();
     return [null, result];
@@ -30,23 +34,28 @@ async function tryCatchAsync<T>(fn: () => Promise<T>): Result<T> {
   }
 }
 
-type ResultFromFetch<T> = Promise<[Error | null, string, Response]>;
+type ResultFromFetch<T> = Promise<[Error | null, string, Response, Object|null]>;
 
 
-async function tryCatchAsyncForFetch<T>(fn: () => Promise<Response> ): ResultFromFetch<T> {
+export async function tryCatchAsyncForFetch<T>(fn: () => Promise<Response> ): ResultFromFetch<T> {
   // implement the fetch and trycatch for the JSON.stringify() 
   try {
     const result = await fn();
     const [stringifyError, stringified] = tryCatchFn(() => JSON.stringify(result));
 
     if (stringifyError) {
-      return [new Error(`Failed to stringify response: ${stringifyError.message}`), null, result];
+      return [stringifyError, null, result, null];
     }
+
+    let [error,body_object] = await tryCatchAsync(()=>{return result.json()})
+   if(error){
+    return [stringifyError, stringified, result, null];
+  }
     
-    return [null, stringified, result];
+    return [null, stringified, result, body_object];
   } catch (error) {
     console.log("Error occurred in the tryCatchAsync function \n error is -->", error, "\n <--");
-    return [error, null, null];
+    return [error, null, null, null];
   }
 
 }

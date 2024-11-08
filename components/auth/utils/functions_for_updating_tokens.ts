@@ -1,5 +1,6 @@
 import JWTStore from "@/app/store";
 import { factory_for_http_req_body_and_head } from "@/components/helperfunc";
+import { tryCatchAsyncForFetch, tryCatchFn } from "@/err_as_value";
 import axios from "axios";
 import {  useRouter } from "expo-router";
 import { deleteItemAsync, getItem, getItemAsync, setItem } from "expo-secure-store";
@@ -129,29 +130,51 @@ export type queryFunctionParamType = { URLPath_DoNoT_Include_BackSlash:string, s
   
       }  }
         
-
+    type JWT = {
+        access: string;
+        refresh: string;
+    };
 export async function QueryFunction2(param: queryFunctionParamType) {
   // tryCatchAsyncForFetch
   // what will I do here -->
   // 
-  // 1)fetch the thing , and 2) provide a return type
+  // 1)fetch the thing , and 2) provide a return type to the func
 
   // 1--> fetching, fetch the thing if 403 then update the jwt and refetch it(we do it in the updarejwt func )
   // 
   // <--
 
   // logging the state for the debugging 
-  console.log(param);
+  
+  console.log("state of input params-->",param);
   
 
-  let token = await getItemAsync("JWT")
+  let token =  getItem("JWT")
+  console.log("token's type --",typeof token);
+  
+  console.log("token is  ",token);
+  // let a 
+  // try{
+  //   a = JSON.parse(token)
+  // }catch(e){
+  //   console.log("error is ",e);
+  //   a = ""
+    
+  // }
+  // console.log("a is ",a, "  \n and a's  type is ", typeof a);
+  
+  
 
-  let [err, JWT_value_from_store] = tryCatchFn(()=>{JSON.parse(token)})
+  let [err, JWT_value_from_store] = tryCatchFn<JWT>(()=>{ return JSON.parse(token)})
 
   if(err){
     Alert.alert("Fatal error","Can't parse jwt tokens")
+    console.log("error getting the jwt");
+    
     return
   }
+  console.log("JWT_value_from_store -->",JWT_value_from_store);
+  
   let access_token = JWT_value_from_store.access
 
   let [error, JWT_value_from_storeprompt_for_the_body_that_is_stringified] = tryCatchFn(()=>JSON.stringify(param.prompt_for_the_body_do_Not_JSON_stringify))
@@ -163,12 +186,12 @@ export async function QueryFunction2(param: queryFunctionParamType) {
 
   let requestObj:RequestInit = factory_for_http_req_body_and_head(param.httpMethodType, access_token, JWT_value_from_storeprompt_for_the_body_that_is_stringified)
 
-  const [error_1, stringifiedResult, data] = await tryCatchAsyncForFetch(() => fetch(`${process.env.EXPO_PUBLIC_BACKEND_URL}/${param.URLPath_DoNoT_Include_BackSlash}`, requestObj));
+  const [error_1, stringifiedResult, data, body_object] = await tryCatchAsyncForFetch(() => fetch(`${process.env.EXPO_PUBLIC_BACKEND_URL}/${param.URLPath_DoNoT_Include_BackSlash}`, requestObj));
     if (error_1){
       Alert.alert("error","problem in fetching")
       return
     }
-console.log(stringifiedResult,"\n---->\n",data);
+  console.log("stringifiedResult-->",stringifiedResult,"\n---->\n",data, "body of the request -->", body_object);
 
 
 }
