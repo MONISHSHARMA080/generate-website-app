@@ -12,12 +12,26 @@ import { router } from 'expo-router';
 import { getItem } from 'expo-secure-store';
 import JWTStore from '@/app/store';
 import { Snackbar } from 'react-native-paper';
+import { QueryFunction2 } from './utils/functions_for_updating_tokens';
 
 
 
 const SignInScreen = () => {
   const setJWT = JWTStore((state) => state.setJWT)
   // console.log("url ->",process.env.EX PO_PUBLIC_BACKEND_URL); 
+
+  const [responnseJSONForTempSite , setResponnseJSONForTempSite] = useState(null)
+  const [makeARequestForTempProject , setMakeARequestForTempProject] = useState(false)
+
+
+  QueryFunction2({
+    URLPath_DoNoT_Include_BackSlash: "temp_website", // Adjust path as needed
+    setMakeARequestWithReactQuery: setMakeARequestForTempProject,
+    setResponseOrHeadersFromAUseStateFunc: setResponnseJSONForTempSite,
+    prompt_for_the_body_do_Not_JSON_stringify: { prompt: "cjceuciowec" }, // Body data example
+    httpMethodType: "POST",
+  });
+  
   
 
     const [showpassword , setShowPassword] = useState(false)

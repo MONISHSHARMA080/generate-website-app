@@ -9,7 +9,7 @@ import { Modal as ModalFromRNPaper, Portal,Button as ButtonFromRNPaper, Snackbar
 //   import axios, { AxiosError } from 'axios';
 // import axiosInstance from "../auth/utils/new_tokens_auth";
 import { useQuery } from "@tanstack/react-query";
-import  { QueryFunction } from "../auth/utils/functions_for_updating_tokens";
+import  { QueryFunction, QueryFunction2 } from "../auth/utils/functions_for_updating_tokens";
 import { alert_user_for_common__errors_from_backend_given_by_Rquery } from "../auth/utils/func_to_alert_user_for_common_querystatus_and_message_to_displa";
 import function_to_make_react_query_request from "../auth/utils/function_to_make_react_query_request";
 import * as Linking from 'expo-linking';
@@ -76,9 +76,16 @@ export default function HomeScreen() {
         transform: [{ translateX: modalTranslateX.value }],
       };
     });
-
     
 const {data, isSuccess, status, refetch, isLoading} = reactQueryMakeAReq('temp_website',makeARequestForTempProject, setMakeARequestForTempProject, setResponnseJSONForTempSite, {prompt: inputText}, setJWT , "POST" )
+
+QueryFunction2({
+  URLPath_DoNoT_Include_BackSlash: "temp_website", // Adjust path as needed
+  setMakeARequestWithReactQuery: setMakeARequestForTempProject,
+  setResponseOrHeadersFromAUseStateFunc: setResponnseJSONForTempSite,
+  prompt_for_the_body_do_Not_JSON_stringify: { prompt: inputText }, // Body data example
+  httpMethodType: "POST",
+});
 
 useEffect(()=>{console.log("\n\n ============================||----||data from the query fucntion============================||------||" , "\n\n-->>",(responnseJSONForTempSite?responnseJSONForTempSite:"") );
   // let data = temp_website.data

@@ -130,7 +130,7 @@ export type queryFunctionParamType = { URLPath_DoNoT_Include_BackSlash:string, s
       }  }
         
 
-async function QueryFunction2(param: queryFunctionParamType) {
+export async function QueryFunction2(param: queryFunctionParamType) {
   // tryCatchAsyncForFetch
   // what will I do here -->
   // 
@@ -164,6 +164,11 @@ async function QueryFunction2(param: queryFunctionParamType) {
   let requestObj:RequestInit = factory_for_http_req_body_and_head(param.httpMethodType, access_token, JWT_value_from_storeprompt_for_the_body_that_is_stringified)
 
   const [error_1, stringifiedResult, data] = await tryCatchAsyncForFetch(() => fetch(`${process.env.EXPO_PUBLIC_BACKEND_URL}/${param.URLPath_DoNoT_Include_BackSlash}`, requestObj));
-    
+    if (error_1){
+      Alert.alert("error","problem in fetching")
+      return
+    }
+console.log(stringifiedResult,"\n---->\n",data);
+
 
 }

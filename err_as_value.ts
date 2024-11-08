@@ -30,7 +30,7 @@ async function tryCatchAsync<T>(fn: () => Promise<T>): Result<T> {
   }
 }
 
-type ResultFromFetch<T> = Promise<[Error | null, string, any]>;
+type ResultFromFetch<T> = Promise<[Error | null, string, Response]>;
 
 
 async function tryCatchAsyncForFetch<T>(fn: () => Promise<Response> ): ResultFromFetch<T> {
