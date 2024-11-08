@@ -134,14 +134,17 @@ export type queryFunctionParamType = { URLPath_DoNoT_Include_BackSlash:string, s
         access: string;
         refresh: string;
     };
-export async function QueryFunction2(param: queryFunctionParamType) {
+
+
+export async function QueryFunction2(param: queryFunctionParamType)  {
   // tryCatchAsyncForFetch
   // what will I do here -->
   // 
   // 1)fetch the thing , and 2) provide a return type to the func
 
-  // 1--> fetching, fetch the thing if 403 then update the jwt and refetch it(we do it in the updarejwt func )
+  // 1--> fetching, fetch the thing if 403 then throw and error and in reactQueryMakeAReq run (make a func to update the jwt)  update the jwt and refetch it(we do it in the updarejwt func )
   // 
+  // for the preformance reasons check the code if it is 200 or 201 then response.json() .. if not then throw first
   // <--
 
   // logging the state for the debugging 
@@ -153,15 +156,6 @@ export async function QueryFunction2(param: queryFunctionParamType) {
   console.log("token's type --",typeof token);
   
   console.log("token is  ",token);
-  // let a 
-  // try{
-  //   a = JSON.parse(token)
-  // }catch(e){
-  //   console.log("error is ",e);
-  //   a = ""
-    
-  // }
-  // console.log("a is ",a, "  \n and a's  type is ", typeof a);
   
   
 
@@ -192,6 +186,10 @@ export async function QueryFunction2(param: queryFunctionParamType) {
       return
     }
   console.log("stringifiedResult-->",stringifiedResult,"\n---->\n",data, "body of the request -->", body_object);
+  console.log(data.status);
+  
+  param.setResponseOrHeadersFromAUseStateFunc(data)
+  param.setMakeARequestWithReactQuery(false)
 
-
+return {}
 }

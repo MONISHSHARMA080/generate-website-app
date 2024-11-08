@@ -79,13 +79,13 @@ export default function HomeScreen() {
     
 const {data, isSuccess, status, refetch, isLoading} = reactQueryMakeAReq('temp_website',makeARequestForTempProject, setMakeARequestForTempProject, setResponnseJSONForTempSite, {prompt: inputText}, setJWT , "POST" )
 
-QueryFunction2({
-  URLPath_DoNoT_Include_BackSlash: "temp_website", // Adjust path as needed
-  setMakeARequestWithReactQuery: setMakeARequestForTempProject,
-  setResponseOrHeadersFromAUseStateFunc: setResponnseJSONForTempSite,
-  prompt_for_the_body_do_Not_JSON_stringify: { prompt: "a pretty pink website" }, // Body data example
-  httpMethodType: "POST",
-});
+// QueryFunction2({
+//   URLPath_DoNoT_Include_BackSlash: "temp_website", // Adjust path as needed
+//   setMakeARequestWithReactQuery: setMakeARequestForTempProject,
+//   setResponseOrHeadersFromAUseStateFunc: setResponnseJSONForTempSite,
+//   prompt_for_the_body_do_Not_JSON_stringify: { prompt: "a pretty pink website" }, // Body data example
+//   httpMethodType: "POST",
+// });
 
 useEffect(()=>{console.log("\n\n ============================||----||data from the query fucntion============================||------||" , "\n\n-->>",(responnseJSONForTempSite?responnseJSONForTempSite:"") );
   // let data = temp_website.data

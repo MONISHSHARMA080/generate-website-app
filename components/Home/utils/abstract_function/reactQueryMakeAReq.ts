@@ -25,7 +25,27 @@ export default function reactQueryMakeAReq(textForTheNameAndKey:string, makeAReq
       ),
         enabled:makeARequestForGetNameForTheProject,
       })
-      console.log("---------",get_the_name_for_the_project.data);
+    const get_the_name_for_the_project2:UseQueryResult = useQuery({
+        queryKey:[textForTheNameAndKey],
+        // queryFn: ()=>QueryFunction(textForTheNameAndKey,setMakeARequestForGetNameForTheProject,setResponnseJSONForGetNameForTheProject, JSONObject, httpMethod),
+        queryFn: async ()=>{
+          
+          const reuslt = await QueryFunction({
+          URLPath_DoNoT_Include_BackSlash:textForTheNameAndKey,
+          setMakeARequestWithReactQuery:setMakeARequestForGetNameForTheProject,
+          setResponseOrHeadersFromAUseStateFunc:setResponnseJSONForGetNameForTheProject,
+          prompt_for_the_body_do_Not_JSON_stringify:JSONObject,
+          httpMethodType:httpMethod,          
+        }
+      )},
+        enabled:makeARequestForGetNameForTheProject,
+      })
 
+
+
+
+
+      console.log("---------",get_the_name_for_the_project.data);
+      
       return get_the_name_for_the_project
 }
